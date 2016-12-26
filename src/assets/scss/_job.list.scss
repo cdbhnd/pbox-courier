@@ -1,0 +1,28 @@
+.job-list {
+    ul {
+        li {
+            position: relative;
+            padding: 5px;
+            background-color: #1BD0D0 !important;
+            margin-bottom: 10px;
+            cursor: pointer;
+            span {
+                color: #fff !important;
+            }
+        }
+    }
+    .padding {
+        padding: 40px 0;
+    }
+    .job-name {
+        font-size: 25px;
+        color: #ffc900 !important;
+    }
+    .job-button {
+        position: absolute;
+        top: 22px;
+        right: 12px;
+        font-size: 35px;
+        color: #ffc900 !important;
+    }
+}
