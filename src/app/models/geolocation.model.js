@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('pbox')
+        .module('pbox.courier')
         .factory('GeolocationModel', geolocationModelFactory);
 
     /** @ngInject */

@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('pbox.auth')
+        .module('pbox.courier.auth')
         .service('authService', authService);
 
     /** @ngInject */

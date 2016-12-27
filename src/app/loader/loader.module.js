@@ -1,5 +1,5 @@
-(function(){
+(function() {
     'use strict';
     angular
-        .module('pbox.loader',[]);
+        .module('pbox.courier.loader', []);
 })();

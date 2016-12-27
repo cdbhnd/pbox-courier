@@ -2,5 +2,5 @@
     'use strict';
 
     angular
-        .module('pbox.geolocation', []);
+        .module('pbox.courier.geolocation', []);
 })();

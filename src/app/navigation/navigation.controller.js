@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('pbox.nav')
+        .module('pbox.courier.nav')
         .controller('navController', navController);
 
     /** @ngInject */

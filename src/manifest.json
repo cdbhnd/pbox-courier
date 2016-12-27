@@ -1,11 +1,11 @@
 {
-  "name": "PBOX Mobile App",
-  "short_name": "pbox",
-  "start_url": "index.html",
-  "display": "standalone",
-  "icons": [{
-    "src": "icon.png",
-    "sizes": "512x512",
-    "type": "image/png"
-  }]
+    "name": "PBOX Courier Mobile App",
+    "short_name": "pbox courier",
+    "start_url": "index.html",
+    "display": "standalone",
+    "icons": [{
+        "src": "icon.png",
+        "sizes": "512x512",
+        "type": "image/png"
+    }]
 }

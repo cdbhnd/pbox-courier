@@ -1,6 +1,6 @@
-(function () {
+(function() {
     angular
-        .module('pbox.loader')
+        .module('pbox.courier.loader')
         .service('pboxLoader', pboxLoader);
 
     function pboxLoader($ionicLoading) {

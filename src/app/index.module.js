@@ -4,17 +4,17 @@
     // Ionic PBOX App
 
     // angular.module is a global place for creating, registering and retrieving Angular modules
-    // 'pbox' is the name of this angular module example (also set in a <body> attribute in index.html)
+    // 'pbox.courier' is the name of this angular module example (also set in a <body> attribute in index.html)
     // the 2nd parameter is an array of 'requires'
-    angular.module('pbox', ['angularMoment',
+    angular.module('pbox.courier', ['angularMoment',
             'ionic',
             'ngCordova',
             'ngStorage',
-            'pbox.geolocation',
-            'pbox.api',
-            'pbox.auth',
-            'pbox.loader',
-            'pbox.nav'
+            'pbox.courier.geolocation',
+            'pbox.courier.api',
+            'pbox.courier.auth',
+            'pbox.courier.loader',
+            'pbox.courier.nav'
         ])
         .run(function($rootScope, $state, $ionicPlatform, geolocationService, authService) {
             $ionicPlatform.ready(function() {

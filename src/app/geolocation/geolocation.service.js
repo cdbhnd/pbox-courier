@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('pbox.geolocation')
+        .module('pbox.courier.geolocation')
         .service('geolocationService', geolocationService);
 
     /** @ngInject */
@@ -17,9 +17,9 @@
         //////////////////////////////
 
         function init() {
-            var posOptions = { 
-                timeout: 10000, 
-                enableHighAccuracy: false 
+            var posOptions = {
+                timeout: 10000,
+                enableHighAccuracy: false
             };
             $cordovaGeolocation
                 .getCurrentPosition(posOptions)

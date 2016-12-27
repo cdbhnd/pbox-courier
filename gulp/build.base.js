@@ -101,7 +101,7 @@
             ])
             .pipe(preprocess({ context: { ENV: _ENV, ENV_CONFIG: _ENV_CONFIG, DEBUG: (_ENV == config.environments.DEVELOPMENT) } }))
             .pipe(templateCache('templateCache.js', {
-                module: 'pbox',
+                module: 'pbox.courier',
                 root: 'app'
             }))
             .pipe(gulp.dest(config.paths.tmp + '/templateCache/'));

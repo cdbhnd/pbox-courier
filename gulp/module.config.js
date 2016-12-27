@@ -2,6 +2,6 @@
     'use strict';
 
     angular
-        .module('pbox')
+        .module('pbox.courier')
         .constant('config', /* @echo FOO */ );
 }());

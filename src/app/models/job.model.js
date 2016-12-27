@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('pbox')
+        .module('pbox.courier')
         .factory('JobModel', jobModelFactory);
 
     /** @ngInject */
