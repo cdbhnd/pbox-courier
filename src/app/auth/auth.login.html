@@ -1,0 +1,21 @@
+<div class="padding-top" ng-controller="authController as vm">
+    <ion-list>
+        <ion-item>
+            <label class="item item-input">
+                <span class="input-label">Username</span>
+                <input type="text" ng-model="vm.user.username">
+            </label>
+        </ion-item>
+        <ion-item>
+            <label class="item item-input">
+                <span class="input-label">Password</span>
+                <input type="password" ng-model="vm.user.password">
+            </label>
+        </ion-item>
+        <ion-item>
+            <div>
+                <button ion-button full ng-click="vm.loginUser()">Sign In</button>
+            </div>
+        </ion-item>
+    </ion-list>
+</div>
