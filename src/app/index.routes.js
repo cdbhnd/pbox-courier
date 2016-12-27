@@ -15,7 +15,12 @@
                 })
                 .state('jobs', {
                     url: '/jobs',
-                    templateUrl: 'app/job/jobs.html'
+                    templateUrl: 'app/job/jobs.html',
+                    controller: 'jobsController',
+                    controllerAs: 'vm',
+                    data: {
+                        disableBack: true
+                    }
                 })
 
             $urlRouterProvider.otherwise('/');

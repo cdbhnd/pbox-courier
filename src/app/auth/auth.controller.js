@@ -6,14 +6,11 @@
         .controller('authController', authController);
 
     /** @ngInject */
-    function authController($state, $ionicPopup, pboxLoader, authService) {
+    function authController($state, $ionicPopup, pboxLoader, authService, UserModel) {
 
         var vm = this;
 
-        vm.user = {
-            username: '',
-            password: ''
-        }
+        vm.user = new UserModel();
 
         vm.loginUser = loginUser;
 

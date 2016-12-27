@@ -1,3 +1,14 @@
-<div class="padding-top">
-    JOBS!!!!!
-</div>
+<ion-view>
+    <ion-content padding="true" class="has-header job-list">
+        <ul>
+            <li ng-repeat="j in vm.jobs track by $index">
+                <span class="job-name">Job {{$index + 1}}</span>
+                <br>
+                <span>Size: {{j.size}}</span>
+                <br>
+                <span>Job created: {{j.createdAt | amDateFormat: 'DD/MM/YYYY [at] hA'}}</span>
+                <span class="job-button">></span>
+            </li>
+        </ul>
+    </ion-content>
+</ion-view>

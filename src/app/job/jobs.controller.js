@@ -6,16 +6,38 @@
         .controller('jobsController', jobsController);
 
     /** @ngInject */
-    function jobsController() {
+    function jobsController($ionicPopup, jobService, pboxLoader) {
 
         var vm = this;
 
         /////////////////////////////////////
 
-        (function activate() {}());
+        (function activate() {
+            loadJobs();
+        }());
 
         /////////////////////////////////////
 
+        function loadJobs() {
+            pboxLoader.loaderOn();
+            return jobService.getAll()
+                .then(function(response) {
+                    vm.jobs = response;
+                    if (response.length == 0) {
+                        $ionicPopup.alert({
+                            title: 'There is no available jobs in your area!',
+                            template: '',
+                            buttons: [{
+                                text: 'OK',
+                                type: 'button-energized'
+                            }]
+                        });
+                    }
+                })
+                .finally(function() {
+                    pboxLoader.loaderOff();
+                });
+        }
 
     }
 })();
