@@ -41,7 +41,8 @@
                     url: config.pboxAPI.TOKEN,
                     data: {
                         username: username,
-                        password: password
+                        password: password,
+                        type: 3
                     }
                 })
                 .then(function(data) {

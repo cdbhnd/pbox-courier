@@ -6,12 +6,16 @@
         .config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
 
             $stateProvider
-                .state('hello', {
+                .state('login', {
                     url: '/',
-                    templateUrl: 'app/navigation/hello.html',
+                    templateUrl: 'app/auth/auth.login.html',
                     data: {
                         disableBack: true
                     }
+                })
+                .state('jobs', {
+                    url: '/jobs',
+                    templateUrl: 'app/job/jobs.html'
                 })
 
             $urlRouterProvider.otherwise('/');
