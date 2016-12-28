@@ -14,7 +14,10 @@
         function getAllJobs() {
             return pboxApi.http({
                     method: config.httpMethods.GET,
-                    url: config.pboxAPI.JOBS
+                    url: config.pboxAPI.JOBS,
+                    params: {
+                        "status": config.jobStatus.PENDING
+                    }
                 })
                 .then(function(response) {
                     var jobs = [];

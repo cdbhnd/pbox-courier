@@ -10,6 +10,7 @@
                     url: '/',
                     templateUrl: 'app/auth/auth.login.html',
                     data: {
+                        disableMenu: true,
                         disableBack: true
                     }
                 })

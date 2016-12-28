@@ -6,38 +6,58 @@
         .controller('jobsController', jobsController);
 
     /** @ngInject */
-    function jobsController($ionicPopup, jobService, pboxLoader) {
+    function jobsController($scope, $q, $timeout, $ionicPopup, jobService, pboxLoader, pboxAlert) {
 
         var vm = this;
+
+        vm.refreshList = refreshList;
 
         /////////////////////////////////////
 
         (function activate() {
-            loadJobs();
+            startLoading()
+                .then(loadJobs)
+                .then(pollJobs)
+                .finally(stopLoading);
         }());
 
         /////////////////////////////////////
 
         function loadJobs() {
-            pboxLoader.loaderOn();
             return jobService.getAll()
                 .then(function(response) {
                     vm.jobs = response;
                     if (response.length == 0) {
-                        $ionicPopup.alert({
-                            title: 'There is no available jobs in your area!',
-                            template: '',
-                            buttons: [{
-                                text: 'OK',
-                                type: 'button-energized'
-                            }]
-                        });
+                        pboxAlert.alert('There is no available jobs in your area!');
                     }
-                })
-                .finally(function() {
-                    pboxLoader.loaderOff();
                 });
         }
 
+        function pollJobs() {
+            $timeout(function() {
+                console.log('poll');
+                loadJobs()
+                    .then(pollJobs);
+            }, 300000);
+        }
+
+        function startLoading() {
+            return $q.when(function() {
+                pboxLoader.loaderOn();
+            });
+        }
+
+        function stopLoading() {
+            return $q.when(function() {
+                pboxLoader.loaderOff();
+            });
+        }
+
+        function refreshList() {
+            loadJobs()
+                .then(function() {
+                    $scope.$broadcast('scroll.refreshComplete');
+                });
+        }
     }
 })();

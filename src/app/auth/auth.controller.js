@@ -6,7 +6,7 @@
         .controller('authController', authController);
 
     /** @ngInject */
-    function authController($state, $ionicPopup, pboxLoader, authService, UserModel) {
+    function authController($state, $localStorage, pboxLoader, pboxAlert, authService, UserModel) {
 
         var vm = this;
 
@@ -16,55 +16,47 @@
 
         /////////////////////////////////////
 
-        (function activate() {}());
+        (function activate() {
+            tryRedirect();
+        }());
 
         /////////////////////////////////////
 
         function loginUser() {
             if (vm.user.username && vm.user.password) {
                 pboxLoader.loaderOn();
-                return authService.login(vm.user.username, vm.user.password)
+                login()
                     .then(function(response) {
                         $state.go('jobs');
                     })
                     .catch(function(e) {
                         if (e.status === 401) {
-                            $ionicPopup.alert({
-                                title: 'Wrong username or password!',
-                                template: '',
-                                buttons: [{
-                                    text: 'OK',
-                                    type: 'button-energized'
-                                }]
-                            });
+                            pboxAlert.alert('Wrong username or password!');
                         }
                         if (e.status === 500) {
-                            $ionicPopup.alert({
-                                title: 'Something went wrong, please try leater!',
-                                template: '',
-                                buttons: [{
-                                    text: 'OK',
-                                    type: 'button-energized'
-                                }]
-                            });
+                            pboxAlert.alert('Something went wrong, please try leater!');
                         }
                     })
                     .finally(function() {
                         pboxLoader.loaderOff();
                     });
             } else {
-                if (!vm.user.username || vm.user.password) {
-                    $ionicPopup.alert({
-                        title: 'Username or password is missing!',
-                        template: '',
-                        buttons: [{
-                            text: 'OK',
-                            type: 'button-energized'
-                        }]
-                    });
+                if (!vm.user.username || !vm.user.password) {
+                    pboxAlert.alert('Username or password is missing!');
                 }
             }
         }
 
+        ////////////////////////////////////////////////////
+
+        function tryRedirect() {
+            if ($localStorage.current_user) {
+                $state.go('jobs');
+            }
+        }
+
+        function login() {
+            return authService.login(vm.user.username, vm.user.password)
+        }
     }
 })();
