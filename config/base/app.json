@@ -10,5 +10,12 @@
         "POST": "POST",
         "PUT": "PUT",
         "DELETE": "DELETE"
+    },
+    "jobStatus": {
+        "PENDING": "PENDING",
+        "ACCEPTED": "ACCEPTED",
+        "IN_PROGRESS": "IN_PROGRESS",
+        "CANCELED": "CANCELED",
+        "COMPLETED": "COMPLETED"
     }
 }

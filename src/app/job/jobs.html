@@ -1,3 +1,15 @@
-<div class="padding-top">
-    JOBS!!!!!
-</div>
+<ion-view>
+    <ion-content padding="true" class="has-header job-list">
+        <ion-refresher pulling-text="Pull to refresh..." on-refresh="vm.refreshList()">
+        </ion-refresher>
+        <ion-list>
+            <ion-item ng-repeat="j in vm.jobs track by $index">
+                <span class="job-name">Job {{$index + 1}}</span>
+                <br>
+                <span>Size: {{j.size}}</span>
+                <br>
+                <span>Job created: {{j.createdAt | amDateFormat: 'DD/MM/YYYY [at] hA'}}</span>
+            </ion-item>
+        </ion-list>
+    </ion-content>
+</ion-view>
