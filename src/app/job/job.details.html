@@ -1,0 +1,20 @@
+<ion-view>
+    <ion-content padding="true" class="has-header job-list">
+        <ion-list>
+            <ion-item>
+               <span>Name  {{vm.job.name}}</span>
+            </ion-item>
+            <ion-item>
+               <span>Owner  {{vm.job.owner}}</span>
+            </ion-item>
+            <ion-item>
+               <span>Status  {{vm.job.status}}</span>
+            </ion-item>
+            <ion-item>
+                <div>
+                    <button ion-button full ng-click="vm.cancelJob()">Sign In</button>
+                </div>
+            </ion-item>
+        </ion-list>
+    </ion-content>
+</ion-view>z
