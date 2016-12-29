@@ -1,9 +1,9 @@
-(function() {
+(function () {
     'use strict';
 
     angular
         .module('pbox.courier')
-        .config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
+        .config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
 
             $stateProvider
                 .state('login', {
@@ -22,6 +22,12 @@
                     data: {
                         disableBack: true
                     }
+                })
+                .state('jobDetails', {
+                    url: '/jobs/{jobId}',
+                    templateUrl: 'app/job/job.details.html',
+                    controller: 'jobDetailsController',
+                    controllerAs: 'vm'
                 })
 
             $urlRouterProvider.otherwise('/');
