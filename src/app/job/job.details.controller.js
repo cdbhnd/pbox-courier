@@ -40,16 +40,28 @@
         }
 
         function cancelJob() {
-            jobService.updateJob($stateParams.jobId, {
-                "status": "CANCELED"
-            })
-            .then(function(response){
-                pboxAlert.alert('Job canceled!');
-                vm.job = response;
-            })
-            .catch(function(err){
-                pboxAlert.alert('Job could not be canceled!');
+            var confirmPopup = $ionicPopup.confirm({
+                title: 'PBox',
+                template: 'Are you sure you want to cancel this job?'
             });
+
+            confirmPopup.then(function (res) {
+                if (res) {
+                    jobService.updateJob($stateParams.jobId, {
+                        "status": "CANCELED"
+                    })
+                    .then(function (response) {
+                        pboxAlert.alert('Job canceled!');
+                        vm.job = response;
+                    })
+                    .catch(function (err) {
+                        pboxAlert.alert('Job could not be canceled!');
+                    });
+                } else {
+                   
+                }
+            });
+            
         }
 
         function startLoading() {
