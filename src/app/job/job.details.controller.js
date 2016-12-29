@@ -6,12 +6,13 @@
         .controller('jobDetailsController', jobDetailsController);
 
     /** @ngInject */
-    function jobDetailsController($scope, $q, $timeout, $ionicPopup, jobService, pboxLoader, pboxAlert, $stateParams) {
+    function jobDetailsController($scope, $q, $timeout, $ionicPopup, jobService, pboxLoader, pboxAlert, $stateParams, $state) {
 
         var vm = this;
 
         // public methods
         vm.cancelJob = cancelJob;
+        vm.unassignFromJob = unassignFromJob;
 
         //variables and properties
         vm.job = null;
@@ -62,6 +63,30 @@
                 }
             });
             
+        }
+
+        function unassignFromJob() {
+            var confirmPopup = $ionicPopup.confirm({
+                title: 'PBox',
+                template: 'Are you sure you want to unassing from this job?'
+            });
+
+            confirmPopup.then(function (res) {
+                if (res) {
+                    jobService.updateJob($stateParams.jobId, {
+                        "courierId": ""
+                    })
+                    .then(function (response) {
+                        pboxAlert.alert(' You have unassinged from job !');
+                        $state.go('my-jobs');
+                    })
+                    .catch(function (err) {
+                        pboxAlert.alert('Operation failed!');
+                    });
+                } else {
+                   
+                }
+            });
         }
 
         function startLoading() {
