@@ -31,8 +31,10 @@
                 })
                 .state('job-details', {
                     url: '/jobs/{jobId}',
-                    templateUrl: 'app/job/job.details.html'
-                })
+                    templateUrl: 'app/job/job.details.html',
+                    controller: 'jobDetailsController',
+                    controllerAs: 'vm'
+                });
 
             $urlRouterProvider.otherwise('/');
         }]);

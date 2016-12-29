@@ -9,6 +9,7 @@
 
         service.get = getJobs;
         service.accept = acceptJob;
+        service.update = updateJob;
 
         ///////////////////////////////////////////
 
@@ -31,6 +32,19 @@
                 });
         }
 
+        function getJob(jobId) {
+            return pboxApi.http({
+                    method: config.httpMethods.GET,
+                    url: config.pboxAPI.JOBS,
+                    params: {
+                        "id": jobId
+                    }
+                })
+                .then(function(response) {
+                    return response[0];
+                });
+        }
+
         function acceptJob(selectedJob, courier) {
             return pboxApi.http({
                 method: config.httpMethods.PUT,
@@ -41,6 +55,15 @@
             });
         }
 
+        function updateJob(jobId, query) {
+            return pboxApi.http({
+                    method: config.httpMethods.PUT,
+                    url: config.pboxAPI.JOBS + '/' + jobId,
+                    data: query
+                })
+                .then(function(response) {
+                    return response;
+                });
+        }
     }
-
 })();
