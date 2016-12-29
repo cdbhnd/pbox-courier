@@ -12,7 +12,6 @@
 
         var user = new UserModel($localStorage.current_user);
         vm.jobs = [];
-        vm.myJobs = [];
 
         vm.refreshList = refreshList;
         vm.selectJob = selectJob;
@@ -20,12 +19,10 @@
         /////////////////////////////////////
 
         (function activate() {
-            startLoading()
+            pboxLoader.loaderOn()
                 .then(loadJobs)
                 .then(pollJobs)
-                .then(findMyJobs)
                 .finally(stopLoading);
-            console.dir(vm);
         }());
 
         /////////////////////////////////////
@@ -42,8 +39,6 @@
                 .then(function(response) {
                     if (response) {
                         acceptJob(job.id, user.id);
-                    } else {
-                        console.log('no');
                     }
                 });
         }
@@ -51,7 +46,9 @@
         ////////////////////////////////////
 
         function loadJobs() {
-            return jobService.getAll()
+            return jobService.get({
+                    status: 'PENDING'
+                })
                 .then(function(response) {
                     vm.jobs = response;
                     if (response.length == 0) {
@@ -76,25 +73,16 @@
                 });
         }
 
-        function findMyJobs() {
-            for (var i = 0; i < vm.jobs.length; i++) {
-                if (vm.jobs[i].courierId == user.id) {
-                    vm.myJobs.push(vm.jobs[i]);
-                }
-            }
-        }
-
         function startLoading() {
             return $q.when(function() {
                 pboxLoader.loaderOn();
-            });
+            }());
         }
 
         function stopLoading() {
             return $q.when(function() {
                 pboxLoader.loaderOff();
-            });
+            }());
         }
-
     }
 })();

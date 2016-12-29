@@ -3,15 +3,7 @@
         <ion-refresher pulling-text="Pull to refresh..." on-refresh="vm.refreshList()">
         </ion-refresher>
         <ion-list>
-            <ion-item ng-repeat="j in vm.myJobs track by $index">
-                <span class="job-name">Job {{$index + 1}}</span>
-                <br>
-                <span>Size: {{j.size}}</span>
-                <br>
-                <span>Job created: {{j.createdAt | amDateFormat: 'DD/MM/YYYY [at] hA'}}</span>
-                <br>
-                <span>Status: {{j.status}}</span>
-            </ion-item>
+            <ion-item ng-repeat="j in vm.jobs track by $index" ng-click="vm.openJob(j)" ng-include="'app/job/job.item.html'"></ion-item>
         </ion-list>
     </ion-content>
 </ion-view>

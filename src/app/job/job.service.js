@@ -7,18 +7,16 @@
 
         var service = this;
 
-        service.getAll = getAllJobs;
+        service.get = getJobs;
         service.accept = acceptJob;
 
         ///////////////////////////////////////////
 
-        function getAllJobs() {
+        function getJobs(query) {
             return pboxApi.http({
                     method: config.httpMethods.GET,
                     url: config.pboxAPI.JOBS,
-                    params: {
-                        "status": config.jobStatus.PENDING
-                    }
+                    params: query
                 })
                 .then(function(response) {
                     var jobs = [];
