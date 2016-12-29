@@ -19,6 +19,7 @@
                     templateUrl: 'app/job/jobs.html',
                     controller: 'jobsController',
                     controllerAs: 'vm',
+                    cache: false,
                     data: {
                         disableBack: true
                     }
@@ -27,7 +28,8 @@
                     url: '/my-jobs',
                     templateUrl: 'app/job/my.jobs.html',
                     controller: 'myJobsController',
-                    controllerAs: 'vm'
+                    controllerAs: 'vm',
+                    cache: false
                 })
                 .state('job-details', {
                     url: '/jobs/{jobId}',
