@@ -6,13 +6,14 @@
         .controller('jobDetailsController', jobDetailsController);
 
     /** @ngInject */
-    function jobDetailsController($scope, $q, $timeout, $ionicPopup, jobService, pboxLoader, pboxAlert, $stateParams, $state) {
+    function jobDetailsController($scope, $q, $timeout, $ionicPopup, jobService, pboxLoader, pboxPopup, $stateParams, $state) {
 
         var vm = this;
 
         // public methods
         vm.cancelJob = cancelJob;
         vm.unassignFromJob = unassignFromJob;
+        vm.completeJob = completeJob;
 
         //variables and properties
         vm.job = null;
@@ -28,7 +29,7 @@
         /////////////////////////////////////
 
         function loadJob() {
-            return jobService.get($stateParams.jobId)
+            return jobService.getJob($stateParams.jobId)
                 .then(function(response) {
                     vm.job = response;
                     if (!response) {
@@ -50,9 +51,10 @@
                             .then(function(response) {
                                 pboxPopup.alert('Job canceled!');
                                 vm.job = response;
+                                $state.go('my-jobs');
                             })
                             .catch(function(err) {
-                                pboxPopup.alert('Job could not be canceled!');
+                                pboxPopup.alert('Operation failed!');
                             });
                     }
                 });
@@ -66,20 +68,33 @@
 
             confirmPopup.then(function(res) {
                 if (res) {
-                    jobService.updateJob($stateParams.jobId, {
+                    jobService.update($stateParams.jobId, {
                             "courierId": ""
                         })
                         .then(function(response) {
-                            pboxAlert.alert(' You have unassinged from job !');
+                            pboxPopup.alert(' You have unassinged from job !');
                             $state.go('my-jobs');
                         })
                         .catch(function(err) {
-                            pboxAlert.alert('Operation failed!');
+                            pboxPopup.alert('Operation failed!');
                         });
                 } else {
 
                 }
             });
+        }
+
+        function completeJob() {
+            jobService.update($stateParams.jobId, {
+                        "status": "COMPLETED"
+                    })
+                    .then(function (response) {
+                        pboxPopup.alert(' Job set to completed !');
+                        $state.go('my-jobs');
+                    })
+                    .catch(function (err) {
+                        pboxPopup.alert('Operation failed!');
+                    });
         }
 
         function startLoading() {

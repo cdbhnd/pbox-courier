@@ -10,6 +10,7 @@
         service.get = getJobs;
         service.accept = acceptJob;
         service.update = updateJob;
+        service.getJob = getJob;
 
         ///////////////////////////////////////////
 
