@@ -16,6 +16,11 @@
             this.name = obj && obj.name ? obj.name : null;
             this.owner = obj && obj.owner ? obj.owner : null;
             this.createdAt = obj && obj.createdAt ? moment(obj.createdAt) : null;
+            this.courierId = obj && obj.courierId ? obj.courierId : null;
+            this.destionation = obj && obj.destionation ? obj.destionation : null;
+            this.receiverName = obj && obj.receiverName ? obj.receiverName : null;
+            this.receiverPhone = obj && obj.receiverPhone ? obj.receiverPhone : null;
+            this.box = obj && obj.box ? obj.box : null;
         }
         return JobModel;
     }

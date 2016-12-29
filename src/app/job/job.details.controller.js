@@ -28,41 +28,34 @@
         /////////////////////////////////////
 
         function loadJob() {
-            return jobService.getJob($stateParams.jobId)
+            return jobService.get($stateParams.jobId)
                 .then(function(response) {
                     vm.job = response;
                     if (!response) {
-                        pboxAlert.alert('Job could not be found !');
+                        pboxPopup.alert('Job could not be found !');
                     }
                 })
-                .catch(function(err){
-                    pboxAlert.alert('Job could not be found !');
+                .catch(function(err) {
+                    pboxPopup.alert('Job could not be found !');
                 });
         }
 
         function cancelJob() {
-            var confirmPopup = $ionicPopup.confirm({
-                title: 'PBox',
-                template: 'Are you sure you want to cancel this job?'
-            });
-
-            confirmPopup.then(function (res) {
-                if (res) {
-                    jobService.updateJob($stateParams.jobId, {
-                        "status": "CANCELED"
-                    })
-                    .then(function (response) {
-                        pboxAlert.alert('Job canceled!');
-                        vm.job = response;
-                    })
-                    .catch(function (err) {
-                        pboxAlert.alert('Job could not be canceled!');
-                    });
-                } else {
-                   
-                }
-            });
-            
+            pboxPopup.confirm('Are you sure you want to cancel this job?')
+                .then(function(res) {
+                    if (res) {
+                        jobService.update($stateParams.jobId, {
+                                "status": "CANCELED"
+                            })
+                            .then(function(response) {
+                                pboxPopup.alert('Job canceled!');
+                                vm.job = response;
+                            })
+                            .catch(function(err) {
+                                pboxPopup.alert('Job could not be canceled!');
+                            });
+                    }
+                });
         }
 
         function unassignFromJob() {
@@ -71,20 +64,20 @@
                 template: 'Are you sure you want to unassing from this job?'
             });
 
-            confirmPopup.then(function (res) {
+            confirmPopup.then(function(res) {
                 if (res) {
                     jobService.updateJob($stateParams.jobId, {
-                        "courierId": ""
-                    })
-                    .then(function (response) {
-                        pboxAlert.alert(' You have unassinged from job !');
-                        $state.go('my-jobs');
-                    })
-                    .catch(function (err) {
-                        pboxAlert.alert('Operation failed!');
-                    });
+                            "courierId": ""
+                        })
+                        .then(function(response) {
+                            pboxAlert.alert(' You have unassinged from job !');
+                            $state.go('my-jobs');
+                        })
+                        .catch(function(err) {
+                            pboxAlert.alert('Operation failed!');
+                        });
                 } else {
-                   
+
                 }
             });
         }
