@@ -21,17 +21,17 @@
                     "status": config.jobStatus.PENDING
                 }
             })
-                .then(function (response) {
-                    var jobs = [];
+            .then(function (response) {
+                var jobs = [];
 
-                    if (response.length) {
-                        for (var i = 0; i < response.length; i++) {
-                            jobs[i] = new JobModel(response[i])
-                        }
+                if (response.length) {
+                    for (var i = 0; i < response.length; i++) {
+                        jobs[i] = new JobModel(response[i])
                     }
+                }
 
-                    return jobs;
-                });
+                return jobs;
+            });
         }
 
         function getJob(jobId) {
@@ -54,17 +54,9 @@
                 data: query
             })
             .then(function (response) {
-                var jobs = [];
-
-                if (response.length) {
-                    for (var i = 0; i < response.length; i++) {
-                        jobs[i] = new JobModel(response[i])
-                    }
-                }
-                return jobs;
+                return response;
             });
         }
-
     }
 
 })();

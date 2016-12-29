@@ -30,9 +30,12 @@
             return jobService.getJob($stateParams.jobId)
                 .then(function(response) {
                     vm.job = response;
-                    if (response.length == 0) {
+                    if (!response) {
                         pboxAlert.alert('Job could not be found !');
                     }
+                })
+                .catch(function(err){
+                    pboxAlert.alert('Job could not be found !');
                 });
         }
 
@@ -41,8 +44,8 @@
                 "status": "CANCELED"
             })
             .then(function(response){
-                console.log(response);
                 pboxAlert.alert('Job canceled!');
+                vm.job = response;
             })
             .catch(function(err){
                 pboxAlert.alert('Job could not be canceled!');
@@ -52,13 +55,13 @@
         function startLoading() {
             return $q.when(function() {
                 pboxLoader.loaderOn();
-            });
+            }());
         }
 
         function stopLoading() {
             return $q.when(function() {
                 pboxLoader.loaderOff();
-            });
+            }());
         }
     }
 })();
