@@ -6,16 +6,20 @@
         .controller('jobsController', jobsController);
 
     /** @ngInject */
-    function jobsController($scope, $q, $timeout, $ionicPopup, jobService, pboxLoader, pboxAlert) {
+    function jobsController($scope, $q, $timeout, $localStorage, $state, jobService, pboxLoader, pboxPopup, UserModel) {
 
         var vm = this;
 
+        var user = new UserModel($localStorage.current_user);
+        vm.jobs = [];
+
         vm.refreshList = refreshList;
+        vm.selectJob = selectJob;
 
         /////////////////////////////////////
 
         (function activate() {
-            startLoading()
+            pboxLoader.loaderOn()
                 .then(loadJobs)
                 .then(pollJobs)
                 .finally(stopLoading);
@@ -23,41 +27,62 @@
 
         /////////////////////////////////////
 
+        function refreshList() {
+            loadJobs()
+                .then(function() {
+                    $scope.$broadcast('scroll.refreshComplete');
+                });
+        }
+
+        function selectJob(job) {
+            pboxPopup.confirm('Would you accept job?')
+                .then(function(response) {
+                    if (response) {
+                        acceptJob(job.id, user.id);
+                    }
+                });
+        }
+
+        ////////////////////////////////////
+
         function loadJobs() {
-            return jobService.getAll()
+            return jobService.get({
+                    status: 'PENDING'
+                })
                 .then(function(response) {
                     vm.jobs = response;
                     if (response.length == 0) {
-                        pboxAlert.alert('There is no available jobs in your area!');
+                        pboxPopup.alert('There is no available jobs in your area!');
                     }
                 });
         }
 
         function pollJobs() {
             $timeout(function() {
-                console.log('poll');
                 loadJobs()
                     .then(pollJobs);
             }, 300000);
         }
 
+        function acceptJob(jobId, courierId) {
+            return jobService.accept(jobId, courierId)
+                .then(function(response) {
+                    if (response) {
+                        $state.go('my-jobs');
+                    }
+                });
+        }
+
         function startLoading() {
             return $q.when(function() {
                 pboxLoader.loaderOn();
-            });
+            }());
         }
 
         function stopLoading() {
             return $q.when(function() {
                 pboxLoader.loaderOff();
-            });
-        }
-
-        function refreshList() {
-            loadJobs()
-                .then(function() {
-                    $scope.$broadcast('scroll.refreshComplete');
-                });
+            }());
         }
     }
 })();
