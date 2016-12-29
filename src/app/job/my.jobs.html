@@ -3,7 +3,7 @@
         <ion-refresher pulling-text="Pull to refresh..." on-refresh="vm.refreshList()">
         </ion-refresher>
         <ion-list>
-            <ion-item ng-repeat="j in vm.jobs track by $index" ng-click="vm.selectJob(j)" ng-include="'app/job/job.item.html'"></ion-item>
+            <ion-item ng-repeat="j in vm.jobs track by $index" ng-click="vm.openJob(j)" ng-include="'app/job/job.item.html'"></ion-item>
         </ion-list>
     </ion-content>
 </ion-view>

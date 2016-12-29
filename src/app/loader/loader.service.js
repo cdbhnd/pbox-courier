@@ -13,13 +13,13 @@
         ///////////////////////////////////////////
 
         function loaderOn() {
-            $ionicLoading.show({
+            return $ionicLoading.show({
                 templateUrl: 'app/loader/loader.html'
             });
         }
 
         function loaderOff() {
-            $ionicLoading.hide();
+            return $ionicLoading.hide();
         }
     }
 
