@@ -1,3 +1,37 @@
-.padding-top {
-    padding-top: 100px;
+.log-in {
+    background-color: #3F5877;
+    .image {
+        text-align: center;
+    }
+    .title {
+        text-align: center;
+        h1 {
+            font-family: 'Exo', sans-serif;
+            color: #CBCDCC !important;
+        }
+    }
+    .list {
+        width: 50%;
+        margin: auto;
+        margin-bottom: 50px;
+        label {
+            background: #3F5877;
+            border: none;
+            padding: 5px 0;
+        }
+        input {
+            padding: 2px 5px;
+            text-align: center;
+            background-color: #3F5877;
+            color: #fff;
+            border-bottom: 1px solid #33CBCC;
+        }
+    }
+    .button {
+        width: 50% !important;
+        margin: auto !important;
+        border-radius: 0;
+        background-color: #33CBCC;
+        color: #fff;
+    }
 }
