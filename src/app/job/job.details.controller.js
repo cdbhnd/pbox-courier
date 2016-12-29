@@ -13,6 +13,7 @@
         // public methods
         vm.cancelJob = cancelJob;
         vm.unassignFromJob = unassignFromJob;
+        vm.completeJob = completeJob;
 
         //variables and properties
         vm.job = null;
@@ -56,7 +57,7 @@
                         vm.job = response;
                     })
                     .catch(function (err) {
-                        pboxAlert.alert('Job could not be canceled!');
+                        pboxAlert.alert('Operation failed!');
                     });
                 } else {
                    
@@ -87,6 +88,19 @@
                    
                 }
             });
+        }
+
+        function completeJob() {
+            jobService.updateJob($stateParams.jobId, {
+                        "status": "COMPLETED"
+                    })
+                    .then(function (response) {
+                        pboxAlert.alert(' Job set to completed !');
+                        $state.go('my-jobs');
+                    })
+                    .catch(function (err) {
+                        pboxAlert.alert('Operation failed!');
+                    });
         }
 
         function startLoading() {
