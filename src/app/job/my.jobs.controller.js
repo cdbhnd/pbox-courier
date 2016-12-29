@@ -6,10 +6,10 @@
         .controller('myJobsController', myJobsController);
 
     /** @ngInject */
-    function myJobsController($scope, $q, $timeout, $localStorage, $state, jobService, pboxLoader, pboxPopup, UserModel) {
+    function myJobsController($scope, $q, $timeout, $localStorage, $state, jobService, pboxLoader, pboxPopup, UserModel, authService) {
 
         var vm = this;
-        var user = new UserModel($localStorage.current_user);
+        var user = new UserModel(authService.currentUser());
 
         vm.jobs = [];
         vm.openJob = openJob;
@@ -29,7 +29,7 @@
         ////////////////////////////////////
 
         function openJob(job) {
-            $state.go('jobDetails', {
+            $state.go('job-details', {
                 jobId: job.id
             });
             console.log('job', job);

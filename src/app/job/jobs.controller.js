@@ -6,11 +6,11 @@
         .controller('jobsController', jobsController);
 
     /** @ngInject */
-    function jobsController($scope, $q, $timeout, $localStorage, $state, jobService, pboxLoader, pboxPopup, UserModel) {
+    function jobsController($scope, $q, $timeout, $localStorage, $state, jobService, pboxLoader, pboxPopup, UserModel, authService) {
 
         var vm = this;
+        var user = new UserModel(authService.currentUser());
 
-        var user = new UserModel($localStorage.current_user);
         vm.jobs = [];
 
         vm.refreshList = refreshList;

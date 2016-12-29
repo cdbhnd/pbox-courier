@@ -29,7 +29,7 @@
                     controller: 'myJobsController',
                     controllerAs: 'vm'
                 })
-                .state('jobDetails', {
+                .state('job-details', {
                     url: '/jobs/{jobId}',
                     templateUrl: 'app/job/job.details.html'
                 })
