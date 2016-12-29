@@ -19,7 +19,7 @@
         /////////////////////////////////////
 
         (function activate() {
-            pboxLoader.loaderOn()
+            startLoading()
                 .then(loadJobs)
                 .then(pollJobs)
                 .finally(stopLoading);
