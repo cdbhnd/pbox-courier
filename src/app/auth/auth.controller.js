@@ -6,7 +6,7 @@
         .controller('authController', authController);
 
     /** @ngInject */
-    function authController($state, $localStorage, pboxLoader, pboxAlert, authService, UserModel) {
+    function authController($state, $localStorage, pboxLoader, pboxPopup, authService, UserModel) {
 
         var vm = this;
 
@@ -31,10 +31,10 @@
                     })
                     .catch(function(e) {
                         if (e.status === 401) {
-                            pboxAlert.alert('Wrong username or password!');
+                            pboxPopup.alert('Wrong username or password!');
                         }
                         if (e.status === 500) {
-                            pboxAlert.alert('Something went wrong, please try leater!');
+                            pboxPopup.alert('Something went wrong, please try leater!');
                         }
                     })
                     .finally(function() {
@@ -42,7 +42,7 @@
                     });
             } else {
                 if (!vm.user.username || !vm.user.password) {
-                    pboxAlert.alert('Username or password is missing!');
+                    pboxPopup.alert('Username or password is missing!');
                 }
             }
         }

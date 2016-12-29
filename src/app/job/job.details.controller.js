@@ -6,12 +6,14 @@
         .controller('jobDetailsController', jobDetailsController);
 
     /** @ngInject */
-    function jobDetailsController($scope, $q, $timeout, $ionicPopup, jobService, pboxLoader, pboxAlert, $stateParams) {
+    function jobDetailsController($scope, $q, $timeout, $ionicPopup, jobService, pboxLoader, pboxPopup, $stateParams, $state) {
 
         var vm = this;
 
         // public methods
         vm.cancelJob = cancelJob;
+        vm.unassignFromJob = unassignFromJob;
+        vm.completeJob = completeJob;
 
         //variables and properties
         vm.job = null;
@@ -31,37 +33,68 @@
                 .then(function(response) {
                     vm.job = response;
                     if (!response) {
-                        pboxAlert.alert('Job could not be found !');
+                        pboxPopup.alert('Job could not be found !');
                     }
                 })
-                .catch(function(err){
-                    pboxAlert.alert('Job could not be found !');
+                .catch(function(err) {
+                    pboxPopup.alert('Job could not be found !');
                 });
         }
 
         function cancelJob() {
+            pboxPopup.confirm('Are you sure you want to cancel this job?')
+                .then(function(res) {
+                    if (res) {
+                        jobService.update($stateParams.jobId, {
+                                "status": "CANCELED"
+                            })
+                            .then(function(response) {
+                                pboxPopup.alert('Job canceled!');
+                                vm.job = response;
+                                $state.go('my-jobs');
+                            })
+                            .catch(function(err) {
+                                pboxPopup.alert('Operation failed!');
+                            });
+                    }
+                });
+        }
+
+        function unassignFromJob() {
             var confirmPopup = $ionicPopup.confirm({
                 title: 'PBox',
-                template: 'Are you sure you want to cancel this job?'
+                template: 'Are you sure you want to unassing from this job?'
             });
 
-            confirmPopup.then(function (res) {
+            confirmPopup.then(function(res) {
                 if (res) {
-                    jobService.updateJob($stateParams.jobId, {
-                        "status": "CANCELED"
-                    })
-                    .then(function (response) {
-                        pboxAlert.alert('Job canceled!');
-                        vm.job = response;
-                    })
-                    .catch(function (err) {
-                        pboxAlert.alert('Job could not be canceled!');
-                    });
+                    jobService.update($stateParams.jobId, {
+                            "courierId": ""
+                        })
+                        .then(function(response) {
+                            pboxPopup.alert(' You have unassinged from job !');
+                            $state.go('my-jobs');
+                        })
+                        .catch(function(err) {
+                            pboxPopup.alert('Operation failed!');
+                        });
                 } else {
-                   
+
                 }
             });
-            
+        }
+
+        function completeJob() {
+            jobService.update($stateParams.jobId, {
+                        "status": "COMPLETED"
+                    })
+                    .then(function (response) {
+                        pboxPopup.alert(' Job set to completed !');
+                        $state.go('my-jobs');
+                    })
+                    .catch(function (err) {
+                        pboxPopup.alert('Operation failed!');
+                    });
         }
 
         function startLoading() {
