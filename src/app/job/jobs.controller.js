@@ -20,6 +20,7 @@
 
         (function activate() {
             startLoading()
+                .then(loadUser)
                 .then(loadJobs)
                 .then(pollJobs)
                 .finally(stopLoading);
@@ -45,6 +46,13 @@
 
         ////////////////////////////////////
 
+        function loadUser() {
+            return authService.currentUser()
+                .then(function(response) {
+                    user = new UserModel(response);
+                });
+        }
+
         function loadJobs() {
             return jobService.get({
                     status: 'PENDING'
@@ -68,6 +76,8 @@
             return jobService.accept(jobId, courierId)
                 .then(function(response) {
                     if (response) {
+                        console.log('user', user);
+                        console.log('job', response);
                         $state.go('my-jobs');
                     }
                 });

@@ -13,6 +13,7 @@
 
         vm.jobs = [];
         vm.openJob = openJob;
+        vm.refreshList = refreshList;
 
         /////////////////////////////////////
 
@@ -31,6 +32,20 @@
             });
         }
 
+        function refreshList() {
+            loadJobs()
+                .then(function() {
+                    $scope.$broadcast('scroll.refreshComplete');
+                });
+        }
+
+        function loadUser() {
+            return authService.currentUser()
+                .then(function(response) {
+                    user = new UserModel(response);
+                });
+        }
+
         function loadJobs() {
             return jobService.get({
                     courierId: user.id
@@ -40,13 +55,6 @@
                     if (response.length == 0) {
                         pboxPopup.alert('No jobs avilable!');
                     }
-                });
-        }
-
-        function loadUser() {
-            return authService.currentUser()
-                .then(function(response) {
-                    user = new UserModel(response);
                 });
         }
 
