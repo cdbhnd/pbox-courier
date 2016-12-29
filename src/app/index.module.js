@@ -16,7 +16,7 @@
             'pbox.courier.loader',
             'pbox.courier.nav',
             'pbox.courier.job',
-            'pbox.courier.alert'
+            'pbox.courier.popup'
         ])
         .run(function($rootScope, $state, $ionicPlatform, geolocationService, authService) {
             $ionicPlatform.ready(function() {

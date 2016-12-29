@@ -23,6 +23,12 @@
                         disableBack: true
                     }
                 })
+                .state('my-jobs', {
+                    url: '/my-jobs',
+                    templateUrl: 'app/job/my.jobs.html',
+                    controller: 'jobsController',
+                    controllerAs: 'vm'
+                })
 
             $urlRouterProvider.otherwise('/');
         }]);

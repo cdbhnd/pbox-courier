@@ -8,6 +8,7 @@
         var service = this;
 
         service.getAll = getAllJobs;
+        service.accept = acceptJob;
 
         ///////////////////////////////////////////
 
@@ -30,6 +31,16 @@
 
                     return jobs;
                 });
+        }
+
+        function acceptJob(selectedJob, courier) {
+            return pboxApi.http({
+                method: config.httpMethods.PUT,
+                url: config.pboxAPI.JOBS + '/' + selectedJob,
+                data: {
+                    "courierId": courier
+                }
+            });
         }
 
     }
