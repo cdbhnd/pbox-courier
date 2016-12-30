@@ -29,7 +29,7 @@
 <body ng-app="pbox.courier">
     <ion-pane ng-controller="navController as vm">
         <ion-side-menus enable-menu-with-back-views="true">
-            <ion-side-menu class="nav-list" side="left">
+            <ion-side-menu class="nav-list" side="left" ng-include="'app/navigation/side.menu.html'">
             </ion-side-menu>
             <ion-side-menu-content>
                 <ion-nav-bar class="bar-stable" ng-include="'app/navigation/navigation.html'" ng-show="!(current_state.data && current_state.data.disableNav)"></ion-nav-bar>

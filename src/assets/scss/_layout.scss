@@ -2,9 +2,12 @@ body {
     font-family: 'Exo', sans-serif;
 }
 
-ion-view,
-ion-side-menu {
+ion-view {
     background-color: $background_primary_color !important;
+}
+
+ion-side-menu {
+    background-color: $primary_color !important;
 }
 
 ion-header-bar {
