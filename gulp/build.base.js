@@ -149,7 +149,7 @@
             ])
             .pipe(sass().on('error', sass.logError))
             .pipe(concatenate('styles.css'))
-            // .pipe(minifyCss())
+            .pipe(minifyCss())
             .pipe(sourcemaps.write('./'))
             .pipe(gulp.dest(config.paths.tmp + '/styles'));
     });
