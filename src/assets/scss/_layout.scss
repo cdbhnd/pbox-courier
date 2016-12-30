@@ -1,0 +1,36 @@
+body {
+    font-family: 'Exo', sans-serif;
+}
+
+ion-view,
+ion-side-menu {
+    background-color: $background_primary_color !important;
+}
+
+ion-header-bar {
+    background-color: $background_primary_color !important;
+    border-bottom: 2px solid $primary_color !important;
+    height: $header_height !important;
+    line-height: ($header_height - 5px) !important;
+    h1.title,
+    .icon {
+        color: #fff !important;
+        height: $header_height !important;
+        line-height: ($header_height - 5px) !important;
+    }
+    .icon:before,
+    .icon:after {
+        height: $header_height !important;
+        line-height: ($header_height - 10px) !important;
+    }
+}
+
+button.button.button-main {
+    border-radius: 0;
+    background-color: $primary_color;
+    color: $secondary_color;
+}
+
+.has-header {
+    top: $header_height !important;
+}

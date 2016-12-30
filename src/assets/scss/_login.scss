@@ -1,5 +1,5 @@
 .log-in {
-    background-color: #3F5877;
+    background-color: $background_primary_color;
     .image {
         text-align: center;
         margin-top: 40px;
@@ -7,7 +7,6 @@
     .title {
         text-align: center;
         h1 {
-            font-family: 'Exo', sans-serif;
             color: #CBCDCC !important;
         }
     }
@@ -16,23 +15,20 @@
         margin: auto;
         margin-bottom: 50px;
         label {
-            background: #3F5877;
+            background: $background_primary_color;
             border: none;
             padding: 5px 0;
         }
         input {
             padding: 2px 5px;
             text-align: center;
-            background-color: #3F5877;
+            background-color: $background_primary_color;
             color: #fff;
-            border-bottom: 1px solid #33CBCC;
+            border-bottom: 1px solid $primary_color;
         }
     }
     .button {
         width: 50% !important;
         margin: auto !important;
-        border-radius: 0;
-        background-color: #33CBCC;
-        color: #fff;
     }
 }
