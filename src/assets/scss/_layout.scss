@@ -2,9 +2,12 @@ body {
     font-family: 'Exo', sans-serif;
 }
 
-ion-view,
-ion-side-menu {
+ion-view {
     background-color: $background_primary_color !important;
+}
+
+ion-side-menu {
+    background-color: $primary_color !important;
 }
 
 ion-header-bar {
@@ -33,4 +36,17 @@ button.button.button-main {
 
 .has-header {
     top: $header_height !important;
+}
+
+ion-item.item {
+    background-color: transparent;
+    color: #fff;
+}
+
+.spinner-ios, .spinner-ios-small {
+    stroke: $secondary_color !important;
+}
+.spinner {
+    stroke: $secondary_color !important;
+    fill: $secondary_color !important;
 }
