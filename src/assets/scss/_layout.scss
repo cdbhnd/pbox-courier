@@ -26,6 +26,9 @@ ion-header-bar {
         height: $header_height !important;
         line-height: ($header_height - 10px) !important;
     }
+    .buttons-left {
+        margin-top: -3px;
+    }
 }
 
 .button.button-main {

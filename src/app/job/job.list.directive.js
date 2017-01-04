@@ -20,10 +20,27 @@
 
         function link(scope, element, attrs) {
 
+            var _perPage = 10;
+            var _pageIndex = 1;
+            var _ininitiveScrollEnabled = true;
+
             scope.jobs = scope.jobs ? scope.jobs : [];
+            scope.jobsList = [];
             scope.onJobClick = scope.onJobClick ? scope.onJobClick : function() {};
             scope.swipeActions = scope.swipeActions ? sanitizeSwipeActions(scope.swipeActions) : [];
             scope.listCanSwipe = !!scope.swipeActions.length;
+            scope.actionClicked = actionClicked;
+            scope.loadMoreJobs = loadMoreJobs;
+
+            /////////////////////////////////////////////////////
+
+            (function activate(){
+                scope.$watch('jobs', function() {
+                    _ininitiveScrollEnabled = true;
+                    _pageIndex = 1;
+                    scope.jobsList = loadInitJobs();
+                });
+            }());
 
             /////////////////////////////////////////////////////
 
@@ -37,6 +54,43 @@
                     swipeActions[i].icon = swipeActions[i].icon ? swipeActions[i].icon : 'ion-checkmark-round';
                 }
                 return swipeActions;
+            }
+
+            function actionClicked(job, index) {
+                scope.swipeActions[index].onClick(job);
+            }
+
+            function loadMoreJobs() {
+                if (!_ininitiveScrollEnabled) {
+                    scope.$broadcast('scroll.infiniteScrollComplete');
+                    return false;
+                }
+                console.log('load more');
+                _pageIndex++;
+                var min = scope.jobsList.length;
+                var max; 
+                if (scope.jobs.length <= (_pageIndex * _perPage)) {
+                    _ininitiveScrollEnabled = false;
+                    max = scope.jobs.length;   
+                } else { 
+                    max = (_pageIndex * _perPage); 
+                }
+                for (var i = min; i < max; i++) {
+                    scope.jobsList.push(scope.jobs[i]);
+                }
+                scope.$broadcast('scroll.infiniteScrollComplete');
+            }
+
+            function loadInitJobs() {
+                if (scope.jobs.length <= _perPage) {
+                    _ininitiveScrollEnabled = false;
+                    return scope.jobs;
+                }
+                var j = [];
+                for (var i = 0; i < _perPage; i++) {
+                    j.push(scope.jobs[i]);
+                }
+                return j;
             }
         }
     }

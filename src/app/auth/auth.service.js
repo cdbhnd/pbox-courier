@@ -19,11 +19,12 @@
         //////////////////////////////////
 
         function init() {
-            registerUserIfNeeded()
+            setCurrentUser($localStorage.current_user);
+            /*registerUserIfNeeded()
                 .then(loginUserIfNeeded)
                 .then(function() {
                     setCurrentUser($localStorage.current_user);
-                });
+                });*/
         }
 
         function register(user) {

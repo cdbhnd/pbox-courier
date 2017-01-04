@@ -14,11 +14,11 @@
         vm.jobs = [];
         vm.listCanSwipe = true;
         vm.jobActions = [{
-            onClick: vm.locateJob,
+            onClick: locateJob,
             button: 'button-energized',
             icon: 'ion-location'
         }, {
-            onClick: vm.acceptJob,
+            onClick: acceptJob,
             button: 'button-main',
             icon: 'ion-checkmark-round'
         }];
@@ -87,13 +87,11 @@
         function acceptJob(job) {
             var jobId = job.id;
             var courierId = user.id;
+            startLoading();
             return jobService.accept(jobId, courierId)
+                .then(stopLoading)
                 .then(function(response) {
-                    if (response) {
-                        console.log('user', user);
-                        console.log('job', response);
-                        $state.go('my-jobs');
-                    }
+                    $state.go('my-jobs');
                 });
         }
 
@@ -109,6 +107,8 @@
             }());
         }
 
-        function locateJob(job) {}
+        function locateJob(job) {
+            console.log('LOCATE JOB!!');
+        }
     }
 })();
