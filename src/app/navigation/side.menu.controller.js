@@ -6,13 +6,14 @@
 		.controller('sideMenuController', sideMenuController);
 
 	/** @ngInject */
-	function sideMenuController($q, $rootScope, $state) {
+	function sideMenuController($q, $rootScope, $state, authService) {
 
 		var vm = this;
 
 		vm.currentState = null;
 
 		vm.changeState = changeState;
+		vm.logout = logout;
 
 		(function activate() {
 			subscribeOnCurrentStateChnage();
@@ -26,6 +27,13 @@
 
 		function changeState(name, params) {
 			return $state.go(name, params);
+		}
+
+		function logout() {
+			return authService.logout()
+				.then(function() {
+					$state.go('login');
+				});
 		}
 	}
 })();

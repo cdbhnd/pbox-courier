@@ -1,10 +1,18 @@
-<ul ng-controller="sideMenuController as vm">
-    <li menu-close ng-click="vm.changeState('jobs')">
-        New Job
-        <span class="nav-button">></span>
-    </li>
-    <li menu-close ng-click="vm.changeState('my-jobs')">
-        My Jobs
-        <span class="nav-button">></span>
-    </li>
-</ul>
+<ion-list ng-controller="sideMenuController as vm">
+    <ion-item>
+    	<span class="user-img"><span class="ion-person"></span></span>
+        <span class="user-name">{{ current_user.username }}</span>
+    </ion-item>
+    <ion-item class="menu-item" menu-close ng-click="vm.changeState('jobs')">
+        Available Jobs
+        <span class="nav-button ion-chevron-right"></span>
+    </ion-item>
+    <ion-item class="menu-item" menu-close ng-click="vm.changeState('my-jobs')">
+         My Jobs
+        <span class="nav-button ion-chevron-right"></span>
+    </ion-item>
+    <ion-item class="menu-item" menu-close ng-click="vm.logout()">
+         Logout
+        <span class="nav-button ion-power"></span>
+    </ion-item>
+</ion-list>
