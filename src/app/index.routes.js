@@ -20,6 +20,7 @@
                     controller: 'jobsController',
                     controllerAs: 'vm',
                     cache: false,
+                    title: 'Available Jobs',
                     data: {
                         disableBack: true
                     }
@@ -29,13 +30,19 @@
                     templateUrl: 'app/job/my.jobs.html',
                     controller: 'myJobsController',
                     controllerAs: 'vm',
-                    cache: false
+                    cache: false,
+                    title: 'My Jobs',
+                    data: {
+                        disableBack: true
+                    }
                 })
                 .state('job-details', {
                     url: '/jobs/{jobId}',
                     templateUrl: 'app/job/job.details.html',
                     controller: 'jobDetailsController',
-                    controllerAs: 'vm'
+                    cache: false,
+                    controllerAs: 'vm',
+                    title: 'Job Details'
                 });
 
             $urlRouterProvider.otherwise('/');

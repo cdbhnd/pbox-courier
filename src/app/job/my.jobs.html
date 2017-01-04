@@ -1,9 +1,7 @@
-<ion-view>
-    <ion-content padding="true" class="has-header job-list">
+<ion-view class="jobs-list">
+    <ion-content class="has-header job-list">
         <ion-refresher pulling-text="Pull to refresh..." on-refresh="vm.refreshList()">
         </ion-refresher>
-        <ion-list>
-            <ion-item ng-repeat="j in vm.jobs track by $index" ng-click="vm.openJob(j)" ng-include="'app/job/job.item.html'"></ion-item>
-        </ion-list>
+        <job-list jobs="vm.jobs" on-job-click="vm.openJob"></job-list>
     </ion-content>
 </ion-view>

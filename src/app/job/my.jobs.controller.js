@@ -12,6 +12,8 @@
         var user;
 
         vm.jobs = [];
+        vm.listCanSwipe = true;
+
         vm.openJob = openJob;
         vm.refreshList = refreshList;
 
