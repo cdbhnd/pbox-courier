@@ -6,7 +6,7 @@
         .controller('authController', authController);
 
     /** @ngInject */
-    function authController($state, $localStorage, pboxLoader, pboxPopup, authService, UserModel) {
+    function authController($state, $q, pboxLoader, pboxPopup, authService, UserModel) {
 
         var vm = this;
 
@@ -17,7 +17,7 @@
         /////////////////////////////////////
 
         (function activate() {
-            // tryRedirect();
+            checkIfUserAlreadyLogedIn();
         }());
 
         /////////////////////////////////////
@@ -49,10 +49,14 @@
 
         ////////////////////////////////////////////////////
 
-        function tryRedirect() {
-            if ($localStorage.current_user) {
-                $state.go('jobs');
-            }
+        function checkIfUserAlreadyLogedIn() {
+            return $q.when(function() {
+                if (!!authService.currentUser()) {
+                    $state.go('jobs');
+                    return false;
+                }
+                return true;    
+            }());
         }
 
         function login() {
