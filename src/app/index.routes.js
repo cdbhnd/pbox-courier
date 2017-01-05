@@ -43,6 +43,14 @@
                     cache: false,
                     controllerAs: 'vm',
                     title: 'Job Details'
+                })
+                .state('job-map', {
+                    url: '/jobs/map/{jobId}',
+                    templateUrl: 'app/job/job.map.html',
+                    controller: 'jobMapController',
+                    cache: false,
+                    controllerAs: 'vm',
+                    title: 'Job Map'
                 });
 
             $urlRouterProvider.otherwise('/');

@@ -108,7 +108,7 @@
         }
 
         function locateJob(job) {
-            console.log('LOCATE JOB!!');
+            $state.go('job-map', { jobId: job.id });
         }
     }
 })();
