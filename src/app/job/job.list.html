@@ -1,6 +1,6 @@
 <ion-list can-swipe="listCanSwipe">
     <ion-item class="item-thumbnail-left job-item" ng-repeat="j in jobsList track by $index" ng-click="onJobClick(j)">
-        <img ng-src="/images/logo.png">
+        <img ng-src="images/logo.png">
         <h2>Job {{$index + 1}}</h2>
         <p>
             {{j.status}} | SIZE {{j.size}}

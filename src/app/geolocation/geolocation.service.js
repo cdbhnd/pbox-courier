@@ -6,7 +6,7 @@
         .service('geolocationService', geolocationService);
 
     /** @ngInject */
-    function geolocationService($q, GeolocationModel, $cordovaGeolocation) {
+    function geolocationService($q, $rootScope, GeolocationModel, $cordovaGeolocation) {
         var service = this;
 
         service.init = init;
@@ -28,10 +28,12 @@
                         latitude: position.coords.latitude,
                         longitude: position.coords.longitude
                     });
+                    $rootScope.current_location = _currentLocation;
                     console.log('Location fetch: ');
                     console.log(_currentLocation);
                 }, function(err) {
-                    setFallbackCoordinates();
+                    console.log(err.message);
+                    setFallbackCoordinates(err.message);
                 });
 
             var watchOptions = {
@@ -41,8 +43,9 @@
             $cordovaGeolocation.watchPosition(watchOptions)
                 .then(null,
                     function(err) {
+                        console.log(err.message);
                         if (!_currentLocation) {
-                            setFallbackCoordinates();
+                            setFallbackCoordinates(err.message);
                         }
                     },
                     function(position) {
@@ -50,6 +53,7 @@
                             latitude: position.coords.latitude,
                             longitude: position.coords.longitude
                         });
+                        $rootScope.current_location = _currentLocation;
                         console.log('Location watch: ');
                         console.log(_currentLocation);
                     }
@@ -63,11 +67,13 @@
             }());
         }
 
-        function setFallbackCoordinates() {
+        function setFallbackCoordinates(message) {
             _currentLocation = new GeolocationModel({
                 latitude: 44,
-                longitude: 20
+                longitude: 20,
+                message: message
             });
+            $rootScope.current_location = _currentLocation;
         }
     }
 })();
