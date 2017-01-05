@@ -12,6 +12,13 @@
         var user;
 
         vm.jobs = [];
+        vm.listCanSwipe = true;
+        vm.swipeActions = [{
+            onClick: unassignFromJob,
+            button: 'button-energized',
+            icon: 'ion-link'
+        }];
+
         vm.openJob = openJob;
         vm.refreshList = refreshList;
 
@@ -53,9 +60,28 @@
                 .then(function(response) {
                     vm.jobs = response;
                     if (response.length == 0) {
-                        pboxPopup.alert('No jobs avilable!');
+                        pboxPopup.alert('No jobs available!');
                     }
                 });
+        }
+
+        function unassignFromJob(job) {
+            return pboxPopup.confirm('Are you sure you want to unassing from this job?')
+                .then(function(response) {
+                    if (response) {
+                        startLoading();
+                        return jobService.unassign(job);
+                    }
+                })
+                .then(function(response) {
+                    if (response) {
+                        return loadJobs();
+                    }
+                })
+                .catch(function(err) {
+                    pboxPopup.alert('Operation failed!');
+                })
+                .finally(stopLoading);
         }
 
         function startLoading() {

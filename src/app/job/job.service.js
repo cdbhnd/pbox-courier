@@ -11,6 +11,7 @@
         service.accept = acceptJob;
         service.update = updateJob;
         service.getJob = getJob;
+        service.unassign = unassign;
 
         ///////////////////////////////////////////
 
@@ -38,11 +39,11 @@
                     method: config.httpMethods.GET,
                     url: config.pboxAPI.JOBS,
                     params: {
-                        "id": jobId
+                        id: jobId
                     }
                 })
                 .then(function(response) {
-                    return response[0];
+                    return new JobModel(response[0]);
                 });
         }
 
@@ -51,8 +52,11 @@
                 method: config.httpMethods.PUT,
                 url: config.pboxAPI.JOBS + '/' + selectedJob,
                 data: {
-                    "courierId": courier
+                    courierId: courier
                 }
+            })
+            .then(function(response) {
+                return new JobModel(response);
             });
         }
 
@@ -63,8 +67,21 @@
                     data: query
                 })
                 .then(function(response) {
-                    return response;
+                    return new JobModel(response);
                 });
+        }
+
+        function unassign(selectedJob) {
+            return pboxApi.http({
+                method: config.httpMethods.PUT,
+                url: config.pboxAPI.JOBS + '/' + selectedJob.id,
+                data: {
+                    courierId: ''
+                }
+            })
+            .then(function(response) {
+                return new JobModel(response);
+            });
         }
     }
 })();

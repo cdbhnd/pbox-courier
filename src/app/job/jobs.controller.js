@@ -12,9 +12,21 @@
         var user = new UserModel(authService.currentUser());
 
         vm.jobs = [];
+        vm.listCanSwipe = true;
+        vm.jobActions = [{
+            onClick: locateJob,
+            button: 'button-energized',
+            icon: 'ion-location'
+        }, {
+            onClick: acceptJob,
+            button: 'button-main',
+            icon: 'ion-checkmark-round'
+        }];
 
         vm.refreshList = refreshList;
         vm.selectJob = selectJob;
+        vm.acceptJob = acceptJob;
+        vm.locateJob = locateJob;
 
         /////////////////////////////////////
 
@@ -39,7 +51,7 @@
             pboxPopup.confirm('Would you accept job?')
                 .then(function(response) {
                     if (response) {
-                        acceptJob(job.id, user.id);
+                        acceptJob(job);
                     }
                 });
         }
@@ -72,14 +84,14 @@
             }, 300000);
         }
 
-        function acceptJob(jobId, courierId) {
+        function acceptJob(job) {
+            var jobId = job.id;
+            var courierId = user.id;
+            startLoading();
             return jobService.accept(jobId, courierId)
+                .then(stopLoading)
                 .then(function(response) {
-                    if (response) {
-                        console.log('user', user);
-                        console.log('job', response);
-                        $state.go('my-jobs');
-                    }
+                    $state.go('my-jobs');
                 });
         }
 
@@ -93,6 +105,10 @@
             return $q.when(function() {
                 pboxLoader.loaderOff();
             }());
+        }
+
+        function locateJob(job) {
+            console.log('LOCATE JOB!!');
         }
     }
 })();

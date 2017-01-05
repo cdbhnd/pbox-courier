@@ -26,12 +26,20 @@ ion-header-bar {
         height: $header_height !important;
         line-height: ($header_height - 10px) !important;
     }
+    .buttons-left {
+        margin-top: -3px;
+    }
 }
 
-button.button.button-main {
+.button.button-main {
     border-radius: 0;
     background-color: $primary_color;
     color: $secondary_color;
+}
+
+.list .item .item-options .button .button-icon {
+    font-size: 25px;
+    width: 100%;
 }
 
 .has-header {
@@ -43,9 +51,11 @@ ion-item.item {
     color: #fff;
 }
 
-.spinner-ios, .spinner-ios-small {
+.spinner-ios,
+.spinner-ios-small {
     stroke: $secondary_color !important;
 }
+
 .spinner {
     stroke: $secondary_color !important;
     fill: $secondary_color !important;
