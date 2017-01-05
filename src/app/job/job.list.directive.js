@@ -56,8 +56,9 @@
                 return swipeActions;
             }
 
-            function actionClicked(job, index) {
+            function actionClicked(job, index, $event) {
                 scope.swipeActions[index].onClick(job);
+                $event.stopPropagation();
             }
 
             function loadMoreJobs() {

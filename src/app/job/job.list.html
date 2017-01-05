@@ -8,7 +8,7 @@
         <p>
             <span>Job created: {{j.createdAt | amDateFormat: 'DD/MM/YYYY [at] hA'}}</span>
         </p>
-        <ion-option-button ng-repeat="sa in swipeActions track by $index" class="{{sa.button}}" ng-click="actionClicked(j, $index)">
+        <ion-option-button ng-repeat="sa in swipeActions track by $index" class="{{sa.button}}" ng-click="actionClicked(j, $index, $event)">
             <span class="button-icon {{sa.icon}}" ng-if="!sa.text"></span>
             <span ng-if="!!sa.text">{{sa.text}}</span>
         </ion-option-button>

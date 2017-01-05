@@ -61,27 +61,23 @@
         }
 
         function unassignFromJob() {
-            var confirmPopup = $ionicPopup.confirm({
-                title: 'PBox',
-                template: 'Are you sure you want to unassing from this job?'
-            });
-
-            confirmPopup.then(function(res) {
-                if (res) {
-                    jobService.update($stateParams.jobId, {
-                            "courierId": ""
-                        })
-                        .then(function(response) {
-                            pboxPopup.alert(' You have unassinged from job !');
-                            $state.go('my-jobs');
-                        })
-                        .catch(function(err) {
-                            pboxPopup.alert('Operation failed!');
-                        });
-                } else {
-
-                }
-            });
+            startLoading();
+            return pboxPopup.confirm('Are you sure you want to unassing from this job?')
+                .then(function(response) {
+                    if (response) {
+                        return jobService.unassign(vm.job);    
+                    }
+                })
+                .then(function(response) {
+                    if (response) {
+                        pboxPopup.alert('You have unassinged from job !');
+                        $state.go('my-jobs');
+                    }
+                })
+                .catch(function(err) {
+                    pboxPopup.alert('Operation failed!');
+                })
+                .finally(stopLoading);
         }
 
         function completeJob() {
