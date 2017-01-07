@@ -18,13 +18,16 @@
             startLoading()
             	.then(getCurrentLocation)
                 .then(loadJob)
+                .then(function() {
+                    console.dir(vm);
+                })
                 .finally(stopLoading);
         }());
 
         function getCurrentLocation() {
         	return geolocationService.currentLocation()
         		.then(function(coords) {
-        			vm.mapOptions.center = coords;
+        			vm.mapOptions.mapCenter = coords;
         		});
         }
 

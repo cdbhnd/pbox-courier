@@ -3,12 +3,13 @@
         .module('pbox.courier.popup')
         .service('pboxPopup', pboxPopup);
 
-    function pboxPopup($ionicPopup) {
+    function pboxPopup($ionicPopup, $cordovaToast) {
 
         var service = this;
 
         service.alert = riseAlert;
         service.confirm = riseConfirm;
+        service.toast = showToast;
 
         ///////////////////////////////////////////
 
@@ -41,6 +42,19 @@
                     }
                 }]
             });
+        }
+
+        function showToast(message) {
+            try {
+                return $cordovaToast.show(message, 'long', 'top')
+                    .then(function(success) {
+                        console.log("The toast was shown");
+                    }, function(error) {
+                        console.log("The toast was not shown due to " + error);
+                    });
+            } catch(e) {
+                alert(message);
+            }
         }
     }
 

@@ -19,7 +19,7 @@
                     templateUrl: 'app/job/jobs.html',
                     controller: 'jobsController',
                     controllerAs: 'vm',
-                    cache: false,
+                    cache: true,
                     title: 'Available Jobs',
                     data: {
                         disableBack: true
@@ -50,7 +50,7 @@
                     controller: 'jobMapController',
                     cache: false,
                     controllerAs: 'vm',
-                    title: 'Job Map'
+                    title: 'Job Route'
                 });
 
             $urlRouterProvider.otherwise('/');

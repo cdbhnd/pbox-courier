@@ -6,10 +6,11 @@
         .controller('jobsController', jobsController);
 
     /** @ngInject */
-    function jobsController($scope, $q, $timeout, $localStorage, $state, jobService, pboxLoader, pboxPopup, UserModel, authService) {
+    function jobsController($scope, $q, $interval, $localStorage, $state, jobService, pboxLoader, pboxPopup, UserModel, authService, orderByFilter) {
 
         var vm = this;
         var user = new UserModel(authService.currentUser());
+        var pollingPromise;
 
         vm.jobs = [];
         vm.listCanSwipe = true;
@@ -35,6 +36,7 @@
                 .then(loadUser)
                 .then(loadJobs)
                 .then(pollJobs)
+                .then(cancelPollingPromiseOnScopeDestroy)
                 .finally(stopLoading);
         }());
 
@@ -70,7 +72,7 @@
                     status: 'PENDING'
                 })
                 .then(function(response) {
-                    vm.jobs = response;
+                    vm.jobs = orderByFilter(response, 'createdAt', true);
                     if (response.length == 0) {
                         pboxPopup.alert('There is no available jobs in your area!');
                     }
@@ -78,10 +80,36 @@
         }
 
         function pollJobs() {
-            $timeout(function() {
-                loadJobs()
-                    .then(pollJobs);
-            }, 300000);
+            return $q.when(function() {
+                pollingPromise = $interval(function() {
+                    return jobService.get({
+                            status: 'PENDING'
+                        })
+                        .then(function(response) {
+                            var orderedJobs = orderByFilter(response, 'createdAt', true);
+                            var numberOfNewJobs = orderedJobs.length - vm.jobs.length;
+                            if (numberOfNewJobs > 0) {
+                                var newJobs = orderedJobs.slice(0, numberOfNewJobs);
+                                for (var i = (newJobs.length - 1); i >= 0; i--) {
+                                    vm.jobs.unshift(newJobs[i]);
+                                }
+                                pboxPopup.toast('Added ' + numberOfNewJobs + ' new job(s)');
+                            }
+                        });
+                }, 15000);
+                return true;
+            }());
+        }
+
+        function cancelPollingPromiseOnScopeDestroy() {
+            return $q.when(function() {
+                $scope.$on('$destroy', function() {
+                    if (!!pollingPromise) {
+                        $interval.cancel(pollingPromise);
+                    }
+                });
+                return true;
+            }());
         }
 
         function acceptJob(job) {
