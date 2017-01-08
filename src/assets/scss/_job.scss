@@ -31,6 +31,13 @@
         padding: 10px;
         border-color: $primary_color;
     }
+    .bottom-bar {
+        .buttton {
+            .icon {
+                font-size: 24px;
+            }
+        }
+    }
 }
 
 .job-map {

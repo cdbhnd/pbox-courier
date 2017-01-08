@@ -37,6 +37,13 @@ ion-header-bar {
     color: $secondary_color;
 }
 
+.button.button-main-inverse {
+    border-radius: 0;
+    border: 2px solid $primary_color;
+    background-color: $background_primary_color;
+    color: $secondary_color;
+}
+
 .button {
     border-radius: 0 !important;
 }
@@ -81,4 +88,12 @@ ion-item.item {
 
 .bottom-bar>* {
     margin-bottom: 0 !important;
+}
+
+.quote {
+    font-style: italic;
+}
+
+.highlight {
+    color: $primary_color;
 }
