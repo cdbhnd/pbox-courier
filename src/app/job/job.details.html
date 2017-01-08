@@ -1,0 +1,32 @@
+<ion-view class="job-details">
+    <ion-content class="has-header">
+        <div class="job-map">
+            <map-pane map-options="vm.mapOptions" map-markers="vm.mapMarkers" draw-directions="true"></map-pane>
+        </div>
+        <div class="job-info">
+            <div class="head padding">
+                <h3>{{ vm.job.name }}</h3>
+                <p class="quote">{{ vm.job.description }}</p>
+            </div>
+            <ul class="list">
+                <li class="item">
+                    Job <span class="highlight">{{ vm.job.status }}</span>
+                </li>
+                <li class="item">
+                    Requested at <span class="highlight">{{ vm.job.createdAt | amDateFormat: 'DD/MM/YYYY [at] hA' }}</span>
+                </li>
+                <li class="item">
+                    Pickup at <span class="highlight">{{ vm.job.pickup.address }}</span>
+                </li>
+                <li class="item">
+                    Destination <span class="highlight">{{ vm.job.destination.address ? ('at' + vm.job.destination.address) : 'not yet available' }}</span>
+                </li>
+            </ul>
+            
+        </div>
+        <div class="bottom-bar button-bar">
+            <a class="button button-main" ng-click="vm.openActions()"><span class="icon ion-grid"></span></a>
+            <a class="button button-energized" ng-click="vm.showOnMap()"><span class="icon ion-map"></span></a>
+        </div>
+    </ion-content>
+</ion-view>
