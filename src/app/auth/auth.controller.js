@@ -51,11 +51,14 @@
 
         function checkIfUserAlreadyLogedIn() {
             return $q.when(function() {
-                if (!!authService.currentUser()) {
-                    $state.go('jobs');
-                    return false;
-                }
-                return true;    
+                return authService.currentUser()
+                    .then(function(user) {
+                        if (!!user) {
+                            $state.go('jobs');
+                            return false;
+                        }
+                        return true;
+                    });
             }());
         }
 

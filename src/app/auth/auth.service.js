@@ -19,12 +19,9 @@
         //////////////////////////////////
 
         function init() {
-            setCurrentUser($localStorage.current_user);
-            /*registerUserIfNeeded()
-                .then(loginUserIfNeeded)
-                .then(function() {
-                    setCurrentUser($localStorage.current_user);
-                });*/
+            if (!!$localStorage.current_user) {
+                setCurrentUser($localStorage.current_user);
+            }
         }
 
         function register(user) {
@@ -55,7 +52,7 @@
 
         function currentUser() {
             return $q.when(function() {
-                if ($localStorage.current_user) {
+                if (!!$localStorage.current_user) {
                     return $localStorage.current_user;
                 }
                 return null;

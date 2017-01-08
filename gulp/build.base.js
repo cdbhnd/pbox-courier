@@ -144,7 +144,7 @@
 
     gulp.task('styles', function() {
         return gulp.src([
-                config.paths.ionic + '/css/ionic.min.css',
+                config.paths.ionic + '/css/ionic.css',
                 config.paths.src + '/assets/scss/index.scss'
             ])
             .pipe(sass().on('error', sass.logError))

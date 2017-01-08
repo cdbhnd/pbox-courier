@@ -22,11 +22,10 @@
                     Destination <span class="highlight">{{ vm.job.destination.address ? ('at' + vm.job.destination.address) : 'not yet available' }}</span>
                 </li>
             </ul>
-            
-        </div>
-        <div class="bottom-bar button-bar">
-            <a class="button button-main" ng-click="vm.openActions()"><span class="icon ion-grid"></span></a>
-            <a class="button button-energized" ng-click="vm.showOnMap()"><span class="icon ion-map"></span></a>
         </div>
     </ion-content>
+    <div class="bottom-bar button-bar">
+        <a class="button button-main" ng-click="vm.openActions()"><span class="icon ion-grid"></span></a>
+        <a class="button button-energized" ng-click="vm.showOnMap()"><span class="icon ion-map"></span></a>
+    </div>
 </ion-view>
