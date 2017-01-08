@@ -19,7 +19,7 @@
                 template: '',
                 buttons: [{
                     text: 'OK',
-                    type: 'button-energized'
+                    type: 'button-main'
                 }]
             });
         }
@@ -30,13 +30,13 @@
                 template: '',
                 buttons: [{
                     text: 'Yes',
-                    type: 'button-balanced',
+                    type: 'button-main',
                     onTap: function() {
                         return true;
                     }
                 }, {
                     text: 'No',
-                    type: 'button-assertive',
+                    type: 'button-main-inverse',
                     onTap: function() {
                         return false;
                     }

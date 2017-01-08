@@ -141,17 +141,19 @@
         function completeJob() {
             pboxPopup.confirm('Are you sure you want to complete this job?')
                 .then(function(res) {
-                    startLoading();
-                    jobService.update($stateParams.jobId, {
-                            "status": "COMPLETED"
-                        })
-                        .then(function(response) {
-                            vm.job = response;
-                        })
-                        .catch(function(err) {
-                            pboxPopup.alert('Operation failed!');
-                        })
-                        .finally(stopLoading);
+                    if (res) {
+                        startLoading();
+                        jobService.update($stateParams.jobId, {
+                                "status": "COMPLETED"
+                            })
+                            .then(function(response) {
+                                vm.job = response;
+                            })
+                            .catch(function(err) {
+                                pboxPopup.alert('Operation failed!');
+                            })
+                            .finally(stopLoading);
+                    }
                 });
         }
 

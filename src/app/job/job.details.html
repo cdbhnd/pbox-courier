@@ -6,27 +6,27 @@
         <div class="job-info">
             <div class="head padding">
                 <h3>{{ vm.job.name }}</h3>
-                <p><span class="underlined">Quote:</span> {{ vm.job.description }}</p>
+                <p class="quote">{{ vm.job.description }}</p>
             </div>
             <ul class="list">
                 <li class="item">
-                    Job {{ vm.job.status }}
+                    Job <span class="highlight">{{ vm.job.status }}</span>
                 </li>
                 <li class="item">
-                    Requested at {{ vm.job.createdAt | amDateFormat: 'DD/MM/YYYY [at] hA' }}
+                    Requested at <span class="highlight">{{ vm.job.createdAt | amDateFormat: 'DD/MM/YYYY [at] hA' }}</span>
                 </li>
                 <li class="item">
-                    Pickup at {{ vm.job.pickup.address }}
+                    Pickup at <span class="highlight">{{ vm.job.pickup.address }}</span>
                 </li>
                 <li class="item">
-                    Destination {{ vm.job.destination.address ? ('at' + vm.job.destination.address) : 'not yet available' }}
+                    Destination <span class="highlight">{{ vm.job.destination.address ? ('at' + vm.job.destination.address) : 'not yet available' }}</span>
                 </li>
             </ul>
             
         </div>
         <div class="bottom-bar button-bar">
-            <a class="button button-main" ng-click="vm.openActions()">More Options</a>
-            <a class="button button-energized" ng-click="vm.showOnMap()">View full Map</a>
+            <a class="button button-main" ng-click="vm.openActions()"><span class="icon ion-grid"></span></a>
+            <a class="button button-energized" ng-click="vm.showOnMap()"><span class="icon ion-map"></span></a>
         </div>
     </ion-content>
 </ion-view>
