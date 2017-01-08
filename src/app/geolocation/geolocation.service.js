@@ -69,7 +69,7 @@
 
         function setFallbackCoordinates(message) {
             var randomCoords = randomGeo({
-                latitude: 44.802433, 
+                latitude: 44.802433,
                 longitude: 20.466403
             }, 10000);
             _currentLocation = new GeolocationModel({

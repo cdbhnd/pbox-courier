@@ -16,19 +16,16 @@
 
         (function activate() {
             startLoading()
-            	.then(getCurrentLocation)
+                .then(getCurrentLocation)
                 .then(loadJob)
-                .then(function() {
-                    console.dir(vm);
-                })
                 .finally(stopLoading);
         }());
 
         function getCurrentLocation() {
-        	return geolocationService.currentLocation()
-        		.then(function(coords) {
-        			vm.mapOptions.mapCenter = coords;
-        		});
+            return geolocationService.currentLocation()
+                .then(function(coords) {
+                    vm.mapOptions.mapCenter = coords;
+                });
         }
 
         function loadJob() {

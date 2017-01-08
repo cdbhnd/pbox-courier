@@ -117,6 +117,7 @@
             var courierId = user.id;
             startLoading();
             return jobService.accept(jobId, courierId)
+                .then(loadJobs)
                 .then(stopLoading)
                 .then(function(response) {
                     $state.go('my-jobs');
