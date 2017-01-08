@@ -1,22 +1,32 @@
-<ion-view>
-    <ion-content class="has-header job-list">
-        <ion-list>
-            <ion-item>
-               <span>Name  {{vm.job.name}}</span>
-            </ion-item>
-            <ion-item>
-               <span>Owner  {{vm.job.owner}}</span>
-            </ion-item>
-            <ion-item>
-               <span>Status  {{vm.job.status}}</span>
-            </ion-item>
-            <ion-item>
-                <div>
-                    <button ion-button color="danger" ng-click="vm.cancelJob()">Cancel job</button>
-                    <button ion-button ng-click="vm.unassignFromJob()">Un-assign</button>
-                    <button ion-button ng-click="vm.completeJob()">Complete</button>
-                </div>
-            </ion-item>
-        </ion-list>
+<ion-view class="job-details">
+    <ion-content class="has-header">
+        <div class="job-map">
+            <map-pane map-options="vm.mapOptions" map-markers="vm.mapMarkers" draw-directions="true"></map-pane>
+        </div>
+        <div class="job-info">
+            <div class="head padding">
+                <h3>{{ vm.job.name }}</h3>
+                <p><span class="underlined">Quote:</span> {{ vm.job.description }}</p>
+            </div>
+            <ul class="list">
+                <li class="item">
+                    Job {{ vm.job.status }}
+                </li>
+                <li class="item">
+                    Requested at {{ vm.job.createdAt | amDateFormat: 'DD/MM/YYYY [at] hA' }}
+                </li>
+                <li class="item">
+                    Pickup at {{ vm.job.pickup.address }}
+                </li>
+                <li class="item">
+                    Destination {{ vm.job.destination.address ? ('at' + vm.job.destination.address) : 'not yet available' }}
+                </li>
+            </ul>
+            
+        </div>
+        <div class="bottom-bar button-bar">
+            <a class="button button-main" ng-click="vm.openActions()">More Options</a>
+            <a class="button button-energized" ng-click="vm.showOnMap()">View full Map</a>
+        </div>
     </ion-content>
-</ion-view>z
+</ion-view>

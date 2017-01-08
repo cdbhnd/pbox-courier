@@ -37,6 +37,10 @@ ion-header-bar {
     color: $secondary_color;
 }
 
+.button {
+    border-radius: 0 !important;
+}
+
 .list .item .item-options .button .button-icon {
     font-size: 25px;
     width: 100%;
@@ -59,4 +63,22 @@ ion-item.item {
 .spinner {
     stroke: $secondary_color !important;
     fill: $secondary_color !important;
+}
+
+.underlined {
+    text-decoration: underline !important;
+}
+
+.bottom-bar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin-bottom: 0;
+    padding-bottom: 0;
+    z-index: 999;
+}
+
+.bottom-bar>* {
+    margin-bottom: 0 !important;
 }

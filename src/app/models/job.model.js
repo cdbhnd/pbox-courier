@@ -14,10 +14,11 @@
             this.size = obj && obj.size ? obj.size : null;
             this.status = obj && obj.status ? obj.status : null;
             this.name = obj && obj.name ? obj.name : null;
+            this.description = obj && obj.description ? obj.description : null;
             this.owner = obj && obj.owner ? obj.owner : null;
             this.createdAt = obj && obj.createdAt ? moment(obj.createdAt) : null;
             this.courierId = obj && obj.courierId ? obj.courierId : null;
-            this.destionation = obj && obj.destionation ? obj.destionation : null;
+            this.destination = obj && obj.destination ? obj.destination : null;
             this.receiverName = obj && obj.receiverName ? obj.receiverName : null;
             this.receiverPhone = obj && obj.receiverPhone ? obj.receiverPhone : null;
             this.box = obj && obj.box ? obj.box : null;

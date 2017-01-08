@@ -34,9 +34,11 @@
         ////////////////////////////////////
 
         function openJob(job) {
-            $state.go('job-details', {
-                jobId: job.id
-            });
+            if (job.status != 'CANCELED') {
+                $state.go('job-details', {
+                    jobId: job.id
+                });
+            }
         }
 
         function refreshList() {

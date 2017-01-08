@@ -35,10 +35,10 @@
             /////////////////////////////////////////////////////
 
             (function activate(){
-                scope.$watch('jobs', function() {
+                scope.$watchCollection('jobs', function() {
                     _ininitiveScrollEnabled = true;
                     _pageIndex = 1;
-                    scope.jobsList = loadInitJobs();
+                    scope.jobsList = scope.jobs; //loadInitJobs();
                 });
             }());
 
