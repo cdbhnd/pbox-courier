@@ -62,6 +62,8 @@
                 .then(function (response) {
                     if(response.status != 'IN_PROGRESS') {
                         pboxPopup.alert('Box was not assigned to the job!');
+                    }else {
+                        pboxPopup.alert('Box assigned to the job!');
                     }
                     $state.go('my-jobs');
                 })
