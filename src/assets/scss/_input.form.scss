@@ -1,0 +1,12 @@
+.input-form {
+    top: 90px;
+    position: relative;
+    width: 90%;
+    margin-left: 5%;
+
+    input {
+        width: 100%;
+        border: 1px solid $primary_color;
+        background-color: $background_primary_color;
+    }
+}
