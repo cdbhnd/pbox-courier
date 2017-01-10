@@ -60,6 +60,9 @@
                 "box": vm.boxId
             })
                 .then(function (response) {
+                    if(response.status != 'IN_PROGRESS') {
+                        pboxPopup.alert('Box was not assigned to the job!');
+                    }
                     $state.go('my-jobs');
                 })
                 .catch(function (err) {
