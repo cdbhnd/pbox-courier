@@ -54,18 +54,18 @@
         }
 
         function assaginBox() {
-            startLoading();
-            jobService.update($stateParams.jobId, {
-                "status": "IN_PROGRESS",
-                "box": vm.boxId
-            })
+                startLoading();
+                jobService.update($stateParams.jobId, {
+                    "status": "IN_PROGRESS",
+                    "box": vm.boxId
+                })
                 .then(function (response) {
                     if(response.status != 'IN_PROGRESS') {
                         pboxPopup.alert('Box was not assigned to the job!');
                     }else {
                         pboxPopup.alert('Box assigned to the job!');
                     }
-                    $state.go('my-jobs');
+                    $state.go('job-details', { jobId: vm.job.id });
                 })
                 .catch(function (err) {
                     pboxPopup.alert('Operation failed!');
