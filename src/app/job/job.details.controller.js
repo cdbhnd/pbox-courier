@@ -26,7 +26,7 @@
             buttons: [
                 { text: 'Unassign', callback: unassignFromJob },
                 { text: 'Edit', callback: null },
-                { text: 'Add Box', callback: null },
+                { text: 'Add Box', callback: addBoxToJob },
                 { text: 'Complete', callback: completeJob }
             ],
             destructiveText: 'Cancel',
@@ -155,6 +155,10 @@
                             .finally(stopLoading);
                     }
                 });
+        }
+
+        function addBoxToJob() {
+            $state.go('job-add-box', { jobId: vm.job.id });   
         }
 
         function openActions() {

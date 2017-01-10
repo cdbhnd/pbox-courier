@@ -51,6 +51,14 @@
                     cache: false,
                     controllerAs: 'vm',
                     title: 'Job Route'
+                })
+                .state('job-add-box',{
+                    url: '/add/box/{jobId}',
+                    templateUrl: 'app/job/job.add.box.html',
+                    controller: 'jobAddBoxController',
+                    cache: false,
+                    controllerAs: 'vm',
+                    title: 'Assign box to job'
                 });
 
             $urlRouterProvider.otherwise('/');

@@ -1,0 +1,16 @@
+.input-form {
+    top: 90px;
+    position: relative;
+    width: 90%;
+    margin-left: 5%;
+
+    input {
+        width: 100%;
+        height: 45px;
+        border: 1px solid $primary_color;
+        background-color: $background_primary_color;
+        color: white;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+}
