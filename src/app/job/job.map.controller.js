@@ -13,7 +13,7 @@
         vm.job = null;
         vm.mapOptions = angular.copy(mapConfig.mapOptions);
         vm.mapMarkers = [];
-        vm.markerColors = ['#FFFF00', '#25E825'];
+        vm.markerColors = ['#33CBCC', '#3F5877'];
 
         (function activate() {
             startLoading()
