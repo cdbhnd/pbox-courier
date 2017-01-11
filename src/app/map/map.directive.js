@@ -94,7 +94,7 @@
             }
 
             function createIcon(i) {
-                if (scope.colorsArray) {
+                if (scope.colorsArray[i]) {
                     markerIcon.fillColor = scope.colorsArray[i];
                     return markerIcon;
                 } else {
