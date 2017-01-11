@@ -16,7 +16,8 @@
             scope: {
                 mapOptions: '=',
                 mapMarkers: '=',
-                drawDirections: '&?'
+                drawDirections: '&?',
+                colorsArray: '='
             }
         };
 
@@ -32,7 +33,7 @@
             };
             var markers = [];
             var directions = {};
-            var directionsDisplay = new google.maps.DirectionsRenderer({suppressMarkers: true});
+            var directionsDisplay = new google.maps.DirectionsRenderer({ suppressMarkers: true });
             var directionsService = new google.maps.DirectionsService();
 
             scope.mapId = guid();
@@ -71,7 +72,7 @@
                             return false;
                         }
                         for (var i = 0; i < scope.mapMarkers.length; i++) {
-                            buildMarker(scope.mapMarkers[i].latitude, scope.mapMarkers[i].longitude, scope.map);
+                            buildMarker(scope.mapMarkers[i].latitude, scope.mapMarkers[i].longitude, scope.map, i);
                         }
                         var bounds = new google.maps.LatLngBounds();
                         for (var i = 0; i < markers.length; i++) {
@@ -83,13 +84,22 @@
                 }());
             }
 
-            function buildMarker(latitude, longitude, map) {
+            function buildMarker(latitude, longitude, map, i) {
                 markers.push(new google.maps.Marker({
                     map: map,
                     animation: google.maps.Animation.DROP,
                     position: new google.maps.LatLng(latitude, longitude),
-                    icon: markerIcon
+                    icon: createIcon(i)
                 }));
+            }
+
+            function createIcon(i) {
+                if (!!scope.colorsArray && !!scope.colorsArray[i]) {
+                    markerIcon.fillColor = scope.colorsArray[i];
+                    return markerIcon;
+                } else {
+                    return markerIcon;
+                }
             }
 
             // handle the directions service

@@ -13,6 +13,7 @@
         vm.job = null;
         vm.mapOptions = angular.copy(mapConfig.mapOptions);
         vm.mapMarkers = [];
+        vm.markerColors = ['#33CBCC', '#3F5877'];
 
         (function activate() {
             startLoading()
@@ -32,7 +33,7 @@
             return jobService.getJob($stateParams.jobId)
                 .then(function(response) {
                     vm.job = response;
-                    vm.mapMarkers.push(vm.job.pickup);
+                    vm.mapMarkers.push(vm.job.pickup, vm.job.destination);
                 })
                 .catch(function(err) {
                     pboxPopup.alert('Job could not be found !');
