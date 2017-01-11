@@ -16,7 +16,8 @@
             scope: {
                 mapOptions: '=',
                 mapMarkers: '=',
-                drawDirections: '&?'
+                drawDirections: '&?',
+                colorsArray: '='
             }
         };
 
@@ -71,8 +72,7 @@
                             return false;
                         }
                         for (var i = 0; i < scope.mapMarkers.length; i++) {
-                            var titles = ['Pickup', 'Destination'];
-                            buildMarker(scope.mapMarkers[i].latitude, scope.mapMarkers[i].longitude, scope.map, titles[i]);
+                            buildMarker(scope.mapMarkers[i].latitude, scope.mapMarkers[i].longitude, scope.map, i);
                         }
                         var bounds = new google.maps.LatLngBounds();
                         for (var i = 0; i < markers.length; i++) {
@@ -84,14 +84,22 @@
                 }());
             }
 
-            function buildMarker(latitude, longitude, map, title) {
+            function buildMarker(latitude, longitude, map, i) {
                 markers.push(new google.maps.Marker({
                     map: map,
                     animation: google.maps.Animation.DROP,
                     position: new google.maps.LatLng(latitude, longitude),
-                    icon: markerIcon,
-                    title: title
+                    icon: createIcon(i)
                 }));
+            }
+
+            function createIcon(i) {
+                if (scope.colorsArray) {
+                    markerIcon.fillColor = scope.colorsArray[i];
+                    return markerIcon;
+                } else {
+                    return markerIcon;
+                }
             }
 
             // handle the directions service
