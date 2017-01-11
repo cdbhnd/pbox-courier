@@ -19,7 +19,7 @@
                     Pickup at <span class="highlight">{{ vm.job.pickup.address }}</span>
                 </li>
                 <li class="item">
-                    Destination <span class="highlight">{{ vm.job.destination.address ? ('at' + vm.job.destination.address) : 'not yet available' }}</span>
+                    Destination at <span class="highlight">{{ vm.job.destination.address ? vm.job.destination.address : 'not yet available' }}</span>
                 </li>
             </ul>
         </div>

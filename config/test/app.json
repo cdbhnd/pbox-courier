@@ -1,5 +1,5 @@
 {
-	"pboxAPI": {
-        "HOST": "https://pbox-server.herokuapp.com"
+    "pboxAPI": {
+        "HOST": "http://ec2-35-156-247-206.eu-central-1.compute.amazonaws.com:8080"
     }
 }

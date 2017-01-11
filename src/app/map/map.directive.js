@@ -32,7 +32,7 @@
             };
             var markers = [];
             var directions = {};
-            var directionsDisplay = new google.maps.DirectionsRenderer({suppressMarkers: true});
+            var directionsDisplay = new google.maps.DirectionsRenderer({ suppressMarkers: true });
             var directionsService = new google.maps.DirectionsService();
 
             scope.mapId = guid();
@@ -71,7 +71,8 @@
                             return false;
                         }
                         for (var i = 0; i < scope.mapMarkers.length; i++) {
-                            buildMarker(scope.mapMarkers[i].latitude, scope.mapMarkers[i].longitude, scope.map);
+                            var titles = ['Pickup', 'Destination'];
+                            buildMarker(scope.mapMarkers[i].latitude, scope.mapMarkers[i].longitude, scope.map, titles[i]);
                         }
                         var bounds = new google.maps.LatLngBounds();
                         for (var i = 0; i < markers.length; i++) {
@@ -83,12 +84,13 @@
                 }());
             }
 
-            function buildMarker(latitude, longitude, map) {
+            function buildMarker(latitude, longitude, map, title) {
                 markers.push(new google.maps.Marker({
                     map: map,
                     animation: google.maps.Animation.DROP,
                     position: new google.maps.LatLng(latitude, longitude),
-                    icon: markerIcon
+                    icon: markerIcon,
+                    title: title
                 }));
             }
 
