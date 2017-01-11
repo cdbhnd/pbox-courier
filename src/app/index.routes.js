@@ -59,6 +59,14 @@
                     cache: false,
                     controllerAs: 'vm',
                     title: 'Assign box to job'
+                })
+                .state('job-edit',{
+                    url: '/job/edit/{jobId}',
+                    templateUrl: 'app/job/job.edit.html',
+                    controller: 'jobEditController',
+                    cache: false,
+                    controllerAs: 'vm',
+                    title: 'Edit ...'
                 });
 
             $urlRouterProvider.otherwise('/');

@@ -1,0 +1,24 @@
+<ion-view>
+    <ion-content>
+        <div class="input-form">
+            <div class="select-control">
+                <label>Box Size</label>
+                <!--<select name="" id="" ng-model="vm.job.size">
+                    <option value="S">S</option>
+                    <option value="M">M</option>
+                    <option value="L">L</option>
+                </select>-->
+
+                
+            </div>
+            <input type="text" placeholder="Destination Country" ng-model="vm.job.destination.country" />
+            <input type="text" placeholder="Destination City" ng-model="vm.job.destination.city" />
+            <input type="text" placeholder="Destination Street" ng-model="vm.job.destination.street" />
+            <input type="text" placeholder="Destination House Number" ng-model="vm.job.destination.houseNumber" />
+            <input type="text" placeholder="Receiver Name" ng-model="vm.job.destination.receiverName" />
+            <input type="text" placeholder="Receiver Phone" ng-model="vm.job.destination.receiverPhone" />
+            <button class="button button-main button-block" ng-click="vm.save()">Save</button> 
+            <pbox-select pb-options="vm.sizeOptions" ng-model="vm.job.size"></pbox-select>
+        </div>
+    </ion-content>
+</ion-view>

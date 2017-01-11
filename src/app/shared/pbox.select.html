@@ -1,0 +1,6 @@
+<div>
+    <div class="selected-field" ng-click="activate()">{{modelValue}}</div>   
+    <div class="drop-down" ng-show="{{active}}">
+        <span ng-repeat="item in pbOptions" ng-click="deactivate({{item.value}})">{{item.name}}</span>
+    </div>
+</div>
