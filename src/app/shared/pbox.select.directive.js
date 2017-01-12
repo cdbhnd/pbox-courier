@@ -6,25 +6,28 @@
         return {
             templateUrl: 'app/shared/pbox.select.html',
             restrict: 'E',
-            scope: { pbOptions: '=',
-                     modelValue: '=ngModel'
-                    },
+            scope: { 
+                pbOptions: '=',
+                modelValue: '=ngModel',
+                pbLabel: '=pbLabel'
+            },
+            replace: true,
             
-            controller: function($scope, $element){
-
-                //properties
-                $scope.active = false;
+            link: function(scope, elements, attrs){
+                
+                scope.active = false;
 
                 //functions
-                $scope.activate = activate;
+                scope.activate = activate;
+                scope.deactivate = deactivate;
                 
                 function activate() {
-                    $scope.active = true;
+                    scope.active = true;
                 }
 
                 function deactivate(selectedValue) {
-                    $scope.active = false;
-                    modelValue = selectedValue;
+                    scope.active = false;
+                    scope.modelValue = selectedValue;
                 }
             }
         }

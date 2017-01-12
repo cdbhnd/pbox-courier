@@ -5,6 +5,7 @@
     margin-left: 5%;
 
     .select-control {
+        position:relative;
         margin-top: -1px;
         width: 100%;
         height: 45px;
@@ -17,15 +18,38 @@
             position: relative;
             top: 10px;
         }
-        select {
-            position: relative;
-            right: -215px;
-            top: 10px;
+        .select-list {
+            position: absolute;           
+            top: 0;
+            right: 0;
+            display: inline-block;
+            width: 80px;
+            height: 43px;
+            text-align: center;
+            line-height: 43px;
             border: none;
             background-color: $background_primary_color;
             color: white;
-            li:hover {
-                background-color:$primary_color;
+            .selected-field {
+                .ion-chevron-down{
+                    position: absolute;
+                    top: 0px;
+                    right: 5px;
+                    color: $primary_color;
+                }          
+            }
+
+            .drop-down {
+                top: 43px;
+                right: 0;
+                z-index: 9999;
+                position: absolute;
+                width: 63px;
+                background-color: $background_primary_color;
+                border: 1px solid $primary_color;
+                .drop-down-item {
+                    
+                }
             }
         }
     }
