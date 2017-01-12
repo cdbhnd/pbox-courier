@@ -26,7 +26,7 @@
         vm.actionSheetConfig = {
             buttons: [
                 { text: 'Unassign', callback: unassignFromJob },
-                { text: 'Edit', callback: null },
+                { text: 'Edit', callback: editJob },
                 { text: 'Add Box', callback: addBoxToJob },
                 { text: 'Complete', callback: completeJob }
             ],
@@ -160,6 +160,10 @@
 
         function addBoxToJob() {
             $state.go('job-add-box', { jobId: vm.job.id });   
+        }
+
+        function editJob() {
+            $state.go('job-edit', { jobId: vm.job.id });
         }
 
         function openActions() {
