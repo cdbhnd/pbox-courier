@@ -17,6 +17,7 @@
         vm.openActions = openActions;
         vm.actionsClose = null;
         vm.showOnMap = showOnMap;
+        vm.markerColors = ['#33CBCC', '#3F5877'];
 
         //variables and properties
         vm.job = null;

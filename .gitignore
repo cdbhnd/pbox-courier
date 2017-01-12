@@ -8,3 +8,4 @@ www/
 .tmp/
 res/
 resources/
+rev-manifest.json

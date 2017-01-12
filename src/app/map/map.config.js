@@ -1,5 +1,5 @@
 (function() {
-	'use strict';
+    'use strict';
 
     angular
         .module('pbox.courier.map')
@@ -15,11 +15,11 @@
                 mapTypeId: google.maps.MapTypeId.ROADMAP,
                 zoomControl: true,
                 zoomControlOptions: {
-                    position: google.maps.ControlPosition.RIGHT_TOP
+                    position: google.maps.ControlPosition.RIGHT_BOTTOM
                 },
                 streetViewControl: true,
                 streetViewControlOptions: {
-                    position: google.maps.ControlPosition.RIGHT_TOP
+                    position: google.maps.ControlPosition.RIGHT_BOTTOM
                 },
                 styles: [
                     { "featureType": "landscape.natural", "stylers": [{ "visibility": "on" }, { "color": "#e2cbac" }] },

@@ -1,5 +1,5 @@
 <ion-list can-swipe="listCanSwipe">
-    <ion-item class="item-thumbnail-left job-item" ng-repeat="j in jobsList track by $index" ng-click="onJobClick(j)">
+    <ion-item class="item-thumbnail-left job-item" ng-repeat="j in jobsList | orderBy: 'createdAt' : true" ng-click="onJobClick(j)">
         <img ng-src="images/logo.png">
         <h2>{{ j.name }}</h2>
         <p>
