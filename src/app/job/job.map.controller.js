@@ -33,7 +33,10 @@
             return jobService.getJob($stateParams.jobId)
                 .then(function(response) {
                     vm.job = response;
-                    vm.mapMarkers.push(vm.job.pickup, vm.job.destination);
+                    vm.mapMarkers.push(vm.job.pickup);
+                    if (!!vm.job.destination && vm.job.destination.valid()) {
+                        vm.mapMarkers.push(vm.job.destination);
+                    }
                 })
                 .catch(function(err) {
                     pboxPopup.alert('Job could not be found !');

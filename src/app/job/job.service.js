@@ -26,7 +26,7 @@
 
                     if (response.length) {
                         for (var i = 0; i < response.length; i++) {
-                            jobs[i] = new JobModel(response[i])
+                            jobs[i] = new JobModel(response[i]);
                         }
                     }
 

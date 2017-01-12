@@ -1,3 +1,3 @@
 gulp --test --buildonly &&
-aws s3 sync www/ s3://pbox-dev --profile pbox --region eu-central-1 --acl public-read-write --exclude "*" --include="*.ico" --include="*.png" --include="*.jpg" --include="*.gif" --include="*.svg" --include="*.ttf" --include="*.eot" --include="*.woff" --include "*.js" --include "*.css" --include "*.xml" &&
-aws s3 sync www/ s3://pbox-dev --profile pbox --region eu-central-1 --acl public-read-write --exclude "*" --include="*.html" --include="*.json" --cache-control "no-cache, no-store, must-revalidate" --metadata-directive "REPLACE"
+aws s3 sync www/ s3://pbox-courier-dev --profile pbox --region eu-central-1 --acl public-read-write --exclude "*" --include="*.ico" --include="*.png" --include="*.jpg" --include="*.gif" --include="*.svg" --include="*.ttf" --include="*.eot" --include="*.woff" --include "*.js" --include "*.css" --include "*.xml" &&
+aws s3 sync www/ s3://pbox-courier-dev --profile pbox --region eu-central-1 --acl public-read-write --exclude "*" --include="*.html" --include="*.json" --cache-control "no-cache, no-store, must-revalidate" --metadata-directive "REPLACE"

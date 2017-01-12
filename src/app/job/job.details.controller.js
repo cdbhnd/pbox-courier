@@ -73,7 +73,7 @@
         function loadMapMarkers() {
             return $q.when(function() {
                 vm.mapMarkers.push(vm.job.pickup);
-                if (vm.job.destination.latitude && vm.job.destination.longitude) {
+                if (!!vm.job.destination && vm.job.destination.valid()) {
                     vm.mapMarkers.push(vm.job.destination);
                 }
             }());
