@@ -36,7 +36,7 @@
 
     // main gulp base task
     // do not change the execution order of the tasks!
-    gulp.task('base', gulpsync.sync(['clean', 'config', 'data', 'templateCache', 'libraries', 'app', 'styles', 'fonts', 'icons', 'images', 'favicon', 'index', 'manifest']));
+    gulp.task('base', gulpsync.sync(['clean', 'config', 'data', 'templateCache', 'libraries', 'app', 'styles', 'fonts', 'icons', 'images', 'favicon', 'index']));
 
     gulp.task('config', function() {
         gulp.src([
@@ -81,17 +81,12 @@
     });
 
     gulp.task('index', function() {
+        var _manifest = gulp.src('rev-manifest.json');
         return gulp.src([
                 config.paths.src + '/index.html'
             ])
             .pipe(preprocess({ context: { ENV: _ENV, ENV_CONFIG: _ENV_CONFIG, DEBUG: (_ENV == config.environments.DEVELOPMENT) } }))
-            .pipe(gulp.dest(config.paths.dist));
-    });
-
-    gulp.task('manifest', function() {
-        return gulp.src([
-                config.paths.src + '/manifest.json'
-            ])
+            .pipe(revReplace({ manifest: _manifest }))
             .pipe(gulp.dest(config.paths.dist));
     });
 
@@ -123,7 +118,10 @@
                 config.paths.node_modules + '/angular-moment/angular-moment.min.js'
             ])
             .pipe(concatenate('libraries.js'))
-            .pipe(gulp.dest(config.paths.tmp + '/js'));
+            .pipe(rev())
+            .pipe(gulp.dest(config.paths.tmp + '/js'))
+            .pipe(rev.manifest('rev-manifest.json', { base: process.cwd() + '/' + config.paths.src, merge: true }))
+            .pipe(gulp.dest(config.paths.src));
     });
 
     gulp.task('app', function() {
@@ -138,8 +136,11 @@
             .pipe(concatenate('app.js'))
             .pipe(preprocess({ context: { ENV: _ENV, ENV_CONFIG: _ENV_CONFIG, DEBUG: (_ENV == config.environments.DEVELOPMENT) } }))
             .pipe(ngAnotate())
+            .pipe(rev())
             .pipe(sourcemaps.write('./'))
-            .pipe(gulp.dest(config.paths.tmp + '/js'));
+            .pipe(gulp.dest(config.paths.tmp + '/js'))
+            .pipe(rev.manifest('rev-manifest.json', { base: process.cwd() + '/' + config.paths.src, merge: true }))
+            .pipe(gulp.dest(config.paths.src));
     });
 
     gulp.task('styles', function() {
@@ -150,8 +151,11 @@
             .pipe(sass().on('error', sass.logError))
             .pipe(concatenate('styles.css'))
             .pipe(minifyCss())
+            .pipe(rev())
             .pipe(sourcemaps.write('./'))
-            .pipe(gulp.dest(config.paths.tmp + '/styles'));
+            .pipe(gulp.dest(config.paths.tmp + '/styles'))
+            .pipe(rev.manifest('rev-manifest.json', { base: + '/' + config.paths.src, merge: true }))
+            .pipe(gulp.dest(config.paths.src));
     });
 
     gulp.task('images', function() {
@@ -166,23 +170,6 @@
         gulp.src([
                 config.paths.src + '/assets/favicon/*',
             ])
-            .pipe(gulp.dest(config.paths.dist));
-    });
-
-    gulp.task('revision', function() {
-        return gulp.src([config.paths.tmp + '/**/*.css', config.paths.tmp + '/**/*.js'])
-            .pipe(rev())
-            .pipe(revdel())
-            .pipe(gulp.dest(config.paths.tmp))
-            .pipe(rev.manifest())
-            .pipe(gulp.dest(config.paths.tmp));
-    });
-
-    gulp.task("revision-replace", function() {
-        var manifest = gulp.src(config.paths.tmp + "/rev-manifest.json");
-
-        return gulp.src(config.paths.dist + "/index.html")
-            .pipe(revReplace({ manifest: manifest }))
             .pipe(gulp.dest(config.paths.dist));
     });
 }(require));
