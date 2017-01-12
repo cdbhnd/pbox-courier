@@ -2,7 +2,7 @@
     'use strict';
 
     // import watchers and base tasks
-    require('./build-base.js');
+    require('./build.base.js');
     require('./watch.js');
 
     var config = require('./config.js');
