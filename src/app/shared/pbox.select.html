@@ -1,9 +1,9 @@
 <div class="select-control">
     <label>{{pbLabel}}</label>       
     <div class="select-list">
-        <div class="selected-field">{{modelValue}}<span ng-click="activate()" class="ion-chevron-down"/></div>   
+        <div ng-click="toggle()" class="selected-field">{{modelValue}}<span class="ion-chevron-down"/></div>   
         <div class="drop-down" ng-show="active">
-            <div class="drop-down-item" ng-repeat="item in pbOptions" ng-click="deactivate(item.value)">{{item.name}}</div>
+            <div class="drop-down-item" ng-repeat="item in pbOptions" ng-click="selectValue(item.value)">{{item.name}}</div>
         </div>
     </div>
 </div>

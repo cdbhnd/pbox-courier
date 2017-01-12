@@ -18,14 +18,14 @@
                 scope.active = false;
 
                 //functions
-                scope.activate = activate;
-                scope.deactivate = deactivate;
+                scope.toggle = toggle;
+                scope.selectValue = selectValue;
                 
-                function activate() {
-                    scope.active = true;
+                function toggle() {
+                    scope.active = !scope.active;
                 }
 
-                function deactivate(selectedValue) {
+                function selectValue(selectedValue) {
                     scope.active = false;
                     scope.modelValue = selectedValue;
                 }
