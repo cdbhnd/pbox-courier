@@ -31,6 +31,13 @@
     if (argv.production) {
         _ENV = config.environments.PRODUCTION;
     }
+    var _PLATFORM = config.platforms.WEB;
+    if (argv.android) {
+        _PLATFORM = config.platforms.ANDROID;
+    }
+    if (argv.ios) {
+        _PLATFORM = config.platforms.IOS;
+    }
 
     var _ENV_CONFIG = config.environmentsConfig[_ENV];
 
@@ -85,7 +92,7 @@
         return gulp.src([
                 config.paths.src + '/index.html'
             ])
-            .pipe(preprocess({ context: { ENV: _ENV, ENV_CONFIG: _ENV_CONFIG, DEBUG: (_ENV == config.environments.DEVELOPMENT) } }))
+            .pipe(preprocess({ context: { ENV: _ENV, ENV_CONFIG: _ENV_CONFIG, DEBUG: (_ENV == config.environments.DEVELOPMENT), PLATFORM: _PLATFORM } }))
             .pipe(revReplace({ manifest: _manifest }))
             .pipe(gulp.dest(config.paths.dist));
     });
