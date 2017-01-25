@@ -3,7 +3,8 @@
         "HOST": "http://localhost:8080",
         "JOBS": "/v1.0/jobs",
         "USERS": "/v1.0/users",
-        "TOKEN": "/v1.0/token"
+        "TOKEN": "/v1.0/token",
+        "BOXES": "/v1.0/boxes"
     },
     "httpMethods": {
         "GET": "GET",

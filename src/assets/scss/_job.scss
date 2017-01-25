@@ -24,13 +24,17 @@
             width: 100%;
         }
     }
-    .list .item {
-        background-color: $background_primary_color;
-        color: $secondary_color;
-        font-size: 14px;
-        padding: 10px;
-        border-color: $primary_color;
+    .list {
+        margin-bottom: 50px;
+        .item {
+            background-color: $background_primary_color;
+            color: $secondary_color;
+            font-size: 14px;
+            padding: 10px;
+            border-color: $primary_color;
+        }
     }
+     
     .bottom-bar {
         .buttton {
             .icon {
