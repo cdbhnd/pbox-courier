@@ -3,7 +3,7 @@
         .module('pbox.courier.job')
         .service('jobService', jobService);
 
-    function jobService(JobModel, pboxApi, config) {
+    function jobService(JobModel, pboxApi, config, BoxModel) {
 
         var service = this;
 
@@ -12,6 +12,7 @@
         service.update = updateJob;
         service.getJob = getJob;
         service.unassign = unassign;
+        service.getBox = getBox;
 
         ///////////////////////////////////////////
 
@@ -44,6 +45,19 @@
                 })
                 .then(function(response) {
                     return new JobModel(response[0]);
+                });
+        }
+
+        function getBox(boxId) {
+            return pboxApi.http({
+                    method: config.httpMethods.GET,
+                    url: config.pboxAPI.BOXES + '/' + boxId
+                })
+                .then(function(response) {
+                    return new BoxModel(response);
+                })
+                .catch(function(err){
+                    console.log(err);
                 });
         }
 

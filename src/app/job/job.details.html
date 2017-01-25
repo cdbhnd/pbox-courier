@@ -21,6 +21,14 @@
                 <li class="item">
                     Destination at <span class="highlight">{{ vm.job.destination.address ? vm.job.destination.address : 'not yet available' }}</span>
                 </li>
+
+                 <li class="item">
+                    Box code <span class="highlight">{{ vm.box.code ? vm.box.code : 'box is not assigned'}}</span>
+                </li>
+
+                 <li class="item">
+                     Box status <span class="highlight">{{ vm.box.status ? vm.box.status : 'box is not assigned'}}</span>
+                </li>
             </ul>
         </div>
     </ion-content>
