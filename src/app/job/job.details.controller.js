@@ -18,6 +18,7 @@
         vm.actionsClose = null;
         vm.showOnMap = showOnMap;
         vm.markerColors = ['#33CBCC', '#3F5877'];
+        vm.box = null;
 
         //variables and properties
         vm.job = null;
@@ -44,6 +45,7 @@
                 .then(loadMapOptions)
                 .then(loadJob)
                 .then(loadMapMarkers)
+                .then(loadBox)
                 .finally(stopLoading);
         } ());
 
@@ -79,6 +81,14 @@
             } ());
         }
 
+         function loadBox() {
+            return jobService.getBox(vm.job.box)
+                .then(function (response) {
+                    vm.box = response;
+                    console.log(vm.box);
+                });
+        }
+
         function loadMapOptions() {
             return $q.when(function () {
                 vm.mapOptions.disableDefaultUI = true;
@@ -110,7 +120,8 @@
                             .then(function (response) {
                                 $state.go('my-jobs');
                             })
-                            .catch(function (err) {
+                            .then(loadBox)
+                            .catch(function(err) {
                                 pboxPopup.alert('Operation failed!');
                             })
                             .finally(stopLoading);
@@ -150,7 +161,8 @@
                             .then(function (response) {
                                 vm.job = response;
                             })
-                            .catch(function (err) {
+                            .then(loadBox)
+                            .catch(function(err) {
                                 pboxPopup.alert('Operation failed!');
                             })
                             .finally(stopLoading);
