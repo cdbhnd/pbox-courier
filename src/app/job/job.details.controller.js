@@ -170,6 +170,16 @@
                 });
         }
 
+        function reactivateBox() {
+             return jobService.reactivateBox(vm.job.box)
+                .then(function (response) {
+                    vm.box = response;
+                })
+                .catch(function(err){
+                    pboxPopup.alert('Operation failed!');
+                });
+        }
+
         function addBoxToJob() {
             $state.go('job-add-box', { jobId: vm.job.id });
         }
@@ -180,12 +190,12 @@
 
         function openActions() {
             for (var i = 0; i < vm.actionSheetConfig.buttons.length; i++) {
-                if (vm.actionSheetConfig.buttons[i].text == 'Reactivate') {
+                if (vm.actionSheetConfig.buttons[i].text == 'Reactivate box') {
                     vm.actionSheetConfig.buttons.splice(i, 1);
                 }
             }
             if (!!vm.box && vm.box.status == 'SLEEP') {
-                vm.actionSheetConfig.buttons.push({ text: 'Reactivate', callback: reactivateBox });
+                vm.actionSheetConfig.buttons.push({ text: 'Reactivate box', callback: reactivateBox });
             }
             vm.actionsClose = $ionicActionSheet.show(vm.actionSheetConfig);
         }

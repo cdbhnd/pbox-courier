@@ -13,6 +13,7 @@
         service.getJob = getJob;
         service.unassign = unassign;
         service.getBox = getBox;
+        service.reactivateBox = reactivateBox; 
 
         ///////////////////////////////////////////
 
@@ -59,6 +60,17 @@
                 .catch(function(err){
                     console.log(err);
                 });
+        }
+
+        function reactivateBox(boxId) {
+            return pboxApi.http({
+                    method: config.httpMethods.POST,
+                    url: config.pboxAPI.BOXES + '/' + boxId + '/reactivate'
+                })
+                .then(function(response) {
+                    return new BoxModel(response);
+                });
+                
         }
 
         function acceptJob(selectedJob, courier) {
