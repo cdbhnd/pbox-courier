@@ -2,7 +2,8 @@
     <ion-content>
         <div class="input-form">
             <input type="text" placeholder="Box ID" ng-model="vm.boxId" />
-            <button class="button button-main button-block" ng-click="vm.assaginBox()">Save</button> 
+            <button class="button button-main button-block" ng-click="vm.assaginBox()">Save</button>
+            <qr-scanner width="400" height="300" ng-success="vm.onSuccess(data)" ng-error="vm.onError(error)" />
         </div>
     </ion-content>
 </ion-view>

@@ -119,6 +119,8 @@
                 config.paths.ionic + '/js/ionic.min.js',
                 config.paths.ionic + '/js/ionic-angular.min.js',
                 config.paths.ionic + '/js/ionic-bundle.min.js',
+                // config.paths.bower_components + '/angular-qr-scanner/qr-scanner.js',
+                // config.paths.bower_components + '/angular-qr-scanner/src/jsqrcode-combined.min.js',
                 config.paths.node_modules + '/ng-cordova/dist/ng-cordova.min.js',
                 config.paths.node_modules + '/ngstorage/ngStorage.min.js',
                 config.paths.node_modules + '/moment/moment.js',
@@ -161,7 +163,7 @@
             .pipe(rev())
             .pipe(sourcemaps.write('./'))
             .pipe(gulp.dest(config.paths.tmp + '/styles'))
-            .pipe(rev.manifest('rev-manifest.json', { base: + '/' + config.paths.src, merge: true }))
+            .pipe(rev.manifest('rev-manifest.json', { base: +'/' + config.paths.src, merge: true }))
             .pipe(gulp.dest(config.paths.src));
     });
 
