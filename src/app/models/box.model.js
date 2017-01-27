@@ -6,7 +6,7 @@
         .factory('BoxModel', boxModelFactory);
 
     /** @ngInject */
-    function boxModelFactory(GeolocationModel) {
+    function boxModelFactory(iotService, GeolocationModel) {
 
         function BoxModel(obj) {
             this.id = obj && obj.id ? obj.id : null;
@@ -23,9 +23,37 @@
             this.gps_sensor = obj && obj.sensors ? findSensor(obj.sensors, 'GPS') : null;
             this.temp_sensor = obj && obj.sensors ? findSensor(obj.sensors, 'TEMPERATURE') : null;
             this.acc_sensor = obj && obj.sensors ? findSensor(obj.sensors, 'ACCELEROMETER') : null;
+            this.battery_sensor = obj && obj.sensors ? findSensor(obj.sensors, 'BATTERY') : null;
             
             this._listen_active = false;
             this._sensors = obj && obj.sensors ? obj.sensors : [];
+        }
+
+        BoxModel.prototype.activate = function () {
+            if (!this._listen_active) {
+                iotService.listen(this);
+                this._listen_active = true;
+            }
+        }
+
+        BoxModel.prototype.deactivate = function () {
+            if (this._listen_active) {
+                iotService.stopListen(this.id);
+                this._listen_active = false;
+            }
+        }
+
+        BoxModel.prototype.setSensorValue = function (sensorId, value) {
+            if (!!this.battery_sensor && this.battery_sensor.assetId == sensorId) {
+                console.log('Battery sensor updated');
+                console.log(value);
+                var batteryData = value.split(",");
+                this.battery_sensor.value = {
+                    percentage: batteryData[0], 
+                    charging: batteryData[1]  
+                }
+                console.log('YOOOOOOOOO' + this.battery_sensor.value);
+            }
         }
 
         return BoxModel;

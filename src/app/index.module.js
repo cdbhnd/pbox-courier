@@ -18,7 +18,8 @@
             'pbox.courier.job',
             'pbox.courier.popup',
             'pbox.courier.map',
-            'qrScanner'
+            'qrScanner',
+            'pbox.courier.iot'
         ])
         .run(function($rootScope, $state, $ionicPlatform, $window, geolocationService, authService) {
             $ionicPlatform.ready(function() {

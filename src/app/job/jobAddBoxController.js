@@ -75,7 +75,7 @@
         }
 
         function scanBox() {
-            console.log("mile");
+            //console.log("mile");
             barcodeScanner.scan().then(function(result) {
                 if (result.canceled) {
                     return;

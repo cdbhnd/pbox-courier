@@ -32,6 +32,13 @@
             font-size: 14px;
             padding: 10px;
             border-color: $primary_color;
+            .battery-icon{
+                font-size: 21px;
+                position: relative;
+                left: 7px;
+                top: 3px;
+                color: $battery_icon_color;
+            }
         }
     }
      
