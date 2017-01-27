@@ -85,6 +85,10 @@
             return jobService.getBox(vm.job.box)
                 .then(function (response) {
                     vm.box = response;
+                    vm.box.activate();
+                    $scope.$on('$destroy', function () {
+                        vm.box.deactivate();
+                    });
                     console.log(vm.box);
                 });
         }
@@ -120,7 +124,9 @@
                             .then(function (response) {
                                 $state.go('my-jobs');
                             })
-                            .then(loadBox)
+                            .then(function() {
+                                loadBox(vm.job.box);
+                            })
                             .catch(function(err) {
                                 pboxPopup.alert('Operation failed!');
                             })
@@ -158,14 +164,16 @@
                         jobService.update($stateParams.jobId, {
                             "status": "COMPLETED"
                         })
-                            .then(function (response) {
-                                vm.job = response;
-                            })
-                            .then(loadBox)
-                            .catch(function(err) {
-                                pboxPopup.alert('Operation failed!');
-                            })
-                            .finally(stopLoading);
+                        .then(function (response) {
+                            vm.job = response;
+                        })
+                        .then(function() {
+                            loadBox(vm.job.box);
+                        })
+                        .catch(function(err) {
+                            pboxPopup.alert('Operation failed!');
+                        })
+                        .finally(stopLoading);
                     }
                 });
         }

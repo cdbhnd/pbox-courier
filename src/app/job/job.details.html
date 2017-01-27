@@ -26,9 +26,12 @@
                     Box code <span class="highlight">{{ vm.box.code ? vm.box.code : 'box is not assigned'}}</span>
                 </li>
 
-                 <li class="item">
+                <li class="item">
                      Box status <span class="highlight">{{ vm.box.status ? vm.box.status : 'box is not assigned'}}</span>
                 </li>
+                <li class="item">
+                     Battery <span class="highlight">{{ vm.box.battery_sensor.value.percentage ? vm.box.battery_sensor.value.percentage : 'data unavailable'}}</span> <span class="battery-icon"><ion-icon ng-if="!!vm.box.battery_sensor.value && vm.box.battery_sensor.value.charging == 1" class="ion-flash"></ion-icon></span>
+                </li>                
             </ul>
         </div>
     </ion-content>
