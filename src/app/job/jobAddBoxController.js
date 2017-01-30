@@ -24,8 +24,8 @@
         (function activate() {
             startLoading()
                 .then(loadJob)
+                .then(checkPlatform)
                 .finally(stopLoading);
-            console.dir('cordova', vm.isCordovaApp);
         }());
 
 
