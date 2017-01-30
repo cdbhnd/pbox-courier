@@ -26,8 +26,6 @@
         vm.mapMarkers = [];
         vm.actionSheetConfig = {
             buttons: [],
-            // destructiveText: 'Cancel',
-            // destructiveButtonClicked: cancelJob,
             cancelText: 'Close',
             buttonClicked: onActionClicked
         };
