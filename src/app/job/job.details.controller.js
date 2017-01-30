@@ -6,7 +6,7 @@
         .controller('jobDetailsController', jobDetailsController);
 
     /** @ngInject */
-    function jobDetailsController($scope, $q, $timeout, $ionicPopup, jobService, pboxLoader, pboxPopup, $stateParams, $state, mapConfig, geolocationService, $ionicActionSheet) {
+    function jobDetailsController($interval, $scope, $q, $timeout, $ionicPopup, jobService, pboxLoader, pboxPopup, $stateParams, $state, mapConfig, geolocationService, $ionicActionSheet) {
 
         var vm = this;
 
@@ -21,6 +21,7 @@
         vm.box = null;
 
         //variables and properties
+        var pollingPromise;
         vm.job = null;
         vm.mapOptions = angular.copy(mapConfig.mapOptions);
         vm.mapMarkers = [];
@@ -34,11 +35,13 @@
 
         (function activate() {
             startLoading()
+                .then(pollBoxStatus)
                 .then(getCurrentLocation)
                 .then(loadMapOptions)
                 .then(loadJob)
                 .then(loadMapMarkers)
                 .then(loadBox)
+                .then(cancelPollingPromiseOnScopeDestroy)
                 .finally(stopLoading);
         } ());
 
@@ -74,7 +77,7 @@
             } ());
         }
 
-         function loadBox() {
+        function loadBox() {
             if (!vm.job.box) {
                 return true;
             }
@@ -122,7 +125,7 @@
                                 $state.go('my-jobs');
                             })
                             .then(function() {
-                                loadBox(vm.job.box);
+                                vm.box = null;
                             })
                             .catch(function(err) {
                                 pboxPopup.alert('Operation failed!');
@@ -233,6 +236,41 @@
             if (!!vm.box && vm.box.status == 'SLEEP') {
                 vm.actionSheetConfig.buttons.push({ text: 'Reactivate box', callback: reactivateBox });
             }
+        }
+
+        function loadBoxStatus() {
+            if(!vm.box) {
+                return true;
+            }
+
+            return jobService.getBoxStatus(vm.job.box)
+                .then(function (response) {
+                    vm.box.status = response.status;
+                    return true;
+                })
+                .catch(function (err) {
+                    console.log(err);
+                });      
+        }
+
+        function pollBoxStatus() {
+            return $q.when(function () {
+                pollingPromise = $interval(function () {
+                    return loadBoxStatus();
+                }, 10000);
+                return true;
+            } ());
+        }
+
+        function cancelPollingPromiseOnScopeDestroy() {
+            return $q.when(function () {
+                $scope.$on('$destroy', function () {
+                    if (!!pollingPromise) {
+                        $interval.cancel(pollingPromise);
+                    }
+                });
+                return true;
+            } ());
         }
 
         function showOnMap() {

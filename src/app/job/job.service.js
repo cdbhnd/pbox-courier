@@ -13,8 +13,9 @@
         service.getJob = getJob;
         service.unassign = unassign;
         service.getBox = getBox;
+        service.getBoxStatus = getBoxStatus;
         service.reactivateBox = reactivateBox; 
-
+        
         ///////////////////////////////////////////
 
         function getJobs(query) {
@@ -56,6 +57,19 @@
                 })
                 .then(function(response) {
                     return new BoxModel(response);
+                })
+                .catch(function(err){
+                    console.log(err);
+                });
+        }
+
+        function getBoxStatus(boxId) {
+            return pboxApi.http({
+                    method: config.httpMethods.GET,
+                    url: config.pboxAPI.BOXES + '/' + boxId + '/status'
+                })
+                .then(function(response) {
+                    return response;
                 })
                 .catch(function(err){
                     console.log(err);
