@@ -6,23 +6,25 @@
         .controller('jobAddBoxController', jobAddBoxController);
 
     /** @ngInject */
-    function jobAddBoxController($q, jobService, pboxLoader, pboxPopup, $stateParams, $state) {
+    function jobAddBoxController($q, jobService, pboxLoader, pboxPopup, $stateParams, $state, $cordovaBarcodeScanner) {
 
         var vm = this;
 
         //public methods
-        vm.assaginBox = assaginBox;
-        vm.scanBox = scanBox;
+        vm.assignBox = assignBox;
+        vm.scanBarcode = scanBarcode;
 
         //variables and properties
         vm.job = null;
         vm.boxId = null;
+        vm.isCordovaApp = null;
 
         //////////////////////////////////////////////////////////
 
         (function activate() {
             startLoading()
                 .then(loadJob)
+                .then(checkPlatform)
                 .finally(stopLoading);
         }());
 
@@ -54,7 +56,12 @@
                 });
         }
 
-        function assaginBox() {
+        function checkPlatform() {
+            vm.isCordovaApp = document.URL.indexOf('http://') === -1 &&
+                document.URL.indexOf('https://') === -1;
+        }
+
+        function assignBox() {
             startLoading();
             jobService.update($stateParams.jobId, {
                     "status": "IN_PROGRESS",
@@ -74,18 +81,6 @@
                 .finally(stopLoading);
         }
 
-        function scanBox() {
-            //console.log("mile");
-            barcodeScanner.scan().then(function(result) {
-                if (result.canceled) {
-                    return;
-                }
-                // text from qr code or barcode is contained in result.text
-            }, function(err) {
-                alert(err);
-            });
-        }
-
         vm.onSuccess = function(data) {
             console.log(data);
             vm.boxId = data;
@@ -97,5 +92,14 @@
             console.log(error);
         };
 
+        function scanBarcode() {
+            $cordovaBarcodeScanner.scan()
+                .then(function(imageData) {
+                    vm.boxId = imageData.text;
+                }, function(error) {
+                    console.log("An error happened -> " + error);
+                })
+                .then(assignBox);
+        };
     }
 })();
