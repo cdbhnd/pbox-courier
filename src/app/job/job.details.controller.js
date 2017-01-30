@@ -25,14 +25,9 @@
         vm.mapOptions = angular.copy(mapConfig.mapOptions);
         vm.mapMarkers = [];
         vm.actionSheetConfig = {
-            buttons: [
-                { text: 'Unassign', callback: unassignFromJob },
-                { text: 'Edit', callback: editJob },
-                { text: 'Add Box', callback: addBoxToJob },
-                { text: 'Complete', callback: completeJob }
-            ],
-            destructiveText: 'Cancel',
-            destructiveButtonClicked: cancelJob,
+            buttons: [],
+            // destructiveText: 'Cancel',
+            // destructiveButtonClicked: cancelJob,
             cancelText: 'Close',
             buttonClicked: onActionClicked
         };
@@ -172,7 +167,7 @@
                             vm.job = response;
                         })
                         .then(function() {
-                            loadBox(vm.job.box);
+                            vm.box = null;
                         })
                         .catch(function(err) {
                             pboxPopup.alert('Operation failed!');
@@ -201,15 +196,45 @@
         }
 
         function openActions() {
-            for (var i = 0; i < vm.actionSheetConfig.buttons.length; i++) {
-                if (vm.actionSheetConfig.buttons[i].text == 'Reactivate box') {
-                    vm.actionSheetConfig.buttons.splice(i, 1);
-                }
+            setActionButtons();
+            vm.actionsClose = $ionicActionSheet.show(vm.actionSheetConfig);
+        }
+
+        function setActionButtons() {
+            //delete previously added buttons
+            vm.actionSheetConfig.buttons.length = 0;
+
+            //insert buttons based on job status
+
+            // EDIT JOB BUTTON
+            if (!!vm.job && vm.job.status == 'ACCEPTED') {
+                vm.actionSheetConfig.buttons.push({ text: 'Edit', callback: editJob });
             }
+
+            // COMPLETE JOB BUTTON
+            if (!!vm.job && vm.job.status == 'IN_PROGRESS') {
+                vm.actionSheetConfig.buttons.push({ text: 'Complete', callback: completeJob });
+            }
+
+            // UNASSIGN JOB BUTTON
+            if (!!vm.job && vm.job.status == 'ACCEPTED') {
+                vm.actionSheetConfig.buttons.push({ text: 'Unassign', callback: unassignFromJob });
+            }
+            
+            //CANCEL JOB BUTTON
+            if (!!vm.job && vm.job.status == 'ACCEPTED' || !!vm.job && vm.job.status == 'IN_PROGRESS') {
+               vm.actionSheetConfig.buttons.push({ text: 'Cancel', callback: cancelJob });
+            }
+
+            //ADD BOX BUTTON
+            if (!!vm.job && vm.job.status == 'ACCEPTED') {
+                vm.actionSheetConfig.buttons.push({ text: 'Add Box', callback: addBoxToJob });
+            }
+
+            //REACTIVATE BOX BUTTON
             if (!!vm.box && vm.box.status == 'SLEEP') {
                 vm.actionSheetConfig.buttons.push({ text: 'Reactivate box', callback: reactivateBox });
             }
-            vm.actionsClose = $ionicActionSheet.show(vm.actionSheetConfig);
         }
 
         function showOnMap() {
