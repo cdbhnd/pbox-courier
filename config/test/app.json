@@ -1,5 +1,5 @@
 {
 	"pboxAPI": {
-        "HOST": "//pbox-dev-1199301680.eu-central-1.elb.amazonaws.com"
+        "HOST": "https://pbox-server.herokuapp.com"
     }
 }

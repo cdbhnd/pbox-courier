@@ -82,6 +82,10 @@
         }
 
          function loadBox() {
+            if (!vm.job.box) {
+                return true;
+            }
+
             return jobService.getBox(vm.job.box)
                 .then(function (response) {
                     vm.box = response;
@@ -89,7 +93,7 @@
                     $scope.$on('$destroy', function () {
                         vm.box.deactivate();
                     });
-                    console.log(vm.box);
+                    return true;
                 });
         }
 
