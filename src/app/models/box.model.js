@@ -52,7 +52,6 @@
                     percentage: batteryData[0], 
                     charging: batteryData[1]  
                 }
-                console.log('YOOOOOOOOO' + this.battery_sensor.value);
             }
         }
 
