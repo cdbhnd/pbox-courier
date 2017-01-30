@@ -2,8 +2,13 @@
     <ion-content>
         <div class="input-form">
             <input type="text" placeholder="Box ID" ng-model="vm.boxId" />
-            <button class="button button-main button-block" ng-click="vm.assaginBox()">Save</button>
-            <qr-scanner width="400" height="300" ng-success="vm.onSuccess(data)" ng-error="vm.onError(error)" />
+            <button class="button button-main button-block" ng-click="vm.assignBox()">Save</button>
+            <div ng-if="!vm.isCordovaApp">
+                <qr-scanner width="400" height="300" ng-success="vm.onSuccess(data)" ng-error="vm.onError(error)" />
+            </div>
+            <div ng-if="vm.isCordovaApp">
+                <button class="button button-main button-block" ng-click="vm.scanBarcode()">Scan</button>
+            </div>
         </div>
     </ion-content>
 </ion-view>
