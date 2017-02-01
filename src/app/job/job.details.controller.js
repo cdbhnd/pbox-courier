@@ -1,4 +1,4 @@
-(function () {
+(function() {
     'use strict';
 
     angular
@@ -43,13 +43,13 @@
                 .then(loadBox)
                 .then(cancelPollingPromiseOnScopeDestroy)
                 .finally(stopLoading);
-        } ());
+        }());
 
         /////////////////////////////////////
 
         function getCurrentLocation() {
             return geolocationService.currentLocation()
-                .then(function (coords) {
+                .then(function(coords) {
                     vm.mapOptions.mapCenter = coords;
                     return true;
                 });
@@ -57,24 +57,24 @@
 
         function loadJob() {
             return jobService.getJob($stateParams.jobId)
-                .then(function (response) {
+                .then(function(response) {
                     vm.job = response;
                     if (!response) {
                         pboxPopup.alert('Job could not be found !');
                     }
                 })
-                .catch(function (err) {
+                .catch(function(err) {
                     pboxPopup.alert('Job could not be found !');
                 });
         }
 
         function loadMapMarkers() {
-            return $q.when(function () {
+            return $q.when(function() {
                 vm.mapMarkers.push(vm.job.pickup);
                 if (!!vm.job.destination && vm.job.destination.valid()) {
                     vm.mapMarkers.push(vm.job.destination);
                 }
-            } ());
+            }());
         }
 
         function loadBox() {
@@ -83,10 +83,10 @@
             }
 
             return jobService.getBox(vm.job.box)
-                .then(function (response) {
+                .then(function(response) {
                     vm.box = response;
                     vm.box.activate();
-                    $scope.$on('$destroy', function () {
+                    $scope.$on('$destroy', function() {
                         vm.box.deactivate();
                     });
                     return true;
@@ -94,7 +94,7 @@
         }
 
         function loadMapOptions() {
-            return $q.when(function () {
+            return $q.when(function() {
                 vm.mapOptions.disableDefaultUI = true;
                 vm.mapOptions.zoomControl = false;
                 vm.mapOptions.streetViewControl = false;
@@ -102,7 +102,7 @@
                 vm.mapOptions.scrollwheel = false;
                 vm.mapOptions.disableDoubleClickZoom = true;
                 return true;
-            } ());
+            }());
         }
 
         function onActionClicked(index) {
@@ -115,13 +115,13 @@
 
         function cancelJob() {
             pboxPopup.confirm('Are you sure you want to cancel this job?')
-                .then(function (res) {
+                .then(function(res) {
                     if (res) {
                         startLoading();
                         jobService.update($stateParams.jobId, {
-                            "status": "CANCELED"
-                        })
-                            .then(function (response) {
+                                "status": "CANCELED"
+                            })
+                            .then(function(response) {
                                 $state.go('my-jobs');
                             })
                             .then(function() {
@@ -137,20 +137,20 @@
 
         function unassignFromJob() {
             return pboxPopup.confirm('Are you sure you want to unassing from this job?')
-                .then(function (response) {
+                .then(function(response) {
                     if (response) {
                         startLoading();
                         return jobService.unassign(vm.job);
                     }
                     return null;
                 })
-                .then(function (response) {
+                .then(function(response) {
                     if (response) {
                         //pboxPopup.alert('You have unassinged from job !');
                         $state.go('my-jobs');
                     }
                 })
-                .catch(function (err) {
+                .catch(function(err) {
                     pboxPopup.alert('Operation failed!');
                 })
                 .finally(stopLoading);
@@ -158,32 +158,35 @@
 
         function completeJob() {
             pboxPopup.confirm('Are you sure you want to complete this job?')
-                .then(function (res) {
+                .then(function(res) {
                     if (res) {
                         startLoading();
                         jobService.update($stateParams.jobId, {
-                            "status": "COMPLETED"
-                        })
-                        .then(function (response) {
-                            vm.job = response;
-                        })
-                        .then(function() {
-                            vm.box = null;
-                        })
-                        .catch(function(err) {
-                            pboxPopup.alert('Operation failed!');
-                        })
-                        .finally(stopLoading);
+                                "status": "COMPLETED"
+                            })
+                            .then(function(response) {
+                                vm.job = response;
+                            })
+                            .then(function(response) {
+                                $state.go('my-jobs');
+                            })
+                            .then(function() {
+                                vm.box = null;
+                            })
+                            .catch(function(err) {
+                                pboxPopup.alert('Operation failed!');
+                            })
+                            .finally(stopLoading);
                     }
                 });
         }
 
         function reactivateBox() {
-             return jobService.reactivateBox(vm.job.box)
-                .then(function (response) {
+            return jobService.reactivateBox(vm.job.box)
+                .then(function(response) {
                     vm.box = response;
                 })
-                .catch(function(err){
+                .catch(function(err) {
                     pboxPopup.alert('Operation failed!');
                 });
         }
@@ -219,10 +222,10 @@
             if (!!vm.job && vm.job.status == 'ACCEPTED') {
                 vm.actionSheetConfig.buttons.push({ text: 'Unassign', callback: unassignFromJob });
             }
-            
+
             //CANCEL JOB BUTTON
             if (!!vm.job && vm.job.status == 'ACCEPTED' || !!vm.job && vm.job.status == 'IN_PROGRESS') {
-               vm.actionSheetConfig.buttons.push({ text: 'Cancel', callback: cancelJob });
+                vm.actionSheetConfig.buttons.push({ text: 'Cancel', callback: cancelJob });
             }
 
             //ADD BOX BUTTON
@@ -237,38 +240,38 @@
         }
 
         function loadBoxStatus() {
-            if(!vm.box) {
+            if (!vm.box) {
                 return true;
             }
 
             return jobService.getBoxStatus(vm.job.box)
-                .then(function (response) {
+                .then(function(response) {
                     vm.box.status = response.status;
                     return true;
                 })
-                .catch(function (err) {
+                .catch(function(err) {
                     console.log(err);
-                });      
+                });
         }
 
         function pollBoxStatus() {
-            return $q.when(function () {
-                pollingPromise = $interval(function () {
+            return $q.when(function() {
+                pollingPromise = $interval(function() {
                     return loadBoxStatus();
                 }, 10000);
                 return true;
-            } ());
+            }());
         }
 
         function cancelPollingPromiseOnScopeDestroy() {
-            return $q.when(function () {
-                $scope.$on('$destroy', function () {
+            return $q.when(function() {
+                $scope.$on('$destroy', function() {
                     if (!!pollingPromise) {
                         $interval.cancel(pollingPromise);
                     }
                 });
                 return true;
-            } ());
+            }());
         }
 
         function showOnMap() {
@@ -276,15 +279,15 @@
         }
 
         function startLoading() {
-            return $q.when(function () {
+            return $q.when(function() {
                 pboxLoader.loaderOn();
-            } ());
+            }());
         }
 
         function stopLoading() {
-            return $q.when(function () {
+            return $q.when(function() {
                 pboxLoader.loaderOff();
-            } ());
+            }());
         }
     }
 })();
