@@ -205,8 +205,6 @@
             //delete previously added buttons
             vm.actionSheetConfig.buttons.length = 0;
 
-            //insert buttons based on job status
-
             // EDIT JOB BUTTON
             if (!!vm.job && vm.job.status == 'ACCEPTED') {
                 vm.actionSheetConfig.buttons.push({ text: 'Edit', callback: editJob });
@@ -228,7 +226,7 @@
             }
 
             //ADD BOX BUTTON
-            if (!!vm.job && vm.job.status == 'ACCEPTED') {
+            if ((!!vm.job && vm.job.status == 'ACCEPTED') && !!vm.job.destination.address) {
                 vm.actionSheetConfig.buttons.push({ text: 'Add Box', callback: addBoxToJob });
             }
 
