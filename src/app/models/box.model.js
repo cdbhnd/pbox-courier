@@ -1,13 +1,10 @@
-(function () {
-    'use strict';
-
+(function (angular) {
     angular
         .module('pbox.courier')
         .factory('BoxModel', boxModelFactory);
 
-    /** @ngInject */
-    function boxModelFactory(iotService, GeolocationModel) {
-
+    /**@ngInject */
+    function boxModelFactory(iotService) {
         function BoxModel(obj) {
             this.id = obj && obj.id ? obj.id : null;
             this.code = obj && obj.code ? obj.code : null;
@@ -24,46 +21,47 @@
             this.temp_sensor = obj && obj.sensors ? findSensor(obj.sensors, 'TEMPERATURE') : null;
             this.acc_sensor = obj && obj.sensors ? findSensor(obj.sensors, 'ACCELEROMETER') : null;
             this.battery_sensor = obj && obj.sensors ? findSensor(obj.sensors, 'BATTERY') : null;
-            
-            this._listen_active = false;
-            this._sensors = obj && obj.sensors ? obj.sensors : [];
+
+            this.listen_active = false;
+            this.sensors = obj && obj.sensors ? obj.sensors : [];
         }
 
         BoxModel.prototype.activate = function () {
-            if (!this._listen_active) {
+            if (!this.listen_active) {
                 iotService.listen(this);
-                this._listen_active = true;
+                this.listen_active = true;
             }
-        }
+        };
 
         BoxModel.prototype.deactivate = function () {
-            if (this._listen_active) {
+            if (this.listen_active) {
                 iotService.stopListen(this.id);
-                this._listen_active = false;
+                this.listen_active = false;
             }
-        }
+        };
 
         BoxModel.prototype.setSensorValue = function (sensorId, value) {
-            if (!!this.battery_sensor && this.battery_sensor.assetId == sensorId) {
+            if (!!this.battery_sensor && this.battery_sensor.assetId === sensorId) {
                 console.log('Battery sensor updated');
                 console.log(value);
-                var batteryData = value.split(",");
+                var batteryData = value.split(',');
                 this.battery_sensor.value = {
-                    percentage: batteryData[0], 
-                    charging: batteryData[1]  
-                }
+                    percentage: batteryData[0],
+                    charging: batteryData[1]
+                };
             }
-        }
+        };
 
         return BoxModel;
 
         function findSensor(sensors, type) {
-            // find and return sensor by type;
+            //find and return sensor by type;
             for (var i = 0; i < sensors.length; i++) {
-                if (sensors[i].type == type) {
+                if (sensors[i].type === type) {
                     return sensors[i];
                 }
             }
+            return null;
         }
     }
-})();
+})(window.angular);

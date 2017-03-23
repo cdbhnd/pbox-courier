@@ -1,13 +1,10 @@
-(function() {
-    'use strict';
-
+(function (angular) {
     angular
         .module('pbox.courier.auth')
         .controller('authController', authController);
 
-    /** @ngInject */
+    /**@ngInject */
     function authController($state, $q, pboxLoader, pboxPopup, authService, UserModel) {
-
         var vm = this;
 
         vm.user = new UserModel();
@@ -16,7 +13,7 @@
 
         /////////////////////////////////////
 
-        (function activate() {
+        (function () {
             checkIfUserAlreadyLogedIn();
         }());
 
@@ -26,10 +23,10 @@
             if (vm.user.username && vm.user.password) {
                 pboxLoader.loaderOn();
                 login()
-                    .then(function(response) {
+                    .then(function () {
                         $state.go('jobs');
                     })
-                    .catch(function(e) {
+                    .catch(function (e) {
                         if (e.status === 401) {
                             pboxPopup.alert('Wrong username or password!');
                         }
@@ -37,7 +34,7 @@
                             pboxPopup.alert('Something went wrong, please try leater!');
                         }
                     })
-                    .finally(function() {
+                    .finally(function () {
                         pboxLoader.loaderOff();
                     });
             } else {
@@ -50,9 +47,9 @@
         ////////////////////////////////////////////////////
 
         function checkIfUserAlreadyLogedIn() {
-            return $q.when(function() {
+            return $q.when(function () {
                 return authService.currentUser()
-                    .then(function(user) {
+                    .then(function (user) {
                         if (!!user) {
                             $state.go('jobs');
                             return false;
@@ -63,7 +60,7 @@
         }
 
         function login() {
-            return authService.login(vm.user.username, vm.user.password)
+            return authService.login(vm.user.username, vm.user.password);
         }
     }
-})();
+})(window.angular);

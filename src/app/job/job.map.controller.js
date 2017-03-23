@@ -1,13 +1,10 @@
-(function() {
-    'use strict';
-
+(function (angular) {
     angular
         .module('pbox.courier.job')
         .controller('jobMapController', jobMapController);
 
-    /** @ngInject */
+    /**@ngInject */
     function jobMapController($q, $stateParams, jobService, geolocationService, pboxLoader, pboxPopup, mapConfig) {
-
         var vm = this;
 
         vm.job = null;
@@ -15,7 +12,8 @@
         vm.mapMarkers = [];
         vm.markerColors = ['#33CBCC', '#3F5877'];
 
-        (function activate() {
+        /**Activate */
+        (function () {
             startLoading()
                 .then(getCurrentLocation)
                 .then(loadJob)
@@ -24,35 +22,35 @@
 
         function getCurrentLocation() {
             return geolocationService.currentLocation()
-                .then(function(coords) {
+                .then(function (coords) {
                     vm.mapOptions.mapCenter = coords;
                 });
         }
 
         function loadJob() {
             return jobService.getJob($stateParams.jobId)
-                .then(function(response) {
+                .then(function (response) {
                     vm.job = response;
                     vm.mapMarkers.push(vm.job.pickup);
                     if (!!vm.job.destination && vm.job.destination.valid()) {
                         vm.mapMarkers.push(vm.job.destination);
                     }
                 })
-                .catch(function(err) {
+                .catch(function () {
                     pboxPopup.alert('Job could not be found !');
                 });
         }
 
         function startLoading() {
-            return $q.when(function() {
+            return $q.when(function () {
                 pboxLoader.loaderOn();
             }());
         }
 
         function stopLoading() {
-            return $q.when(function() {
+            return $q.when(function () {
                 pboxLoader.loaderOff();
             }());
         }
     }
-})();
+})(window.angular);

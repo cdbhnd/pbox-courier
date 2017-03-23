@@ -1,13 +1,10 @@
-(function() {
-    'use strict';
-
+(function (angular, google) {
     angular
         .module('pbox.courier.map')
         .directive('mapPane', mapPaneDirective);
 
-    /** @ngInject */
+    /**@ngInject */
     function mapPaneDirective($q) {
-
         return {
             restrict: 'E',
             link: link,
@@ -21,8 +18,7 @@
             }
         };
 
-        function link(scope, element, attrs) {
-
+        function link(scope) {
             var markerIcon = {
                 path: 'M0-48c-9.8 0-17.7 7.8-17.7 17.4 0 15.5 17.7 30.6 17.7 30.6s17.7-15.4 17.7-30.6c0-9.6-7.9-17.4-17.7-17.4z',
                 fillColor: '#3F5877',
@@ -32,26 +28,26 @@
                 strokeWeight: 0
             };
             var markers = [];
-            var directions = {};
             var directionsDisplay = new google.maps.DirectionsRenderer({ suppressMarkers: true });
             var directionsService = new google.maps.DirectionsService();
 
             scope.mapId = guid();
             scope.map = null;
-            scope.drawDirections = scope.drawDirections ? true : false;
-
-            (function activate() {
+            scope.drawDirections = !!scope.drawDirections;
+            //**Activate */
+            (function () {
                 subscribeOnOptionsChange()
                     .then(subscribeOnMarkersChange);
             }());
 
             function subscribeOnOptionsChange() {
-                return $q.when(function() {
-                    scope.$watch('mapOptions', function() {
+                return $q.when(function () {
+                    scope.$watch('mapOptions', function () {
                         if (!scope.mapOptions.mapCenter) {
                             return false;
                         }
-                        var center = new google.maps.LatLng(scope.mapOptions.mapCenter.latitude, scope.mapOptions.mapCenter.longitude);
+                        var center = new google.maps.LatLng(scope.mapOptions.mapCenter.latitude,
+                            scope.mapOptions.mapCenter.longitude);
                         var opts = angular.copy(scope.mapOptions);
                         opts.center = center;
                         scope.map = new google.maps.Map(document.getElementById(scope.mapId), opts);
@@ -66,8 +62,8 @@
             }
 
             function subscribeOnMarkersChange() {
-                return $q.when(function() {
-                    scope.$watch('mapMarkers', function() {
+                return $q.when(function () {
+                    scope.$watch('mapMarkers', function () {
                         if (!scope.map || !scope.mapMarkers) {
                             return false;
                         }
@@ -75,8 +71,8 @@
                             buildMarker(scope.mapMarkers[i].latitude, scope.mapMarkers[i].longitude, scope.map, i);
                         }
                         var bounds = new google.maps.LatLngBounds();
-                        for (var i = 0; i < markers.length; i++) {
-                            bounds.extend(markers[i].getPosition());
+                        for (var x = 0; x < markers.length; x++) {
+                            bounds.extend(markers[x].getPosition());
                         }
                         scope.map.fitBounds(bounds);
                         return handleDirectionService();
@@ -97,26 +93,25 @@
                 if (!!scope.colorsArray && !!scope.colorsArray[i]) {
                     markerIcon.fillColor = scope.colorsArray[i];
                     return markerIcon;
-                } else {
-                    return markerIcon;
                 }
+                return markerIcon;
             }
 
-            // handle the directions service
-            function handleDirectionService(latLng) {
-                return $q.when(function() {
+            //handle the directions service
+            function handleDirectionService() {
+                return $q.when(function () {
                     if (markers.length < 2 || !scope.drawDirections) {
                         return false;
                     }
                     directionsService.route({
-                            origin: getDirectionsStart(),
-                            destination: getDirectionsEnd(),
-                            waypoints: getDirectionWaypoints(),
-                            optimizeWaypoints: true,
-                            travelMode: google.maps.TravelMode.DRIVING
-                        },
-                        function(result, status) {
-                            if (status == google.maps.DirectionsStatus.OK) {
+                        origin: getDirectionsStart(),
+                        destination: getDirectionsEnd(),
+                        waypoints: getDirectionWaypoints(),
+                        optimizeWaypoints: true,
+                        travelMode: google.maps.TravelMode.DRIVING
+                    },
+                        function (result, status) {
+                            if (status === google.maps.DirectionsStatus.OK) {
                                 //removeMarkersFromMap();
                                 directionsDisplay.setDirections(result);
                                 directionsDisplay.setMap(scope.map);
@@ -124,12 +119,6 @@
                         });
                     return true;
                 }());
-            }
-
-            function removeMarkersFromMap() {
-                for (var i = 0; i < markers.length; i++) {
-                    markers[i].setMap(null);
-                }
             }
 
             function getDirectionsStart() {
@@ -162,4 +151,4 @@
         return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
             s4() + '-' + s4() + s4() + s4();
     }
-})();
+})(window.angular, window.google);

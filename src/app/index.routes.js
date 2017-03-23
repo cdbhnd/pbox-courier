@@ -1,10 +1,7 @@
-(function() {
-    'use strict';
-
+(function (angular) {
     angular
         .module('pbox.courier')
-        .config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
-
+        .config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
             $stateProvider
                 .state('login', {
                     url: '/',
@@ -52,7 +49,7 @@
                     controllerAs: 'vm',
                     title: 'Job Route'
                 })
-                .state('job-add-box',{
+                .state('job-add-box', {
                     url: '/add/box/{jobId}',
                     templateUrl: 'app/job/job.add.box.html',
                     controller: 'jobAddBoxController',
@@ -60,7 +57,7 @@
                     controllerAs: 'vm',
                     title: 'Assign box to job'
                 })
-                .state('job-edit',{
+                .state('job-edit', {
                     url: '/job/edit/{jobId}',
                     templateUrl: 'app/job/job.edit.html',
                     controller: 'jobEditController',
@@ -71,4 +68,4 @@
 
             $urlRouterProvider.otherwise('/');
         }]);
-})();
+})(window.angular);

@@ -1,13 +1,10 @@
-(function() {
-    'use strict';
-
+(function (angular) {
     angular
         .module('pbox.courier')
         .factory('JobModel', jobModelFactory);
 
-    /** @ngInject */
+    /**@ngInject */
     function jobModelFactory(moment, GeolocationModel) {
-
         function JobModel(obj) {
             this.id = obj && obj.id ? obj.id : null;
             this.pickup = obj && obj.pickup ? new GeolocationModel(obj.pickup) : null;
@@ -25,4 +22,4 @@
         }
         return JobModel;
     }
-})();
+})(window.angular);
