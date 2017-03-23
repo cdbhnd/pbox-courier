@@ -23,7 +23,7 @@
 
             scope.jobs = scope.jobs ? scope.jobs : [];
             scope.jobsList = [];
-            scope.onJobClick = scope.onJobClick ? scope.onJobClick : function () {};
+            scope.onJobClick = scope.onJobClick ? scope.onJobClick : function () { return true; };
             scope.swipeActions = scope.swipeActions ? sanitizeSwipeActions(scope.swipeActions) : [];
             scope.listCanSwipe = !!scope.swipeActions.length;
             scope.actionClicked = actionClicked;
@@ -47,7 +47,7 @@
                 }
                 for (var i = 0; i < swipeActions.length; i++) {
                     swipeActions[i].button = swipeActions[i].button ? swipeActions[i].button : 'button-main';
-                    swipeActions[i].onClick = swipeActions[i].onClick ? swipeActions[i].onClick : function () {};
+                    swipeActions[i].onClick = swipeActions[i].onClick ? swipeActions[i].onClick : function () { return true; };
                     swipeActions[i].icon = swipeActions[i].icon ? swipeActions[i].icon : 'ion-checkmark-round';
                 }
                 return swipeActions;

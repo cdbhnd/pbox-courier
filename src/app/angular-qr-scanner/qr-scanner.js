@@ -9,7 +9,10 @@
             },
             link: function (scope, element, attrs) {
                 window.URL = window.URL || window.webkitURL || window.mozURL || window.msURL;
-                navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
+                navigator.getUserMedia = navigator.getUserMedia ||
+                    navigator.webkitGetUserMedia ||
+                    navigator.mozGetUserMedia ||
+                    navigator.msGetUserMedia;
 
                 var height = attrs.height || 300;
                 var width = attrs.width || 250;
@@ -17,7 +20,8 @@
                 var video = $window.document.createElement('video');
                 video.setAttribute('width', width);
                 video.setAttribute('height', height);
-                video.setAttribute('style', '-moz-transform:rotateY(-180deg);-webkit-transform:rotateY(-180deg);transform:rotateY(-180deg);');
+                video.setAttribute('style',
+                    '-moz-transform:rotateY(-180deg);-webkit-transform:rotateY(-180deg);transform:rotateY(-180deg);');
                 var canvas = $window.document.createElement('canvas');
                 canvas.setAttribute('id', 'qr-canvas');
                 canvas.setAttribute('width', width);

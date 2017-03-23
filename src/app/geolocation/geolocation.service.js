@@ -26,7 +26,7 @@
         function currentLocation() {
             return $q.when(function () {
                 while (!location) {
-
+                    //wait until the locaiton is defined
                 }
                 return location;
             }());
@@ -79,7 +79,8 @@
                 geoLocationModel.latitude = config.demoLocation.lat;
                 geoLocationModel.longitude = config.demoLocation.lng;
             } else if (config.demoLocation.random) {
-                var randomCordinates = randomGeo({ latitude: config.demoLocation.lat, longitude: config.demoLocation.lng }, config.demoLocation.radius);
+                var randomCordinates = randomGeo({ latitude: config.demoLocation.lat, longitude: config.demoLocation.lng },
+                    config.demoLocation.radius);
                 geoLocationModel.latitude = randomCordinates.latitude;
                 geoLocationModel.longitude = randomCordinates.longitude;
             }

@@ -46,7 +46,8 @@
                         if (!scope.mapOptions.mapCenter) {
                             return false;
                         }
-                        var center = new google.maps.LatLng(scope.mapOptions.mapCenter.latitude, scope.mapOptions.mapCenter.longitude);
+                        var center = new google.maps.LatLng(scope.mapOptions.mapCenter.latitude,
+                            scope.mapOptions.mapCenter.longitude);
                         var opts = angular.copy(scope.mapOptions);
                         opts.center = center;
                         scope.map = new google.maps.Map(document.getElementById(scope.mapId), opts);
@@ -150,4 +151,4 @@
         return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
             s4() + '-' + s4() + s4() + s4();
     }
-})(window.angular);
+})(window.angular, window.google);

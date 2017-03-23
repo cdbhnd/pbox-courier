@@ -4,7 +4,8 @@
         .controller('myJobsController', myJobsController);
 
     /**@ngInject */
-    function myJobsController($scope, $q, $timeout, $localStorage, $state, jobService, pboxLoader, pboxPopup, UserModel, authService) {
+    function myJobsController($scope, $q, $timeout, $localStorage, $state,
+        jobService, pboxLoader, pboxPopup, UserModel, authService) {
         var vm = this;
         var user;
 

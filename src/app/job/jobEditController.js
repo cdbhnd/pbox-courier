@@ -59,7 +59,10 @@
                 pboxPopup.alert('These fields are required: ' + invalidFields);
                 return false;
             }
-            vm.job.destination.address = vm.jobDestinationStreet + ' ' + vm.jobHouseNumber + ', ' + vm.jobCity + ', ' + vm.jobCountry;
+            vm.job.destination.address = vm.jobDestinationStreet +
+                 ' ' + vm.jobHouseNumber +
+                 ', ' + vm.jobCity +
+                 ', ' + vm.jobCountry;
 
             startLoading();
 

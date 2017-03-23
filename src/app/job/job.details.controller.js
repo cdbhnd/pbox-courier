@@ -4,7 +4,8 @@
         .controller('jobDetailsController', jobDetailsController);
 
     /**@ngInject */
-    function jobDetailsController($interval, $scope, $q, $timeout, $ionicPopup, jobService, pboxLoader, pboxPopup, $stateParams, $state, mapConfig, geolocationService, $ionicActionSheet) {
+    function jobDetailsController($interval, $scope, $q, $timeout, $ionicPopup, jobService, pboxLoader,
+        pboxPopup, $stateParams, $state, mapConfig, geolocationService, $ionicActionSheet) {
         var vm = this;
 
         //public methods

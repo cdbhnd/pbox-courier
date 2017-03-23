@@ -4,7 +4,8 @@
         .controller('jobsController', jobsController);
 
     /**@ngInject */
-    function jobsController($scope, $q, $interval, $localStorage, $state, jobService, pboxLoader, pboxPopup, UserModel, authService, orderByFilter) {
+    function jobsController($scope, $q, $interval, $localStorage, $state,
+        jobService, pboxLoader, pboxPopup, UserModel, authService, orderByFilter) {
         var vm = this;
         var user = new UserModel(authService.currentUser());
         var pollingPromise;
