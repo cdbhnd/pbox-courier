@@ -1,4 +1,4 @@
-(function () {
+(function (angular) {
     angular.module('pbox.courier')
         .directive('pboxSelect', pboxSelectDirective);
 
@@ -6,21 +6,20 @@
         return {
             templateUrl: 'app/shared/pbox.select.html',
             restrict: 'E',
-            scope: { 
+            scope: {
                 pbOptions: '=',
                 modelValue: '=ngModel',
                 pbLabel: '=pbLabel'
             },
             replace: true,
-            
-            link: function(scope, elements, attrs){
-                
+
+            link: function (scope) {
                 scope.active = false;
 
                 //functions
                 scope.toggle = toggle;
                 scope.selectValue = selectValue;
-                
+
                 function toggle() {
                     scope.active = !scope.active;
                 }
@@ -30,6 +29,6 @@
                     scope.modelValue = selectedValue;
                 }
             }
-        }
+        };
     }
-})();
+})(window.angular);

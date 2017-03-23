@@ -1,13 +1,10 @@
-(function() {
-    'use strict';
-
+(function (angular) {
     angular
         .module('pbox.courier.nav')
         .controller('navController', navController);
 
-    /** @ngInject */
+    /**@ngInject */
     function navController($state, $ionicHistory) {
-
         var vm = this;
 
         vm.changeState = changeState;
@@ -15,7 +12,6 @@
 
         /////////////////////////////////////
 
-        (function activate() {}());
 
         /////////////////////////////////////
 
@@ -26,6 +22,5 @@
         function back() {
             $ionicHistory.goBack(-1);
         }
-
     }
-})();
+})(window.angular);

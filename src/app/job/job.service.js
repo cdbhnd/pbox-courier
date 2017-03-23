@@ -1,10 +1,9 @@
-(function() {
+(function (angular) {
     angular
         .module('pbox.courier.job')
         .service('jobService', jobService);
 
     function jobService(JobModel, pboxApi, config, BoxModel) {
-
         var service = this;
 
         service.get = getJobs;
@@ -14,17 +13,17 @@
         service.unassign = unassign;
         service.getBox = getBox;
         service.getBoxStatus = getBoxStatus;
-        service.reactivateBox = reactivateBox; 
-        
+        service.reactivateBox = reactivateBox;
+
         ///////////////////////////////////////////
 
         function getJobs(query) {
             return pboxApi.http({
-                    method: config.httpMethods.GET,
-                    url: config.pboxAPI.JOBS,
-                    params: query
-                })
-                .then(function(response) {
+                method: config.httpMethods.GET,
+                url: config.pboxAPI.JOBS,
+                params: query
+            })
+                .then(function (response) {
                     var jobs = [];
 
                     if (response.length) {
@@ -39,52 +38,51 @@
 
         function getJob(jobId) {
             return pboxApi.http({
-                    method: config.httpMethods.GET,
-                    url: config.pboxAPI.JOBS,
-                    params: {
-                        id: jobId
-                    }
-                })
-                .then(function(response) {
+                method: config.httpMethods.GET,
+                url: config.pboxAPI.JOBS,
+                params: {
+                    id: jobId
+                }
+            })
+                .then(function (response) {
                     return new JobModel(response[0]);
                 });
         }
 
         function getBox(boxId) {
             return pboxApi.http({
-                    method: config.httpMethods.GET,
-                    url: config.pboxAPI.BOXES + '/' + boxId
-                })
-                .then(function(response) {
+                method: config.httpMethods.GET,
+                url: config.pboxAPI.BOXES + '/' + boxId
+            })
+                .then(function (response) {
                     return new BoxModel(response);
                 })
-                .catch(function(err){
+                .catch(function (err) {
                     console.log(err);
                 });
         }
 
         function getBoxStatus(boxId) {
             return pboxApi.http({
-                    method: config.httpMethods.GET,
-                    url: config.pboxAPI.BOXES + '/' + boxId + '/status'
-                })
-                .then(function(response) {
+                method: config.httpMethods.GET,
+                url: config.pboxAPI.BOXES + '/' + boxId + '/status'
+            })
+                .then(function (response) {
                     return response;
                 })
-                .catch(function(err){
+                .catch(function (err) {
                     console.log(err);
                 });
         }
 
         function reactivateBox(boxId) {
             return pboxApi.http({
-                    method: config.httpMethods.POST,
-                    url: config.pboxAPI.BOXES + '/' + boxId + '/reactivate'
-                })
-                .then(function(response) {
+                method: config.httpMethods.POST,
+                url: config.pboxAPI.BOXES + '/' + boxId + '/reactivate'
+            })
+                .then(function (response) {
                     return new BoxModel(response);
                 });
-                
         }
 
         function acceptJob(selectedJob, courier) {
@@ -95,18 +93,18 @@
                     courierId: courier
                 }
             })
-            .then(function(response) {
-                return new JobModel(response);
-            });
+                .then(function (response) {
+                    return new JobModel(response);
+                });
         }
 
         function updateJob(jobId, query) {
             return pboxApi.http({
-                    method: config.httpMethods.PUT,
-                    url: config.pboxAPI.JOBS + '/' + jobId,
-                    data: query
-                })
-                .then(function(response) {
+                method: config.httpMethods.PUT,
+                url: config.pboxAPI.JOBS + '/' + jobId,
+                data: query
+            })
+                .then(function (response) {
                     return new JobModel(response);
                 });
         }
@@ -119,9 +117,9 @@
                     courierId: ''
                 }
             })
-            .then(function(response) {
-                return new JobModel(response);
-            });
+                .then(function (response) {
+                    return new JobModel(response);
+                });
         }
     }
-})();
+})(window.angular);

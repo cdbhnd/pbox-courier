@@ -1,13 +1,10 @@
-(function() {
-    'use strict';
-
+(function (angular) {
     angular
         .module('pbox.courier.job')
         .controller('jobsController', jobsController);
 
-    /** @ngInject */
+    /**@ngInject */
     function jobsController($scope, $q, $interval, $localStorage, $state, jobService, pboxLoader, pboxPopup, UserModel, authService, orderByFilter) {
-
         var vm = this;
         var user = new UserModel(authService.currentUser());
         var pollingPromise;
@@ -30,8 +27,8 @@
         vm.locateJob = locateJob;
 
         /////////////////////////////////////
-
-        (function activate() {
+        //**Activate */
+        (function () {
             startLoading()
                 .then(loadUser)
                 .then(loadJobs)
@@ -44,14 +41,14 @@
 
         function refreshList() {
             loadJobs()
-                .then(function() {
+                .then(function () {
                     $scope.$broadcast('scroll.refreshComplete');
                 });
         }
 
         function selectJob(job) {
             pboxPopup.confirm('Would you accept job?')
-                .then(function(response) {
+                .then(function (response) {
                     if (response) {
                         acceptJob(job);
                     }
@@ -62,30 +59,30 @@
 
         function loadUser() {
             return authService.currentUser()
-                .then(function(response) {
+                .then(function (response) {
                     user = new UserModel(response);
                 });
         }
 
         function loadJobs() {
             return jobService.get({
-                    status: 'PENDING'
-                })
-                .then(function(response) {
+                status: 'PENDING'
+            })
+                .then(function (response) {
                     vm.jobs = orderByFilter(response, 'createdAt', true);
-                    if (response.length == 0) {
+                    if (response.length === 0) {
                         pboxPopup.alert('There is no available jobs in your area!');
                     }
                 });
         }
 
         function pollJobs() {
-            return $q.when(function() {
-                pollingPromise = $interval(function() {
+            return $q.when(function () {
+                pollingPromise = $interval(function () {
                     return jobService.get({
-                            status: 'PENDING'
-                        })
-                        .then(function(response) {
+                        status: 'PENDING'
+                    })
+                        .then(function (response) {
                             var orderedJobs = orderByFilter(response, 'createdAt', true);
                             var numberOfNewJobs = orderedJobs.length - vm.jobs.length;
                             if (numberOfNewJobs > 0) {
@@ -102,8 +99,8 @@
         }
 
         function cancelPollingPromiseOnScopeDestroy() {
-            return $q.when(function() {
-                $scope.$on('$destroy', function() {
+            return $q.when(function () {
+                $scope.$on('$destroy', function () {
                     if (!!pollingPromise) {
                         $interval.cancel(pollingPromise);
                     }
@@ -119,19 +116,19 @@
             return jobService.accept(jobId, courierId)
                 .then(loadJobs)
                 .then(stopLoading)
-                .then(function(response) {
+                .then(function () {
                     $state.go('my-jobs');
                 });
         }
 
         function startLoading() {
-            return $q.when(function() {
+            return $q.when(function () {
                 pboxLoader.loaderOn();
             }());
         }
 
         function stopLoading() {
-            return $q.when(function() {
+            return $q.when(function () {
                 pboxLoader.loaderOff();
             }());
         }
@@ -140,4 +137,4 @@
             $state.go('job-map', { jobId: job.id });
         }
     }
-})();
+})(window.angular);

@@ -1,15 +1,12 @@
-(function () {
-    'use strict';
-
+(function (angular) {
     angular
         .module('pbox.courier.iot')
         .service('iotService', iotService);
 
-    /** @ngInject */
+    /**@ngInject */
     function iotService($rootScope, $window) {
-
         var service = this;
-        var host = "https://api.allthingstalk.io:15671/stomp";
+        var host = 'https://api.allthingstalk.io:15671/stomp';
         var listeners = {};
 
         service.listen = listenBox;
@@ -19,7 +16,6 @@
         //////////////////////////////////////
 
         function listenBox(box) {
-
             if (!!listeners[box.id]) {
                 return true;
             }
@@ -32,17 +28,17 @@
                 s.heartbeat.outgoing = 2000;
                 s.heartbeat.incoming = 0;
 
-                s.connect(box.clientId, box.clientKey, function (success) {
+                s.connect(box.clientId, box.clientKey, function () {
                     s.subscribe(box.topic, function (response) {
                         var data = JSON.parse(response.body);
                         box.setSensorValue(data.Id, data.Value);
-                        // run angular apply and digest process in 
-                        // order to new sensors values can be visible to other components in the app
+                        //run angular apply and digest process in
+                        //order to new sensors values can be visible to other components in the app
                         if (!$rootScope.$$phase) {
                             $rootScope.$apply();
                         }
                     });
-                }, function (error) { }, box.clientId);
+                }, function (error) { console.log(error); }, box.clientId);
 
                 listeners[box.id] = s;
                 return true;
@@ -73,4 +69,4 @@
             }
         }
     }
-})();
+})(window.angular);

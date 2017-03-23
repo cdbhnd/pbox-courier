@@ -1,10 +1,9 @@
-(function() {
+(function (angular) {
     angular
         .module('pbox.courier.loader')
         .service('pboxLoader', pboxLoader);
 
     function pboxLoader($ionicLoading) {
-
         var service = this;
 
         service.loaderOn = loaderOn;
@@ -22,5 +21,4 @@
             return $ionicLoading.hide();
         }
     }
-
-})();
+})(window.angular);

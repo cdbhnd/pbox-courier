@@ -1,13 +1,10 @@
-(function () {
-    'use strict';
-
+(function (angular) {
     angular
         .module('pbox.courier.job')
         .controller('jobEditController', jobEditController);
 
-    /** @ngInject */
+    /**@ngInject */
     function jobEditController($q, jobService, pboxLoader, pboxPopup, $stateParams, $state) {
-
         var vm = this;
         var invalidFields = '';
 
@@ -15,7 +12,7 @@
         vm.save = save;
 
         //variables and properties
-        vm.sizeOptions = [{name: 'small', value: 'S'}, {name: 'medium', value: 'M'}, {name: 'large', value: 'L'}];
+        vm.sizeOptions = [{ name: 'small', value: 'S' }, { name: 'medium', value: 'M' }, { name: 'large', value: 'L' }];
         vm.job = null;
         vm.jobCountry = 'Serbia';
         vm.jobCity = 'Belgrade';
@@ -23,25 +20,25 @@
         vm.jobHouseNumber = null;
 
         //////////////////////////////////////////////////////////
-
-        (function activate() {
+        //**Activate */
+        (function () {
             startLoading()
                 .then(loadJob)
                 .finally(stopLoading);
         }());
 
         //////////////////////////////////////////////////////////
-        
+
         function startLoading() {
             return $q.when(function () {
                 pboxLoader.loaderOn();
-            } ());
+            }());
         }
 
         function stopLoading() {
             return $q.when(function () {
                 pboxLoader.loaderOff();
-            } ());
+            }());
         }
 
         function loadJob() {
@@ -52,31 +49,31 @@
                         pboxPopup.alert('Job could not be found !');
                     }
                 })
-                .catch(function (err) {
+                .catch(function () {
                     pboxPopup.alert('Job could not be found !');
                 });
         }
 
         function save() {
-                if(!validate()) {
-                    pboxPopup.alert('These fields are required: ' + invalidFields );
-                    return false;
-                }
-                vm.job.destination.address = vm.jobDestinationStreet + ' ' + vm.jobHouseNumber + ', ' + vm.jobCity + ', ' + vm.jobCountry; 
-                
-                startLoading();
+            if (!validate()) {
+                pboxPopup.alert('These fields are required: ' + invalidFields);
+                return false;
+            }
+            vm.job.destination.address = vm.jobDestinationStreet + ' ' + vm.jobHouseNumber + ', ' + vm.jobCity + ', ' + vm.jobCountry;
 
-                jobService.update($stateParams.jobId, {
-                    "destination": vm.job.destination,
-                    "size": vm.job.size,
-                    "receiverName": vm.job.receiverName,
-                    "receiverPhone": vm.job.reciverPhone
-                })
-                .then(function (response) {
-                    pboxPopup.alert('Details have been saved !');        
+            startLoading();
+
+            return jobService.update($stateParams.jobId, {
+                destination: vm.job.destination,
+                size: vm.job.size,
+                receiverName: vm.job.receiverName,
+                receiverPhone: vm.job.reciverPhone
+            })
+                .then(function () {
+                    pboxPopup.alert('Details have been saved !');
                     $state.go('job-details', { jobId: vm.job.id });
                 })
-                .catch(function (err) {
+                .catch(function () {
                     pboxPopup.alert('Operation failed!');
                 })
                 .finally(stopLoading);
@@ -85,27 +82,26 @@
         function validate() {
             invalidFields = '';
 
-            if(!vm.job.size) {
+            if (!vm.job.size) {
                 invalidFields = invalidFields + 'Box size';
             }
-            if(!vm.jobCountry) {
+            if (!vm.jobCountry) {
                 invalidFields = invalidFields + 'Country ';
-            } 
-            if(!vm.jobCity) {
-                 invalidFields = invalidFields + 'City ';
             }
-            if(!vm.jobDestinationStreet) {
-                 invalidFields = invalidFields + 'Street name ';
+            if (!vm.jobCity) {
+                invalidFields = invalidFields + 'City ';
             }
-            if(!vm.jobHouseNumber) {
-                 invalidFields = invalidFields + 'Street number ';
+            if (!vm.jobDestinationStreet) {
+                invalidFields = invalidFields + 'Street name ';
             }
-            
-            if (invalidFields.length>0) {
+            if (!vm.jobHouseNumber) {
+                invalidFields = invalidFields + 'Street number ';
+            }
+
+            if (invalidFields.length > 0) {
                 return false;
             }
             return true;
         }
-
     }
-})();
+})(window.angular);
