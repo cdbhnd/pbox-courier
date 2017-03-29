@@ -23,10 +23,10 @@
 
         function register(user) {
             return pboxApi.http({
-                method: config.httpMethods.POST,
-                url: config.pboxAPI.USERS,
-                data: user
-            })
+                    method: config.httpMethods.POST,
+                    url: config.pboxAPI.USERS,
+                    data: user
+                })
                 .then(function (data) {
                     return setCurrentUser(data);
                 });
@@ -34,14 +34,14 @@
 
         function login(username, password) {
             return pboxApi.http({
-                method: config.httpMethods.POST,
-                url: config.pboxAPI.TOKEN,
-                data: {
-                    username: username,
-                    password: password,
-                    type: 3
-                }
-            })
+                    method: config.httpMethods.POST,
+                    url: config.pboxAPI.TOKEN,
+                    data: {
+                        username: username,
+                        password: password,
+                        type: 3
+                    }
+                })
                 .then(function (data) {
                     return setCurrentUser(data);
                 });

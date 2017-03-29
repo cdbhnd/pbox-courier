@@ -19,7 +19,8 @@
                     cache: true,
                     title: 'Available Jobs',
                     data: {
-                        disableBack: true
+                        disableBack: true,
+                        authRequired: true
                     }
                 })
                 .state('my-jobs', {
@@ -30,7 +31,8 @@
                     cache: false,
                     title: 'My Jobs',
                     data: {
-                        disableBack: true
+                        disableBack: true,
+                        authRequired: true
                     }
                 })
                 .state('job-details', {
@@ -39,7 +41,10 @@
                     controller: 'jobDetailsController',
                     cache: false,
                     controllerAs: 'vm',
-                    title: 'Job Details'
+                    title: 'Job Details',
+                    data: {
+                        authRequired: true
+                    }
                 })
                 .state('job-map', {
                     url: '/jobs/map/{jobId}',
@@ -47,7 +52,10 @@
                     controller: 'jobMapController',
                     cache: false,
                     controllerAs: 'vm',
-                    title: 'Job Route'
+                    title: 'Job Route',
+                    data: {
+                        authRequired: true
+                    }
                 })
                 .state('job-add-box', {
                     url: '/add/box/{jobId}',
@@ -55,7 +63,10 @@
                     controller: 'jobAddBoxController',
                     cache: false,
                     controllerAs: 'vm',
-                    title: 'Assign box to job'
+                    title: 'Assign box to job',
+                    data: {
+                        authRequired: true
+                    }
                 })
                 .state('job-edit', {
                     url: '/job/edit/{jobId}',
@@ -63,9 +74,12 @@
                     controller: 'jobEditController',
                     cache: false,
                     controllerAs: 'vm',
-                    title: 'Edit ...'
+                    title: 'Edit ...',
+                    data: {
+                        authRequired: true
+                    }
                 });
 
-            $urlRouterProvider.otherwise('/');
+            $urlRouterProvider.otherwise('/jobs');
         }]);
 })(window.angular);
