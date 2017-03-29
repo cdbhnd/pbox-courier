@@ -35,10 +35,10 @@
             }());
         }
 
-        function stopLoading() {
+        function risePopup(msg) {
             return $q.when(function () {
-                pboxLoader.loaderOff();
-            }());
+                pboxPopup.alert(msg);
+            })
         }
 
         function loadJob() {
@@ -46,13 +46,20 @@
                 .then(function (response) {
                     vm.job = response;
                     if (!response) {
-                        pboxPopup.alert('Job could not be found !');
+                        risePopup('Job could not be found !');
                     }
                 })
                 .catch(function () {
-                    pboxPopup.alert('Job could not be found !');
+                    risePopup('Job could not be found !');
                 });
         }
+
+        function stopLoading() {
+            return $q.when(function () {
+                pboxLoader.loaderOff();
+            }());
+        }
+
 
         function save() {
             if (!validate()) {
@@ -60,26 +67,27 @@
                 return false;
             }
             vm.job.destination.address = vm.jobDestinationStreet +
-                 ' ' + vm.jobHouseNumber +
-                 ', ' + vm.jobCity +
-                 ', ' + vm.jobCountry;
+                ' ' + vm.jobHouseNumber +
+                ', ' + vm.jobCity +
+                ', ' + vm.jobCountry;
 
             startLoading();
 
             return jobService.update($stateParams.jobId, {
-                destination: vm.job.destination,
-                size: vm.job.size,
-                receiverName: vm.job.receiverName,
-                receiverPhone: vm.job.reciverPhone
-            })
+                    destination: vm.job.destination,
+                    size: vm.job.size,
+                    receiverName: vm.job.receiverName,
+                    receiverPhone: vm.job.reciverPhone
+                })
                 .then(function () {
+                    stopLoading()
                     pboxPopup.alert('Details have been saved !');
                     $state.go('job-details', { jobId: vm.job.id });
                 })
                 .catch(function () {
+                    stopLoading();
                     pboxPopup.alert('Operation failed!');
-                })
-                .finally(stopLoading);
+                });
         }
 
         function validate() {

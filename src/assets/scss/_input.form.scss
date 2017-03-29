@@ -45,7 +45,9 @@
                 width: 63px;
                 background-color: $background_primary_color;
                 border: 1px solid $primary_color;
-                .drop-down-item {}
+                .drop-down-item {
+                    cursor: pointer;
+                }
             }
         }
     }
