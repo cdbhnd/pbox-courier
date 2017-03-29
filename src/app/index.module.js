@@ -1,4 +1,4 @@
-(function() {
+(function () {
     'use strict';
 
     // Ionic PBOX App
@@ -21,8 +21,8 @@
             'qrScanner',
             'pbox.courier.iot'
         ])
-        .run(function($rootScope, $state, $ionicPlatform, $window, geolocationService, authService) {
-            $ionicPlatform.ready(function() {
+        .run(function ($rootScope, $state, $ionicPlatform, $window, $localStorage, geolocationService, authService) {
+            $ionicPlatform.ready(function () {
                 if ($window.cordova && $window.cordova.plugins && $window.cordova.plugins.Keyboard) {
                     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
                     // for form inputs)
@@ -39,10 +39,18 @@
                 geolocationService.init();
                 authService.init();
                 $rootScope.current_state = $state.current;
+                $rootScope.$on('$stateChangeStart', stateChangeStart);
                 $rootScope.$on('$stateChangeSuccess',
-                    function(event, toState, toParams, fromState, fromParams) {
+                    function (event, toState, toParams, fromState, fromParams) {
                         $rootScope.current_state = toState;
                     });
+
+                function stateChangeStart(event, toState, toParams) {
+                    if ((toState.data && toState.data.authRequired) && !$localStorage.current_user) {
+                        event.preventDefault();
+                        $state.go('login');
+                    }
+                }
             });
         });
 })();

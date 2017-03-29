@@ -1,4 +1,4 @@
-(function() {
+(function () {
     'use strict';
 
     angular
@@ -30,7 +30,7 @@
                     url: config.pboxAPI.USERS,
                     data: user
                 })
-                .then(function(data) {
+                .then(function (data) {
                     return setCurrentUser(data);
                 });
         }
@@ -45,13 +45,13 @@
                         type: 3
                     }
                 })
-                .then(function(data) {
+                .then(function (data) {
                     return setCurrentUser(data);
                 });
         }
 
         function currentUser() {
-            return $q.when(function() {
+            return $q.when(function () {
                 if (!!$localStorage.current_user) {
                     return $localStorage.current_user;
                 }
@@ -69,51 +69,6 @@
                 s4() + '-' + s4() + s4() + s4();
         }
 
-        function registerUserIfNeeded() {
-            return $q.when(function() {
-                if (!$localStorage.credentials) {
-                    var userData = new UserModel();
-                    userData.username = guid();
-                    userData.password = guid();
-                    userData.type = 1;
-                    return register(userData)
-                        .then(function(user) {
-                            $localStorage.credentials = {
-                                username: userData.username,
-                                password: userData.password,
-                                type: userData.type
-                            };
-                            return true;
-                        })
-                        .catch(function(errr) {
-                            return serverUnavailable($q, errr);
-                        });
-                }
-                return true;
-            }());
-        }
-
-        function loginUserIfNeeded() {
-            return $q.when(function() {
-                if (!!$localStorage.current_user && !!$localStorage.current_user.token) {
-                    return true;
-                }
-                if (!$localStorage.credentials) {
-                    return serverUnavailable($q, { error: 'credentials missing' });
-                }
-                return login($localStorage.credentials.username, $localStorage.credentials.password)
-                    .catch(function(error) {
-                        return serverUnavailable($q, error);
-                    });
-            }());
-        }
-
-        function serverUnavailable(q, error) {
-            alert('Server unavailable at the moment, please try again later.');
-            console.log(error);
-            return q.reject('server unavailable');
-        }
-
         function setCurrentUser(userData) {
             var userModel = new UserModel(userData);
             $localStorage.current_user = userModel;
@@ -122,7 +77,7 @@
         }
 
         function logout() {
-            return $q.when(function() {
+            return $q.when(function () {
                 delete $localStorage.current_user;
                 delete $localStorage.credentials;
                 delete $rootScope.current_user;
