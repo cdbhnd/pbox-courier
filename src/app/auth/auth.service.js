@@ -1,13 +1,10 @@
-(function () {
-    'use strict';
-
+(function (angular) {
     angular
         .module('pbox.courier.auth')
         .service('authService', authService);
 
-    /** @ngInject */
+    /**@ngInject */
     function authService($q, $rootScope, pboxApi, config, $localStorage, UserModel) {
-
         var service = this;
 
         service.init = init;
@@ -59,16 +56,6 @@
             }());
         }
 
-        function guid() {
-            function s4() {
-                return Math.floor((1 + Math.random()) * 0x10000)
-                    .toString(16)
-                    .substring(1);
-            }
-            return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
-                s4() + '-' + s4() + s4() + s4();
-        }
-
         function setCurrentUser(userData) {
             var userModel = new UserModel(userData);
             $localStorage.current_user = userModel;
@@ -85,4 +72,4 @@
             }());
         }
     }
-})();
+})(window.angular);

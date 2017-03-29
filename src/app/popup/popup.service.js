@@ -1,10 +1,9 @@
-(function() {
+(function (angular) {
     angular
         .module('pbox.courier.popup')
         .service('pboxPopup', pboxPopup);
 
     function pboxPopup($ionicPopup, $cordovaToast) {
-
         var service = this;
 
         service.alert = riseAlert;
@@ -31,13 +30,13 @@
                 buttons: [{
                     text: 'Yes',
                     type: 'button-main',
-                    onTap: function() {
+                    onTap: function () {
                         return true;
                     }
                 }, {
                     text: 'No',
                     type: 'button-main-inverse',
-                    onTap: function() {
+                    onTap: function () {
                         return false;
                     }
                 }]
@@ -46,16 +45,15 @@
 
         function showToast(message) {
             try {
-                return $cordovaToast.show(message, 'long', 'top')
-                    .then(function(success) {
-                        console.log("The toast was shown");
-                    }, function(error) {
-                        console.log("The toast was not shown due to " + error);
+                $cordovaToast.show(message, 'long', 'top')
+                    .then(function () {
+                        console.log('The toast was shown');
+                    }, function (error) {
+                        console.log('The toast was not shown due to ' + error);
                     });
             } catch(e) {
-                alert(message);
+                console.log(message);
             }
         }
     }
-
-})();
+})(window.angular);

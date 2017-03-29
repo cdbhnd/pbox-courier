@@ -1,10 +1,7 @@
-(function () {
-    'use strict';
-
+(function (angular) {
     angular
         .module('pbox.courier')
         .config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
-
             $stateProvider
                 .state('login', {
                     url: '/',
@@ -85,4 +82,4 @@
 
             $urlRouterProvider.otherwise('/jobs');
         }]);
-})();
+})(window.angular);
