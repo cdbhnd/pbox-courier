@@ -1,34 +1,34 @@
 .log-in {
-    background-color: $background_primary_color;
-    .image {
-        text-align: center;
-        margin-top: 40px;
+  background-color: $background_primary_color;
+  .image {
+    margin-top: 40px;
+    text-align: center;
+  }
+  .title {
+    text-align: center;
+    h1 {
+      color: #cbcdcc !important;
     }
-    .title {
-        text-align: center;
-        h1 {
-            color: #CBCDCC !important;
-        }
+  }
+  .list {
+    margin: auto;
+    margin-bottom: 50px;
+    width: 50%;
+    label {
+      background: $background_primary_color;
+      border: 0;
+      padding: 5px 0;
     }
-    .list {
-        width: 50%;
-        margin: auto;
-        margin-bottom: 50px;
-        label {
-            background: $background_primary_color;
-            border: none;
-            padding: 5px 0;
-        }
-        input {
-            padding: 2px 5px;
-            text-align: center;
-            background-color: $background_primary_color;
-            color: #fff;
-            border-bottom: 1px solid $primary_color;
-        }
+    input {
+      background-color: $background_primary_color;
+      border-bottom: 1px solid $primary_color;
+      color: #fff;
+      padding: 2px 5px;
+      text-align: center;
     }
-    .button {
-        width: 50% !important;
-        margin: auto !important;
-    }
+  }
+  .button {
+    margin: auto !important;
+    width: 50% !important;
+  }
 }
