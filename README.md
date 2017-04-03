@@ -21,6 +21,7 @@ $ ionic serve
 ## Install sass linter
 https://www.npmjs.com/package/sass-lint
 (config file is added at project root level .sass-lint.yml)
+VSC sass lint plugin  - > https://marketplace.visualstudio.com/items?itemName=glen-84.sass-lint
 
 ## Run as Android app
 Prerequisites
