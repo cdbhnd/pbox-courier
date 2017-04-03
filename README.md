@@ -18,6 +18,10 @@ $ sudo npm install -g ionic
 $ gulp --%environment%
 $ ionic serve
 
+## Install sass linter
+https://www.npmjs.com/package/sass-lint
+(config file is added at project root level .sass-lint.yml)
+
 ## Run as Android app
 Prerequisites
 * Android SDK (Android Studio)
