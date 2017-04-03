@@ -1,67 +1,66 @@
 .input-form {
-    top: 90px;
+  margin-left: 5%;
+  position: relative;
+  top: 90px;
+  width: 90%;
+  .select-control {
+    background-color: $background_primary_color;
+    border: 1px solid $primary_color;
+    color: $white;
+    height: 45px;
+    margin-top: -1px;
+    padding-left: 10px;
+    padding-right: 10px;
     position: relative;
-    width: 90%;
-    margin-left: 5%;
-    .select-control {
-        position: relative;
-        margin-top: -1px;
-        width: 100%;
-        height: 45px;
-        border: 1px solid $primary_color;
-        background-color: $background_primary_color;
-        color: white;
-        padding-left: 10px;
-        padding-right: 10px;
-        label {
-            position: relative;
-            top: 10px;
+    width: 100%;
+    label {
+      position: relative;
+      top: 10px;
+    }
+    .select-list {
+      background-color: $background_primary_color;
+      border: 0;
+      color: $white;
+      display: inline-block;
+      height: 43px;
+      line-height: 43px;
+      position: absolute;
+      right: 0;
+      text-align: center;
+      top: 0;
+      width: 80px;
+      .selected-field {
+        .ion-chevron-down {
+          color: $primary_color;
+          position: absolute;
+          right: 5px;
+          top: 0;
         }
-        .select-list {
-            position: absolute;
-            top: 0;
-            right: 0;
-            display: inline-block;
-            width: 80px;
-            height: 43px;
-            text-align: center;
-            line-height: 43px;
-            border: none;
-            background-color: $background_primary_color;
-            color: white;
-            .selected-field {
-                .ion-chevron-down {
-                    position: absolute;
-                    top: 0px;
-                    right: 5px;
-                    color: $primary_color;
-                }
-            }
-            .drop-down {
-                top: 43px;
-                right: 0;
-                z-index: 9999;
-                position: absolute;
-                width: 63px;
-                background-color: $background_primary_color;
-                border: 1px solid $primary_color;
-                .drop-down-item {}
-            }
-        }
-    }
-    input {
-        margin-top: -1px;
-        width: 100%;
-        height: 45px;
-        border: 1px solid $primary_color;
+      }
+      .drop-down {
         background-color: $background_primary_color;
-        color: white;
-        padding-left: 10px;
-        padding-right: 10px;
+        border: 1px solid $primary_color;
+        position: absolute;
+        right: 0;
+        top: 43px;
+        width: 63px;
+        z-index: 9999;
+      }
     }
-    .scanner {
-        width: 100%;
-        height: 100%;
-        text-align: center;
-    }
+  }
+  input {
+    background-color: $background_primary_color;
+    border: 1px solid $primary_color;
+    color: $white;
+    height: 45px;
+    margin-top: -1px;
+    padding-left: 10px;
+    padding-right: 10px;
+    width: 100%;
+  }
+  .scanner {
+    height: 100%;
+    text-align: center;
+    width: 100%;
+  }
 }
