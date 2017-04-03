@@ -1,26 +1,24 @@
 <ion-list ng-controller="sideMenuController as vm">
     <ion-item>
-    	<span class="user-img"><span class="ion-person"></span></span>
-        <span class="user-name">{{ current_user.username }}</span>
+        <span class="user-img"><span class="ion-person"></span></span>
+        <span class="user-name">{{ currentUser.username }}</span>
     </ion-item>
-    <ion-item class="menu-item" menu-close ng-click="vm.changeState('jobs')">
+    <ion-item class="menu-item" menu-close ng-click="vm.redirectToState('jobs')">
         Available Jobs
         <span class="nav-button ion-chevron-right"></span>
     </ion-item>
-    <ion-item class="menu-item" menu-close ng-click="vm.changeState('my-jobs')">
-         My Jobs
+    <ion-item class="menu-item" menu-close ng-click="vm.redirectToState('my-jobs')">
+        My Jobs
         <span class="nav-button ion-chevron-right"></span>
     </ion-item>
     <ion-item class="menu-item" menu-close ng-click="vm.logout()">
-         Logout
+        Logout
         <span class="nav-button ion-power"></span>
     </ion-item>
     <ion-item>
-        <span class="ion-location"></span>
-        {{ current_location.latitude }}, {{ current_location.longitude }}
+        <span class="ion-location"></span> {{ currentLocation.latitude }}, {{ currentLocation.longitude }}
     </ion-item>
     <ion-item>
-        <span class="ion-information-circled"></span>
-        {{ current_location.message }}
+        <span class="ion-information-circled"></span> {{ currentLocation.message }}
     </ion-item>
 </ion-list>

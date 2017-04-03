@@ -6,6 +6,7 @@
     function jobService(JobModel, pboxApi, config, BoxModel) {
         var service = this;
 
+        //public methods
         service.get = getJobs;
         service.accept = acceptJob;
         service.update = updateJob;
@@ -19,10 +20,10 @@
 
         function getJobs(query) {
             return pboxApi.http({
-                method: config.httpMethods.GET,
-                url: config.pboxAPI.JOBS,
-                params: query
-            })
+                    method: config.httpMethods.GET,
+                    url: config.pboxAPI.JOBS,
+                    params: query
+                })
                 .then(function (response) {
                     var jobs = [];
 
@@ -38,12 +39,12 @@
 
         function getJob(jobId) {
             return pboxApi.http({
-                method: config.httpMethods.GET,
-                url: config.pboxAPI.JOBS,
-                params: {
-                    id: jobId
-                }
-            })
+                    method: config.httpMethods.GET,
+                    url: config.pboxAPI.JOBS,
+                    params: {
+                        id: jobId
+                    }
+                })
                 .then(function (response) {
                     return new JobModel(response[0]);
                 });
@@ -51,9 +52,9 @@
 
         function getBox(boxId) {
             return pboxApi.http({
-                method: config.httpMethods.GET,
-                url: config.pboxAPI.BOXES + '/' + boxId
-            })
+                    method: config.httpMethods.GET,
+                    url: config.pboxAPI.BOXES + '/' + boxId
+                })
                 .then(function (response) {
                     return new BoxModel(response);
                 })
@@ -64,9 +65,9 @@
 
         function getBoxStatus(boxId) {
             return pboxApi.http({
-                method: config.httpMethods.GET,
-                url: config.pboxAPI.BOXES + '/' + boxId + '/status'
-            })
+                    method: config.httpMethods.GET,
+                    url: config.pboxAPI.BOXES + '/' + boxId + '/status'
+                })
                 .then(function (response) {
                     return response;
                 })
@@ -77,9 +78,9 @@
 
         function reactivateBox(boxId) {
             return pboxApi.http({
-                method: config.httpMethods.POST,
-                url: config.pboxAPI.BOXES + '/' + boxId + '/reactivate'
-            })
+                    method: config.httpMethods.POST,
+                    url: config.pboxAPI.BOXES + '/' + boxId + '/reactivate'
+                })
                 .then(function (response) {
                     return new BoxModel(response);
                 });
@@ -87,12 +88,12 @@
 
         function acceptJob(selectedJob, courier) {
             return pboxApi.http({
-                method: config.httpMethods.PUT,
-                url: config.pboxAPI.JOBS + '/' + selectedJob,
-                data: {
-                    courierId: courier
-                }
-            })
+                    method: config.httpMethods.PUT,
+                    url: config.pboxAPI.JOBS + '/' + selectedJob,
+                    data: {
+                        courierId: courier
+                    }
+                })
                 .then(function (response) {
                     return new JobModel(response);
                 });
@@ -100,10 +101,10 @@
 
         function updateJob(jobId, query) {
             return pboxApi.http({
-                method: config.httpMethods.PUT,
-                url: config.pboxAPI.JOBS + '/' + jobId,
-                data: query
-            })
+                    method: config.httpMethods.PUT,
+                    url: config.pboxAPI.JOBS + '/' + jobId,
+                    data: query
+                })
                 .then(function (response) {
                     return new JobModel(response);
                 });
@@ -111,12 +112,12 @@
 
         function unassign(selectedJob) {
             return pboxApi.http({
-                method: config.httpMethods.PUT,
-                url: config.pboxAPI.JOBS + '/' + selectedJob.id,
-                data: {
-                    courierId: ''
-                }
-            })
+                    method: config.httpMethods.PUT,
+                    url: config.pboxAPI.JOBS + '/' + selectedJob.id,
+                    data: {
+                        courierId: ''
+                    }
+                })
                 .then(function (response) {
                     return new JobModel(response);
                 });

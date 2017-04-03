@@ -17,10 +17,10 @@
             this.clientKey = obj && obj.clientKey ? obj.clientKey : null;
             this.deviceId = obj && obj.deviceId ? obj.deviceId : null;
             this.deviceName = obj && obj.deviceName ? obj.deviceName : null;
-            this.gps_sensor = obj && obj.sensors ? findSensor(obj.sensors, 'GPS') : null;
-            this.temp_sensor = obj && obj.sensors ? findSensor(obj.sensors, 'TEMPERATURE') : null;
-            this.acc_sensor = obj && obj.sensors ? findSensor(obj.sensors, 'ACCELEROMETER') : null;
-            this.battery_sensor = obj && obj.sensors ? findSensor(obj.sensors, 'BATTERY') : null;
+            this.gpsSensor = obj && obj.sensors ? findSensor(obj.sensors, 'GPS') : null;
+            this.tempSensor = obj && obj.sensors ? findSensor(obj.sensors, 'TEMPERATURE') : null;
+            this.accSensor = obj && obj.sensors ? findSensor(obj.sensors, 'ACCELEROMETER') : null;
+            this.batterySensor = obj && obj.sensors ? findSensor(obj.sensors, 'BATTERY') : null;
 
             this.listen_active = false;
             this.sensors = obj && obj.sensors ? obj.sensors : [];
@@ -41,11 +41,9 @@
         };
 
         BoxModel.prototype.setSensorValue = function (sensorId, value) {
-            if (!!this.battery_sensor && this.battery_sensor.assetId === sensorId) {
-                console.log('Battery sensor updated');
-                console.log(value);
+            if (!!this.batterySensor && this.batterySensor.assetId === sensorId) {
                 var batteryData = value.split(',');
-                this.battery_sensor.value = {
+                this.batterySensor.value = {
                     percentage: batteryData[0],
                     charging: batteryData[1]
                 };
@@ -55,7 +53,6 @@
         return BoxModel;
 
         function findSensor(sensors, type) {
-            //find and return sensor by type;
             for (var i = 0; i < sensors.length; i++) {
                 if (sensors[i].type === type) {
                     return sensors[i];

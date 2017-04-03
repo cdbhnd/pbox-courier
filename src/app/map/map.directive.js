@@ -19,6 +19,7 @@
         };
 
         function link(scope) {
+            //variables and properties
             var markerIcon = {
                 path: 'M0-48c-9.8 0-17.7 7.8-17.7 17.4 0 15.5 17.7 30.6 17.7 30.6s17.7-15.4 17.7-30.6c0-9.6-7.9-17.4-17.7-17.4z',
                 fillColor: '#3F5877',
@@ -34,11 +35,15 @@
             scope.mapId = guid();
             scope.map = null;
             scope.drawDirections = !!scope.drawDirections;
+
+            /////////////////////////////////////
             //**Activate */
             (function () {
                 subscribeOnOptionsChange()
                     .then(subscribeOnMarkersChange);
             }());
+
+            /////////////////////////////////////
 
             function subscribeOnOptionsChange() {
                 return $q.when(function () {
@@ -104,12 +109,12 @@
                         return false;
                     }
                     directionsService.route({
-                        origin: getDirectionsStart(),
-                        destination: getDirectionsEnd(),
-                        waypoints: getDirectionWaypoints(),
-                        optimizeWaypoints: true,
-                        travelMode: google.maps.TravelMode.DRIVING
-                    },
+                            origin: getDirectionsStart(),
+                            destination: getDirectionsEnd(),
+                            waypoints: getDirectionWaypoints(),
+                            optimizeWaypoints: true,
+                            travelMode: google.maps.TravelMode.DRIVING
+                        },
                         function (result, status) {
                             if (status === google.maps.DirectionsStatus.OK) {
                                 //removeMarkersFromMap();

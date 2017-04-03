@@ -7,11 +7,9 @@
     function navController($state, $ionicHistory) {
         var vm = this;
 
+        //public methods
         vm.changeState = changeState;
         vm.back = back;
-
-        /////////////////////////////////////
-
 
         /////////////////////////////////////
 

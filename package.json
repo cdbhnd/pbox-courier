@@ -41,7 +41,8 @@
     "ng-cordova": "^0.1.27-alpha",
     "ngstorage": "^0.3.11",
     "q": "^1.4.1",
-    "stompjs": "^2.3.3"
+    "stompjs": "^2.3.3",
+    "yargs": "^7.0.2"
   },
   "devDependencies": {
     "bower": "^1.3.3",

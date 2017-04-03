@@ -30,7 +30,7 @@
             scope.loadMoreJobs = loadMoreJobs;
 
             /////////////////////////////////////////////////////
-
+            /**Activate */
             (function () {
                 scope.$watchCollection('jobs', function () {
                     ininitiveScrollEnabled = true;
@@ -63,7 +63,6 @@
                     scope.$broadcast('scroll.infiniteScrollComplete');
                     return false;
                 }
-                console.log('load more');
                 pageIndex++;
                 var min = scope.jobsList.length;
                 var max;
