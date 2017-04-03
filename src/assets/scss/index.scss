@@ -1,9 +1,3 @@
-@import '_variables';
-@import '_side.menu';
-@import '_popup';
-@import '_login';
-@import '_layout';
-@import '_jobs';
-@import '_job';
-@import '_input.form';
-
+@import '_variables',
+'_layout',
+'modules/_modules.list';

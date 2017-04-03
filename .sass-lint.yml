@@ -3,6 +3,8 @@ options:
 files:
   include: '**/*.s+(a|c)ss'
 rules:
+  indentation:
+    - size: 4
   # Extends
   extends-before-mixins: 1
   extends-before-declarations: 1
