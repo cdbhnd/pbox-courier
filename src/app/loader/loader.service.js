@@ -6,6 +6,7 @@
     function pboxLoader($ionicLoading) {
         var service = this;
 
+        //public methods
         service.loaderOn = loaderOn;
         service.loaderOff = loaderOff;
 

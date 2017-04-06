@@ -6,6 +6,7 @@
     function pboxPopup($ionicPopup, $cordovaToast) {
         var service = this;
 
+        //public methods
         service.alert = riseAlert;
         service.confirm = riseConfirm;
         service.toast = showToast;
@@ -51,7 +52,7 @@
                     }, function (error) {
                         console.log('The toast was not shown due to ' + error);
                     });
-            } catch(e) {
+            } catch (e) {
                 console.log(message);
             }
         }

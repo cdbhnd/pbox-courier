@@ -4,14 +4,17 @@
         .service('iotService', iotService);
 
     /**@ngInject */
-    function iotService($rootScope, $window) {
+    function iotService($rootScope, $window, config) {
         var service = this;
-        var host = 'https://api.allthingstalk.io:15671/stomp';
+
+        //variables and properties
+        var host = config.iot.HOST;
         var listeners = {};
 
+        //public methods
         service.listen = listenBox;
         service.stopListen = stopListenBox;
-        service.stopListenAll = stopListenAll;
+        service.stopListenAll = stopListenAllBoxes;
 
         //////////////////////////////////////
 
@@ -21,7 +24,6 @@
             }
 
             try {
-                console.log('----------startFeed----------');
                 var ws = new $window.SockJS(host);
                 var s = $window.Stomp.over(ws);
 
@@ -32,18 +34,15 @@
                     s.subscribe(box.topic, function (response) {
                         var data = JSON.parse(response.body);
                         box.setSensorValue(data.Id, data.Value);
-                        //run angular apply and digest process in
-                        //order to new sensors values can be visible to other components in the app
                         if (!$rootScope.$$phase) {
                             $rootScope.$apply();
                         }
                     });
-                }, function (error) { console.log(error); }, box.clientId);
+                }, function () {}, box.clientId);
 
                 listeners[box.id] = s;
                 return true;
             } catch (e) {
-                console.log(e);
                 return false;
             }
         }
@@ -52,16 +51,16 @@
             try {
                 if (listeners[boxId]) {
                     listeners[boxId].disconnect(function () {
-                        console.log('Box with id: ' + boxId + ' has been disconnected from IOT');
                         delete listeners[boxId];
                     });
                 }
+                return true;
             } catch (e) {
-                console.log(e);
+                return false;
             }
         }
 
-        function stopListenAll() {
+        function stopListenAllBoxes() {
             for (var i in listeners) {
                 if (listeners.hasOwnProperty(i)) {
                     stopListenBox(i);

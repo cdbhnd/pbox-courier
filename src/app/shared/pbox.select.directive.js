@@ -14,11 +14,14 @@
             replace: true,
 
             link: function (scope) {
+                //variables and functions
                 scope.active = false;
 
-                //functions
+                //public methods
                 scope.toggle = toggle;
                 scope.selectValue = selectValue;
+
+                ///////////////////////////////////////////
 
                 function toggle() {
                     scope.active = !scope.active;

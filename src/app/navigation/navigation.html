@@ -2,7 +2,7 @@
     <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
 </ion-nav-buttons>
 <ion-nav-title>
-    <h1 class="title">{{ current_state.title ? current_state.title : 'Pbox Courier' }}</h1>
+    <h1 class="title">{{ currentState.title ? currentState.title : 'Pbox Courier' }}</h1>
 </ion-nav-title>
 <ion-nav-buttons side="right">
     <button ng-show="!(current_state.data && current_state.data.disableBack)" class="button button-icon icon ion-chevron-left" ng-click="vm.back()"></button>

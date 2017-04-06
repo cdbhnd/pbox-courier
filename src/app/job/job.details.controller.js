@@ -4,22 +4,14 @@
         .controller('jobDetailsController', jobDetailsController);
 
     /**@ngInject */
-    function jobDetailsController($interval, $scope, $q, $timeout, $ionicPopup, jobService, pboxLoader,
-        pboxPopup, $stateParams, $state, mapConfig, geolocationService, $ionicActionSheet) {
+    function jobDetailsController($interval, $scope, $q, $timeout, $state, $stateParams, $ionicActionSheet, jobService, pboxLoader, pboxPopup, mapConfig, jobConfig, geolocationService) {
         var vm = this;
-
-        //public methods
-        vm.cancelJob = cancelJob;
-        vm.unassignFromJob = unassignFromJob;
-        vm.completeJob = completeJob;
-        vm.openActions = openActions;
-        vm.actionsClose = null;
-        vm.showOnMap = showOnMap;
-        vm.markerColors = ['#33CBCC', '#3F5877'];
-        vm.box = null;
 
         //variables and properties
         var pollingPromise;
+        vm.markerColors = ['#33CBCC', '#3F5877'];
+        vm.actionsClose = null;
+        vm.box = null;
         vm.job = null;
         vm.mapOptions = angular.copy(mapConfig.mapOptions);
         vm.mapMarkers = [];
@@ -29,8 +21,15 @@
             buttonClicked: onActionClicked
         };
 
-        /////////////////////////////////////
+        //public methods
+        vm.unassignFromJob = unassignFromJob;
+        vm.cancelJob = cancelJob;
+        vm.completeJob = completeJob;
+        vm.openActions = openActions;
+        vm.showOnMap = showOnMap;
 
+        /////////////////////////////////////
+        /**Activate */
         (function () {
             startLoading()
                 .then(pollBoxStatus)
@@ -45,6 +44,19 @@
 
         /////////////////////////////////////
 
+        function startLoading() {
+            return pboxLoader.loaderOn();
+        }
+
+        function pollBoxStatus() {
+            return $q.when(function () {
+                pollingPromise = $interval(function () {
+                    return loadBoxStatus();
+                }, 10000);
+                return true;
+            }());
+        }
+
         function getCurrentLocation() {
             return geolocationService.currentLocation()
                 .then(function (coords) {
@@ -53,16 +65,29 @@
                 });
         }
 
+        function loadMapOptions() {
+            return $q.when(function () {
+                vm.mapOptions.disableDefaultUI = true;
+                vm.mapOptions.zoomControl = false;
+                vm.mapOptions.streetViewControl = false;
+                vm.mapOptions.draggable = false;
+                vm.mapOptions.scrollwheel = false;
+                vm.mapOptions.disableDoubleClickZoom = true;
+                return true;
+            }());
+        }
+
+
         function loadJob() {
             return jobService.getJob($stateParams.jobId)
                 .then(function (response) {
-                    vm.job = response;
                     if (!response) {
-                        pboxPopup.alert('Job could not be found !');
+                        riseAlertPopup(jobConfig.messages.jobNotFound);
                     }
+                    vm.job = response;
                 })
                 .catch(function () {
-                    pboxPopup.alert('Job could not be found !');
+                    riseAlertPopup(jobConfig.messages.somethingWentWrong);
                 });
         }
 
@@ -91,16 +116,85 @@
                 });
         }
 
-        function loadMapOptions() {
+        function cancelPollingPromiseOnScopeDestroy() {
             return $q.when(function () {
-                vm.mapOptions.disableDefaultUI = true;
-                vm.mapOptions.zoomControl = false;
-                vm.mapOptions.streetViewControl = false;
-                vm.mapOptions.draggable = false;
-                vm.mapOptions.scrollwheel = false;
-                vm.mapOptions.disableDoubleClickZoom = true;
+                $scope.$on('$destroy', function () {
+                    if (!!pollingPromise) {
+                        $interval.cancel(pollingPromise);
+                    }
+                });
                 return true;
             }());
+        }
+
+        function stopLoading() {
+            return pboxLoader.loaderOff();
+        }
+
+        function unassignFromJob() {
+            riseConfirmPopup(jobConfig.messages.wannaUnassigneJob)
+                .then(function (response) {
+                    if (response) {
+                        startLoading()
+                            .then(unassign(vm.job))
+                            .then(changeState(jobConfig.states.myJobs));
+                    }
+                })
+                .catch(function () {
+                    riseAlertPopup(jobConfig.messages.failedOperation);
+                })
+                .finally(stopLoading);
+        }
+
+        function unassign(jobObj) {
+            return jobService.unassign(jobObj);
+        }
+
+        function cancelJob() {
+            riseConfirmPopup(jobConfig.messages.wannaCancelJob)
+                .then(function (res) {
+                    if (res) {
+                        startLoading();
+                        jobService.update($stateParams.jobId, {
+                                status: jobConfig.jobStatuses.canceled
+                            })
+                            .then(function () {
+                                $state.go(jobConfig.states.myJobs);
+                            })
+                            .then(function () {
+                                vm.box = null;
+                            })
+                            .catch(function () {
+                                riseAlertPopup(jobConfig.messages.failedOperation);
+                            })
+                            .finally(stopLoading);
+                    }
+                });
+        }
+
+        function completeJob() {
+            riseConfirmPopup(jobConfig.messages.wannaCompleteJob)
+                .then(function (res) {
+                    if (res) {
+                        startLoading();
+                        jobService.update($stateParams.jobId, {
+                                status: jobConfig.jobStatuses.completed
+                            })
+                            .then(function (response) {
+                                vm.job = response;
+                            })
+                            .then(function () {
+                                $state.go(jobConfig.states.myJobs);
+                            })
+                            .then(function () {
+                                vm.box = null;
+                            })
+                            .catch(function () {
+                                riseAlertPopup(jobConfig.messages.failedOperation);
+                            })
+                            .finally(stopLoading);
+                    }
+                });
         }
 
         function onActionClicked(index) {
@@ -111,72 +205,8 @@
             }
         }
 
-        function cancelJob() {
-            pboxPopup.confirm('Are you sure you want to cancel this job?')
-                .then(function (res) {
-                    if (res) {
-                        startLoading();
-                        jobService.update($stateParams.jobId, {
-                            status: 'CANCELED'
-                        })
-                            .then(function () {
-                                $state.go('my-jobs');
-                            })
-                            .then(function () {
-                                vm.box = null;
-                            })
-                            .catch(function () {
-                                pboxPopup.alert('Operation failed!');
-                            })
-                            .finally(stopLoading);
-                    }
-                });
-        }
-
-        function unassignFromJob() {
-            return pboxPopup.confirm('Are you sure you want to unassing from this job?')
-                .then(function (response) {
-                    if (response) {
-                        startLoading();
-                        return jobService.unassign(vm.job);
-                    }
-                    return null;
-                })
-                .then(function (response) {
-                    if (response) {
-                        //pboxPopup.alert('You have unassinged from job !');
-                        $state.go('my-jobs');
-                    }
-                })
-                .catch(function () {
-                    pboxPopup.alert('Operation failed!');
-                })
-                .finally(stopLoading);
-        }
-
-        function completeJob() {
-            pboxPopup.confirm('Are you sure you want to complete this job?')
-                .then(function (res) {
-                    if (res) {
-                        startLoading();
-                        jobService.update($stateParams.jobId, {
-                            status: 'COMPLETED'
-                        })
-                            .then(function (response) {
-                                vm.job = response;
-                            })
-                            .then(function () {
-                                $state.go('my-jobs');
-                            })
-                            .then(function () {
-                                vm.box = null;
-                            })
-                            .catch(function () {
-                                pboxPopup.alert('Operation failed!');
-                            })
-                            .finally(stopLoading);
-                    }
-                });
+        function showOnMap() {
+            changeState(jobConfig.states.jobMap, { jobId: vm.job.id });
         }
 
         function reactivateBox() {
@@ -185,16 +215,16 @@
                     vm.box = response;
                 })
                 .catch(function () {
-                    pboxPopup.alert('Operation failed!');
+                    riseAlertPopup(jobConfig.messages.failedOperation);
                 });
         }
 
         function addBoxToJob() {
-            $state.go('job-add-box', { jobId: vm.job.id });
+            changeState(jobConfig.states.jobAddBox, { jobId: vm.job.id });
         }
 
         function editJob() {
-            $state.go('job-edit', { jobId: vm.job.id });
+            changeState(jobConfig.states.jobEdit, { jobId: vm.job.id });
         }
 
         function openActions() {
@@ -207,33 +237,33 @@
             vm.actionSheetConfig.buttons.length = 0;
 
             //EDIT JOB BUTTON
-            if (!!vm.job && vm.job.status === 'ACCEPTED') {
-                vm.actionSheetConfig.buttons.push({ text: 'Edit', callback: editJob });
+            if (!!vm.job && vm.job.status === jobConfig.jobStatuses.accepted) {
+                vm.actionSheetConfig.buttons.push({ text: jobConfig.buttonValue.edit, callback: editJob });
             }
 
             //COMPLETE JOB BUTTON
-            if (!!vm.job && vm.job.status === 'IN_PROGRESS') {
-                vm.actionSheetConfig.buttons.push({ text: 'Complete', callback: completeJob });
+            if (!!vm.job && vm.job.status === jobConfig.jobStatuses.inProgress) {
+                vm.actionSheetConfig.buttons.push({ text: jobConfig.buttonValue.complete, callback: completeJob });
             }
 
             //UNASSIGN JOB BUTTON
-            if (!!vm.job && vm.job.status === 'ACCEPTED') {
-                vm.actionSheetConfig.buttons.push({ text: 'Unassign', callback: unassignFromJob });
+            if (!!vm.job && vm.job.status === jobConfig.jobStatuses.accepted) {
+                vm.actionSheetConfig.buttons.push({ text: jobConfig.buttonValue.unassign, callback: unassignFromJob });
             }
 
             //CANCEL JOB BUTTON
-            if (!!vm.job && vm.job.status === 'ACCEPTED' || !!vm.job && vm.job.status === 'IN_PROGRESS') {
-                vm.actionSheetConfig.buttons.push({ text: 'Cancel', callback: cancelJob });
+            if (!!vm.job && vm.job.status === jobConfig.jobStatuses.accepted || !!vm.job && vm.job.status === jobConfig.jobStatuses.inProgress) {
+                vm.actionSheetConfig.buttons.push({ text: jobConfig.buttonValue.cancel, callback: cancelJob });
             }
 
             //ADD BOX BUTTON
-            if ((!!vm.job && vm.job.status === 'ACCEPTED') && !!vm.job.destination.address) {
-                vm.actionSheetConfig.buttons.push({ text: 'Add Box', callback: addBoxToJob });
+            if ((!!vm.job && vm.job.status === jobConfig.jobStatuses.accepted) && !!vm.job.destination.address) {
+                vm.actionSheetConfig.buttons.push({ text: jobConfig.buttonValue.addBox, callback: addBoxToJob });
             }
 
             //REACTIVATE BOX BUTTON
-            if (!!vm.box && vm.box.status === 'SLEEP') {
-                vm.actionSheetConfig.buttons.push({ text: 'Reactivate box', callback: reactivateBox });
+            if (!!vm.box && vm.box.status === jobConfig.boxStatuses.sleep) {
+                vm.actionSheetConfig.buttons.push({ text: jobConfig.buttonValue.reactivateBox, callback: reactivateBox });
             }
         }
 
@@ -246,46 +276,19 @@
                 .then(function (response) {
                     vm.box.status = response.status;
                     return true;
-                })
-                .catch(function (err) {
-                    console.log(err);
                 });
         }
 
-        function pollBoxStatus() {
-            return $q.when(function () {
-                pollingPromise = $interval(function () {
-                    return loadBoxStatus();
-                }, 10000);
-                return true;
-            }());
+        function changeState(name, param) {
+            return $state.go(name, param);
         }
 
-        function cancelPollingPromiseOnScopeDestroy() {
-            return $q.when(function () {
-                $scope.$on('$destroy', function () {
-                    if (!!pollingPromise) {
-                        $interval.cancel(pollingPromise);
-                    }
-                });
-                return true;
-            }());
+        function riseAlertPopup(msg) {
+            return pboxPopup.alert(msg);
         }
 
-        function showOnMap() {
-            $state.go('job-map', { jobId: vm.job.id });
-        }
-
-        function startLoading() {
-            return $q.when(function () {
-                pboxLoader.loaderOn();
-            }());
-        }
-
-        function stopLoading() {
-            return $q.when(function () {
-                pboxLoader.loaderOff();
-            }());
+        function riseConfirmPopup(msg) {
+            return pboxPopup.confirm(msg);
         }
     }
 })(window.angular);

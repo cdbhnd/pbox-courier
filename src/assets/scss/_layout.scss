@@ -1,99 +1,99 @@
 body {
-    font-family: 'Exo', sans-serif;
+  font-family: 'Exo', sans-serif;
 }
 
 ion-view {
-    background-color: $background_primary_color !important;
+  background-color: $background_primary_color !important;
 }
 
 ion-side-menu {
-    background-color: $primary_color !important;
+  background-color: $primary_color !important;
 }
 
 ion-header-bar {
-    background-color: $background_primary_color !important;
-    border-bottom: 2px solid $primary_color !important;
+  background-color: $background_primary_color !important;
+  border-bottom: 2px solid $primary_color !important;
+  height: $header_height !important;
+  line-height: ($header_height - 5px) !important;
+  .title,
+  .icon {
+    color: #fff !important;
     height: $header_height !important;
     line-height: ($header_height - 5px) !important;
-    h1.title,
-    .icon {
-        color: #fff !important;
-        height: $header_height !important;
-        line-height: ($header_height - 5px) !important;
-    }
-    .icon:before,
-    .icon:after {
-        height: $header_height !important;
-        line-height: ($header_height - 10px) !important;
-    }
-    .buttons-left {
-        margin-top: -3px;
-    }
+  }
+  .icon:before,
+  .icon:after {
+    height: $header_height !important;
+    line-height: ($header_height - 10px) !important;
+  }
+  .buttons-left {
+    margin-top: -3px;
+  }
 }
 
 .button.button-main {
-    border-radius: 0;
-    background-color: $primary_color;
-    color: $secondary_color;
+  background-color: $primary_color;
+  border-radius: 0;
+  color: $secondary_color;
 }
 
 .button.button-main-inverse {
-    border-radius: 0;
-    border: 2px solid $primary_color;
-    background-color: $background_primary_color;
-    color: $secondary_color;
+  background-color: $background_primary_color;
+  border: 2px solid $primary_color;
+  border-radius: 0;
+  color: $secondary_color;
 }
 
 .button {
-    border-radius: 0 !important;
+  border-radius: 0 !important;
 }
 
 .list .item .item-options .button .button-icon {
-    font-size: 25px;
-    width: 100%;
+  font-size: 25px;
+  width: 100%;
 }
 
 .has-header {
-    top: $header_height !important;
+  top: $header_height !important;
 }
 
 ion-item.item {
-    background-color: transparent;
-    color: #fff;
+  background-color: transparent;
+  color: #fff;
 }
 
 .spinner-ios,
 .spinner-ios-small {
-    stroke: $secondary_color !important;
+  stroke: $secondary_color !important;
 }
 
 .spinner {
-    stroke: $secondary_color !important;
-    fill: $secondary_color !important;
+  fill: $secondary_color !important;
+  stroke: $secondary_color !important;
 }
 
 .underlined {
-    text-decoration: underline !important;
+  text-decoration: underline !important;
 }
 
 .bottom-bar {
-    position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    margin-bottom: 0;
-    padding-bottom: 0;
-    z-index: 999;
+  bottom: 0;
+  left: 0;
+  margin-bottom: 0;
+  padding-bottom: 0;
+  position: fixed;
+  right: 0;
+  z-index: 999;
 }
 
 .bottom-bar>* {
-    margin-bottom: 0 !important;
+  margin-bottom: 0 !important;
 }
 
 .quote {
-    font-style: italic;
+  font-style: italic;
 }
 
 .highlight {
-    color: $primary_color;
+  color: $primary_color;
 }

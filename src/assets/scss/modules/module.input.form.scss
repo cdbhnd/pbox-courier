@@ -1,0 +1,66 @@
+.input-form {
+  margin-left: 5%;
+  position: relative;
+  top: 90px;
+  width: 90%;
+  .select-control {
+    background-color: $background_primary_color;
+    border: 1px solid $primary_color;
+    color: $white;
+    height: 45px;
+    margin-top: -1px;
+    padding-left: 10px;
+    padding-right: 10px;
+    position: relative;
+    width: 100%;
+    label {
+      position: relative;
+      top: 10px;
+    }
+    .select-list {
+      background-color: $background_primary_color;
+      border: 0;
+      color: $white;
+      display: inline-block;
+      height: 43px;
+      line-height: 43px;
+      position: absolute;
+      right: 0;
+      text-align: center;
+      top: 0;
+      width: 80px;
+      .selected-field {
+        .ion-chevron-down {
+          color: $primary_color;
+          position: absolute;
+          right: 5px;
+          top: 0;
+        }
+      }
+      .drop-down {
+        background-color: $background_primary_color;
+        border: 1px solid $primary_color;
+        position: absolute;
+        right: 0;
+        top: 43px;
+        width: 63px;
+        z-index: 9999;
+      }
+    }
+  }
+  input {
+    background-color: $background_primary_color;
+    border: 1px solid $primary_color;
+    color: $white;
+    height: 45px;
+    margin-top: -1px;
+    padding-left: 10px;
+    padding-right: 10px;
+    width: 100%;
+  }
+  .scanner {
+    height: 100%;
+    text-align: center;
+    width: 100%;
+  }
+}

@@ -1,0 +1,61 @@
+.job-details {
+  .head {
+    h2,
+    h3 {
+      color: $primary_color;
+    }
+    p {
+      color: $secondary_color;
+      margin-bottom: 0;
+    }
+  }
+  .scroll {
+    height: 100%;
+    .job-map {
+      height: 36%;
+      width: 100%;
+      .map-container {
+        height: 100%;
+        width: 100%;
+      }
+    }
+    .job-info {
+      height: 50%;
+      width: 100%;
+    }
+  }
+  .list {
+    margin-bottom: 50px;
+    .item {
+      background-color: $background_primary_color;
+      border-color: $primary_color;
+      color: $secondary_color;
+      font-size: 14px;
+      padding: 10px;
+      .battery-icon {
+        color: $battery_icon_color;
+        font-size: 21px;
+        left: 7px;
+        position: relative;
+        top: 3px;
+      }
+    }
+  }
+  .bottom-bar {
+    .buttton {
+      .icon {
+        font-size: 24px;
+      }
+    }
+  }
+}
+
+.job-map {
+  .scroll {
+    height: 100%;
+    .map-container {
+      height: 100%;
+      width: 100%;
+    }
+  }
+}

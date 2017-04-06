@@ -25,5 +25,8 @@
         "lat": 44.821678,
         "lng": 20.414402,
         "radius": 2000
+    },
+    "iot": {
+        "HOST": "https://api.allthingstalk.io:15671/stomp"
     }
 }

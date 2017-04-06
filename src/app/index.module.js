@@ -31,15 +31,16 @@
                 }
                 geolocationService.init();
                 authService.init();
-                $rootScope.current_state = $state.current;
+                $rootScope.currentState = $state.current;
                 $rootScope.$on('$stateChangeStart', stateChangeStart);
-                $rootScope.$on('$stateChangeSuccess',
-                    function (event, toState) {
-                        $rootScope.current_state = toState;
-                    });
+                $rootScope.$on('$stateChangeSuccess', stateChangeSuccess);
 
-                function stateChangeStart(event, toState, toParams) {
-                    if ((toState.data && toState.data.authRequired) && !$localStorage.current_user) {
+                function stateChangeSuccess(event, toState) {
+                    $rootScope.currentState = toState;
+                }
+
+                function stateChangeStart(event, toState) {
+                    if ((toState.data && toState.data.authRequired) && !$localStorage.currentUser) {
                         event.preventDefault();
                         $state.go('login');
                     }

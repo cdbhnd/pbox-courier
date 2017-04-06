@@ -13,8 +13,8 @@
                 })
                 .state('jobs', {
                     url: '/jobs',
-                    templateUrl: 'app/job/jobs.html',
-                    controller: 'jobsController',
+                    templateUrl: 'app/job/job.html',
+                    controller: 'jobController',
                     controllerAs: 'vm',
                     cache: true,
                     title: 'Available Jobs',
@@ -25,8 +25,8 @@
                 })
                 .state('my-jobs', {
                     url: '/my-jobs',
-                    templateUrl: 'app/job/my.jobs.html',
-                    controller: 'myJobsController',
+                    templateUrl: 'app/job/job.my.html',
+                    controller: 'jobMyController',
                     controllerAs: 'vm',
                     cache: false,
                     title: 'My Jobs',
@@ -80,6 +80,6 @@
                     }
                 });
 
-            $urlRouterProvider.otherwise('/jobs');
+            $urlRouterProvider.otherwise('/');
         }]);
 })(window.angular);

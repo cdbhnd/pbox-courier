@@ -4,9 +4,10 @@
         .service('authService', authService);
 
     /**@ngInject */
-    function authService($q, $rootScope, pboxApi, config, $localStorage, UserModel) {
+    function authService($q, $rootScope, $localStorage, pboxApi, config, UserModel) {
         var service = this;
 
+        //public methods
         service.init = init;
         service.register = register;
         service.login = login;
@@ -16,8 +17,8 @@
         //////////////////////////////////
 
         function init() {
-            if (!!$localStorage.current_user) {
-                setCurrentUser($localStorage.current_user);
+            if (!!$localStorage.currentUser) {
+                setCurrentUser($localStorage.currentUser);
             }
         }
 
@@ -47,10 +48,19 @@
                 });
         }
 
+        function logout() {
+            return $q.when(function () {
+                delete $localStorage.currentUser;
+                delete $localStorage.credentials;
+                delete $rootScope.currentUser;
+                return true;
+            }());
+        }
+
         function currentUser() {
             return $q.when(function () {
-                if (!!$localStorage.current_user) {
-                    return $localStorage.current_user;
+                if (!!$localStorage.currentUser) {
+                    return $localStorage.currentUser;
                 }
                 return null;
             }());
@@ -58,18 +68,9 @@
 
         function setCurrentUser(userData) {
             var userModel = new UserModel(userData);
-            $localStorage.current_user = userModel;
-            $rootScope.current_user = userModel;
+            $localStorage.currentUser = userModel;
+            $rootScope.currentUser = userModel;
             return userModel;
-        }
-
-        function logout() {
-            return $q.when(function () {
-                delete $localStorage.current_user;
-                delete $localStorage.credentials;
-                delete $rootScope.current_user;
-                return true;
-            }());
         }
     }
 })(window.angular);

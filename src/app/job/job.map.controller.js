@@ -4,14 +4,16 @@
         .controller('jobMapController', jobMapController);
 
     /**@ngInject */
-    function jobMapController($q, $stateParams, jobService, geolocationService, pboxLoader, pboxPopup, mapConfig) {
+    function jobMapController($q, $stateParams, jobService, geolocationService, pboxLoader, pboxPopup, mapConfig, jobConfig) {
         var vm = this;
 
+        //variables and properties
         vm.job = null;
         vm.mapOptions = angular.copy(mapConfig.mapOptions);
         vm.mapMarkers = [];
         vm.markerColors = ['#33CBCC', '#3F5877'];
 
+        /////////////////////////////////////
         /**Activate */
         (function () {
             startLoading()
@@ -19,6 +21,11 @@
                 .then(loadJob)
                 .finally(stopLoading);
         }());
+        /////////////////////////////////////
+
+        function startLoading() {
+            return pboxLoader.loaderOn();
+        }
 
         function getCurrentLocation() {
             return geolocationService.currentLocation()
@@ -37,20 +44,12 @@
                     }
                 })
                 .catch(function () {
-                    pboxPopup.alert('Job could not be found !');
+                    pboxPopup.alert(jobConfig.messages.jobNotFound);
                 });
         }
 
-        function startLoading() {
-            return $q.when(function () {
-                pboxLoader.loaderOn();
-            }());
-        }
-
         function stopLoading() {
-            return $q.when(function () {
-                pboxLoader.loaderOff();
-            }());
+            return pboxLoader.loaderOff();
         }
     }
 })(window.angular);

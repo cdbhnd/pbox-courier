@@ -1,15 +1,15 @@
 (function (angular) {
     angular
         .module('pbox.courier.job')
-        .controller('jobsController', jobsController);
+        .controller('jobController', jobController);
 
     /**@ngInject */
-    function jobsController($scope, $q, $interval, $localStorage, $state,
-        jobService, pboxLoader, pboxPopup, UserModel, authService, orderByFilter) {
+    function jobController($scope, $q, $interval, $localStorage, $state, jobService, pboxLoader, pboxPopup, UserModel, authService, orderByFilter, jobConfig) {
         var vm = this;
+
+        //variables and properties
         var user = new UserModel(authService.currentUser());
         var pollingPromise;
-
         vm.jobs = [];
         vm.listCanSwipe = true;
         vm.jobActions = [{
@@ -22,6 +22,7 @@
             icon: 'ion-checkmark-round'
         }];
 
+        //public methods
         vm.refreshList = refreshList;
         vm.selectJob = selectJob;
         vm.acceptJob = acceptJob;
@@ -40,23 +41,9 @@
 
         /////////////////////////////////////
 
-        function refreshList() {
-            loadJobs()
-                .then(function () {
-                    $scope.$broadcast('scroll.refreshComplete');
-                });
+        function startLoading() {
+            return pboxLoader.loaderOn();
         }
-
-        function selectJob(job) {
-            pboxPopup.confirm('Would you accept job?')
-                .then(function (response) {
-                    if (response) {
-                        acceptJob(job);
-                    }
-                });
-        }
-
-        ////////////////////////////////////
 
         function loadUser() {
             return authService.currentUser()
@@ -67,13 +54,14 @@
 
         function loadJobs() {
             return jobService.get({
-                status: 'PENDING'
-            })
+                    status: jobConfig.jobStatuses.pending
+                })
                 .then(function (response) {
-                    vm.jobs = orderByFilter(response, 'createdAt', true);
                     if (response.length === 0) {
-                        pboxPopup.alert('There is no available jobs in your area!');
+                        riseAlertPopup(jobConfig.messages.noJobsInArea);
+                        return;
                     }
+                    vm.jobs = orderByFilter(response, 'createdAt', true);
                 });
         }
 
@@ -81,8 +69,8 @@
             return $q.when(function () {
                 pollingPromise = $interval(function () {
                     return jobService.get({
-                        status: 'PENDING'
-                    })
+                            status: jobConfig.jobStatuses.pending
+                        })
                         .then(function (response) {
                             var orderedJobs = orderByFilter(response, 'createdAt', true);
                             var numberOfNewJobs = orderedJobs.length - vm.jobs.length;
@@ -110,32 +98,54 @@
             }());
         }
 
+        function stopLoading() {
+            return pboxLoader.loaderOff();
+        }
+
         function acceptJob(job) {
-            var jobId = job.id;
-            var courierId = user.id;
-            startLoading();
-            return jobService.accept(jobId, courierId)
+            startLoading()
+                .then(tryAcceptJob(job.id, user.id))
                 .then(loadJobs)
                 .then(stopLoading)
                 .then(function () {
-                    $state.go('my-jobs');
+                    changeState(jobConfig.states.myJobs);
                 });
         }
 
-        function startLoading() {
-            return $q.when(function () {
-                pboxLoader.loaderOn();
-            }());
+        function tryAcceptJob(jobId, courierId) {
+            return jobService.accept(jobId, courierId);
         }
 
-        function stopLoading() {
-            return $q.when(function () {
-                pboxLoader.loaderOff();
-            }());
+        function refreshList() {
+            loadJobs()
+                .then(function () {
+                    $scope.$broadcast('scroll.refreshComplete');
+                });
+        }
+
+        function selectJob(job) {
+            riseConfirmPopup(jobConfig.messages.wannaAcceptJob)
+                .then(function (response) {
+                    if (response) {
+                        acceptJob(job);
+                    }
+                });
         }
 
         function locateJob(job) {
-            $state.go('job-map', { jobId: job.id });
+            changeState(jobConfig.states.jobMap, { jobId: job.id });
+        }
+
+        function riseAlertPopup(msg) {
+            return pboxPopup.alert(msg);
+        }
+
+        function riseConfirmPopup(msg) {
+            return pboxPopup.config(msg);
+        }
+
+        function changeState(name, param) {
+            return $state.go(name, param);
         }
     }
 })(window.angular);

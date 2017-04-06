@@ -7,17 +7,19 @@
     function geolocationService($q, $rootScope, GeolocationModel, $cordovaGeolocation, config) {
         var service = this;
 
+        //variables and properties
+        var location;
+
+        //public methods
         service.init = init;
         service.currentLocation = currentLocation;
-
-        var location;
 
         //////////////////////////////
 
         function init() {
             if (isDemoLocationEnabled()) {
                 location = getDemoLocation();
-                $rootScope.current_location = location;
+                $rootScope.currentLocation = location;
             } else {
                 getCurrentLocation();
             }
@@ -42,7 +44,7 @@
                 longitude: parseFloat(randomCoords.longitude),
                 message: message
             });
-            $rootScope.current_location = location;
+            $rootScope.currentLocation = location;
         }
 
         function randomGeo(center, radius) {
@@ -68,6 +70,7 @@
                 longitude: newlon.toFixed(8)
             };
         }
+
         function isDemoLocationEnabled() {
             return !!config.demoLocation && (config.demoLocation.hardcoded || config.demoLocation.random);
         }
@@ -99,11 +102,8 @@
                         latitude: position.coords.latitude,
                         longitude: position.coords.longitude
                     });
-                    $rootScope.current_location = location;
-                    console.log('Location fetch: ');
-                    console.log(location);
+                    $rootScope.currentLocation = location;
                 }, function (err) {
-                    console.log(err.message);
                     setFallbackCoordinates(err.message);
                 });
 
@@ -113,21 +113,18 @@
             };
             $cordovaGeolocation.watchPosition(watchOptions)
                 .then(null,
-                function (err) {
-                    console.log(err.message);
-                    if (!location) {
-                        setFallbackCoordinates(err.message);
+                    function (err) {
+                        if (!location) {
+                            setFallbackCoordinates(err.message);
+                        }
+                    },
+                    function (position) {
+                        location = new GeolocationModel({
+                            latitude: position.coords.latitude,
+                            longitude: position.coords.longitude
+                        });
+                        $rootScope.currentLocation = location;
                     }
-                },
-                function (position) {
-                    location = new GeolocationModel({
-                        latitude: position.coords.latitude,
-                        longitude: position.coords.longitude
-                    });
-                    $rootScope.current_location = location;
-                    console.log('Location watch: ');
-                    console.log(location);
-                }
                 );
         }
     }

@@ -4,17 +4,17 @@
         .controller('jobAddBoxController', jobAddBoxController);
 
     /**@ngInject */
-    function jobAddBoxController($q, jobService, pboxLoader, pboxPopup, $stateParams, $state, $cordovaBarcodeScanner) {
+    function jobAddBoxController($q, $stateParams, $state, $cordovaBarcodeScanner, jobService, jobConfig, pboxLoader, pboxPopup) {
         var vm = this;
-
-        //public methods
-        vm.assignBox = assignBox;
-        vm.scanBarcode = scanBarcode;
 
         //variables and properties
         vm.job = null;
         vm.boxId = null;
         vm.isCordovaApp = null;
+
+        //public methods
+        vm.assignBox = assignBox;
+        vm.scanBarcode = scanBarcode;
 
         //////////////////////////////////////////////////////////
         /**Activate */
@@ -25,31 +25,22 @@
                 .finally(stopLoading);
         }());
 
-
         //////////////////////////////////////////////////////////
 
         function startLoading() {
-            return $q.when(function () {
-                pboxLoader.loaderOn();
-            }());
-        }
-
-        function stopLoading() {
-            return $q.when(function () {
-                pboxLoader.loaderOff();
-            }());
+            return pboxLoader.loaderOn();
         }
 
         function loadJob() {
             return jobService.getJob($stateParams.jobId)
                 .then(function (response) {
-                    vm.job = response;
                     if (!response) {
-                        pboxPopup.alert('Job could not be found !');
+                        riseAlertPopup(jobConfig.messages.jobNotFound);
                     }
+                    vm.job = response;
                 })
                 .catch(function () {
-                    pboxPopup.alert('Job could not be found !');
+                    riseAlertPopup(jobConfig.messages.somethingWentWrong);
                 });
         }
 
@@ -58,24 +49,32 @@
                 document.URL.indexOf('https://') === -1;
         }
 
+        function stopLoading() {
+            return pboxLoader.loaderOff();
+        }
+
         function assignBox() {
-            startLoading();
-            jobService.update($stateParams.jobId, {
-                status: 'IN_PROGRESS',
-                box: vm.boxId
-            })
-                .then(function (response) {
-                    if (response.status !== 'IN_PROGRESS') {
-                        pboxPopup.alert('Box was not assigned to the job!');
-                    } else {
-                        pboxPopup.alert('Box assigned to the job!');
-                    }
-                    $state.go('job-details', { jobId: vm.job.id });
-                })
+            startLoading()
+                .then(updateJob)
                 .catch(function () {
-                    pboxPopup.alert('Operation failed!');
+                    riseAlertPopup(jobConfig.messages.failedOperation);
                 })
                 .finally(stopLoading);
+        }
+
+        function updateJob() {
+            return jobService.update($stateParams.jobId, {
+                    status: jobConfig.jobStatuses.inProgress,
+                    box: vm.boxId
+                })
+                .then(function (response) {
+                    if (response.status !== jobConfig.jobStatuses.inProgress) {
+                        riseAlertPopup(jobConfig.messages.boxNotAssigned);
+                    } else {
+                        riseAlertPopup(jobConfig.messages.boxAssigned);
+                    }
+                    changeState(jobConfig.states.JobDetails, { jobId: vm.job.id });
+                })
         }
 
         vm.onSuccess = function (data) {
@@ -97,6 +96,14 @@
                     console.log('An error happened -> ' + error);
                 })
                 .then(assignBox);
+        }
+
+        function riseAlertPopup(msg) {
+            return pboxPopup.alert(msg);
+        }
+
+        function changeState(name, param) {
+            return $state.go(name, param);
         }
     }
 })(window.angular);
