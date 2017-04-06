@@ -4,12 +4,18 @@
         .controller('jobController', jobController);
 
     /**@ngInject */
-    function jobController($scope, $q, $interval, $localStorage, $state, jobService, pboxLoader, pboxPopup, UserModel, authService, orderByFilter, jobConfig) {
+    function jobController($scope, $q, $interval, $localStorage, $state, jobService, pboxLoader, pboxPopup,
+        UserModel, authService, orderByFilter, jobConfig, config) {
         var vm = this;
 
         //variables and properties
         var user = new UserModel(authService.currentUser());
-        var pollingPromise;
+        var polling = {
+            promise: null,
+            enabled: config.jobPolling.enabled,
+            interval: config.jobPolling.interval
+        };
+
         vm.jobs = [];
         vm.listCanSwipe = true;
         vm.jobActions = [{
@@ -67,7 +73,10 @@
 
         function pollJobs() {
             return $q.when(function () {
-                pollingPromise = $interval(function () {
+                if (!polling.enabled) {
+                    return false;
+                }
+                polling.promise = $interval(function () {
                     return jobService.get({
                             status: jobConfig.jobStatuses.pending
                         })
@@ -82,7 +91,7 @@
                                 pboxPopup.toast('Added ' + numberOfNewJobs + ' new job(s)');
                             }
                         });
-                }, 15000);
+                }, polling.interval);
                 return true;
             }());
         }
@@ -90,8 +99,8 @@
         function cancelPollingPromiseOnScopeDestroy() {
             return $q.when(function () {
                 $scope.$on('$destroy', function () {
-                    if (!!pollingPromise) {
-                        $interval.cancel(pollingPromise);
+                    if (!!polling.promise) {
+                        $interval.cancel(polling.promise);
                     }
                 });
                 return true;

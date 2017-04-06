@@ -28,5 +28,9 @@
     },
     "iot": {
         "HOST": "https://api.allthingstalk.io:15671/stomp"
+    },
+    "jobPolling": {
+        "enabled": false,
+        "interval": 15000
     }
 }
