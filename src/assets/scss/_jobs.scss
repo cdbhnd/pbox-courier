@@ -1,0 +1,40 @@
+.jobs-list {
+    ion-item.job-item {
+        border-top: 0;
+        border-bottom: 2px solid $primary_color;
+        .item-content {
+            background-color: $background_primary_color;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            border-top: 1px solid $primary_color;
+            padding-right: 10px;
+            h2 {
+                font-size: 18px;
+                color: $primary_color;
+                margin-bottom: 5px;
+            }
+            p {
+            	color: $secondary_color;
+                font-size: 12px;
+                line-height: 15px;
+            }
+        }
+        .item-options {
+            .button {
+                min-width: 65px;
+            }
+        }
+    }
+    ion-item.job-item:first-child {
+        .item-content { 
+            border-top: 0;
+        }
+    }
+    ion-item.item.activated,
+    ion-item.item-complex.activated,
+    ion-item.item.activated .item-content,
+    ion-item.item-complex.activated .item-content {
+        background-color: $background_primary_color;
+        border-color: $primary_color;
+    }
+}

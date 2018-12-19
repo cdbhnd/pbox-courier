@@ -1,0 +1,12 @@
+<ion-view>
+    <ion-content>
+        <div class="input-form">
+            <div class="scanner" ng-if="!vm.isCordovaApp">
+                <qr-scanner ng-success="vm.onSuccess(data)" ng-error="vm.onError(error)" />
+            </div>
+            <input type="text" placeholder="Box ID" ng-model="vm.boxId" />
+            <button ng-if="vm.isCordovaApp" class="button button-main button-block" ng-click="vm.scanBarcode()">Scan</button>
+            <button class="button button-main button-block" ng-click="vm.assignBox()">Save</button>
+        </div>
+    </ion-content>
+</ion-view>

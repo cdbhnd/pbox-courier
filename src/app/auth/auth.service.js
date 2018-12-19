@@ -6,20 +6,22 @@
         .service('authService', authService);
 
     /** @ngInject */
-    function authService($q, pboxApi, config, $localStorage, UserModel) {
+    function authService($q, $rootScope, pboxApi, config, $localStorage, UserModel) {
 
         var service = this;
 
         service.init = init;
         service.register = register;
         service.login = login;
+        service.logout = logout;
         service.currentUser = currentUser;
 
         //////////////////////////////////
 
         function init() {
-            registerUserIfNeeded()
-                .then(loginUserIfNeeded);
+            if (!!$localStorage.current_user) {
+                setCurrentUser($localStorage.current_user);
+            }
         }
 
         function register(user) {
@@ -29,9 +31,7 @@
                     data: user
                 })
                 .then(function(data) {
-                    var userModel = new UserModel(data);
-                    $localStorage.current_user = userModel;
-                    return userModel;
+                    return setCurrentUser(data);
                 });
         }
 
@@ -41,19 +41,18 @@
                     url: config.pboxAPI.TOKEN,
                     data: {
                         username: username,
-                        password: password
+                        password: password,
+                        type: 3
                     }
                 })
                 .then(function(data) {
-                    var userModel = new UserModel(data);
-                    $localStorage.current_user = userModel;
-                    return userModel;
+                    return setCurrentUser(data);
                 });
         }
 
         function currentUser() {
             return $q.when(function() {
-                if ($localStorage.current_user) {
+                if (!!$localStorage.current_user) {
                     return $localStorage.current_user;
                 }
                 return null;
@@ -113,6 +112,22 @@
             alert('Server unavailable at the moment, please try again later.');
             console.log(error);
             return q.reject('server unavailable');
+        }
+
+        function setCurrentUser(userData) {
+            var userModel = new UserModel(userData);
+            $localStorage.current_user = userModel;
+            $rootScope.current_user = userModel;
+            return userModel;
+        }
+
+        function logout() {
+            return $q.when(function() {
+                delete $localStorage.current_user;
+                delete $localStorage.credentials;
+                delete $rootScope.current_user;
+                return true;
+            }());
         }
     }
 })();

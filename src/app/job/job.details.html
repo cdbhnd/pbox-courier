@@ -1,0 +1,42 @@
+<ion-view class="job-details">
+    <ion-content class="has-header">
+        <div class="job-map">
+            <map-pane map-options="vm.mapOptions" map-markers="vm.mapMarkers" colors-array="vm.markerColors" draw-directions="true"></map-pane>
+        </div>
+        <div class="job-info">
+            <div class="head padding">
+                <h3>{{ vm.job.name }}</h3>
+                <p class="quote">{{ vm.job.description }}</p>
+            </div>
+            <ul class="list">
+                <li class="item">
+                    Job <span class="highlight">{{ vm.job.status }}</span>
+                </li>
+                <li class="item">
+                    Requested at <span class="highlight">{{ vm.job.createdAt | amDateFormat: 'DD/MM/YYYY [at] hA' }}</span>
+                </li>
+                <li class="item">
+                    Pickup at <span class="highlight">{{ vm.job.pickup.address }}</span>
+                </li>
+                <li class="item">
+                    Destination at <span class="highlight">{{ vm.job.destination.address ? vm.job.destination.address : 'not yet available' }}</span>
+                </li>
+
+                 <li class="item">
+                    Box code <span class="highlight">{{ vm.box.code ? vm.box.code : 'box is not assigned'}}</span>
+                </li>
+
+                <li class="item">
+                     Box status <span class="highlight">{{ vm.box.status ? vm.box.status : 'box is not assigned'}}</span>
+                </li>
+                <li ng-show="vm.box.status == 'ACTIVE'"class="item">
+                     Battery <span class="highlight">{{ vm.box.battery_sensor.value.percentage ? vm.box.battery_sensor.value.percentage : 'data unavailable'}}</span> <span class="battery-icon"><ion-icon ng-if="!!vm.box.battery_sensor.value && vm.box.battery_sensor.value.charging == 1" class="ion-flash"></ion-icon></span>
+                </li>                
+            </ul>
+        </div>
+    </ion-content>
+    <div class="bottom-bar button-bar">
+        <a class="button button-main" ng-click="vm.openActions()"><span class="icon ion-grid"></span></a>
+        <a class="button button-energized" ng-click="vm.showOnMap()"><span class="icon ion-map"></span></a>
+    </div>
+</ion-view>

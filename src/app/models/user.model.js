@@ -10,8 +10,8 @@
 
         function UserModel(obj) {
             this.id = obj && obj.id ? obj.id : null;
-            this.first_name = obj && obj.first_name ? obj.first_name : null;
-            this.last_name = obj && obj.last_name ? obj.last_name : null;
+            this.first_name = obj && obj.firstName ? obj.firstName : null;
+            this.last_name = obj && obj.lastName ? obj.lastName : null;
             this.username = obj && obj.username ? obj.username : null;
             this.password = obj && obj.password ? obj.password : null;
             this.type = obj && obj.type ? obj.type : null;

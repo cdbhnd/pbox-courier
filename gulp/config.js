@@ -18,6 +18,12 @@
         TEST: 'test',
     };
 
+    exports.platforms = {
+        WEB: 'web',
+        ANDROID: 'android',
+        IOS: 'ios'
+    };
+
     exports.environmentsConfig = {
         development: { },
         production: { },
